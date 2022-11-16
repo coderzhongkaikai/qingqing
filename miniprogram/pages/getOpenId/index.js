@@ -15,7 +15,10 @@ Page({
       envId: options.envId
     });
   },
-
+  onShow() {
+    this.getTabBar().init();
+  
+  },
   getOpenId() {
     wx.showLoading({
       title: '',

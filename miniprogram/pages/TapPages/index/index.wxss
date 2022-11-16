@@ -1,0 +1,44 @@
+.top{
+  width: 750rpx;
+  height: 350rpx; 
+  background: #FFFFFF;
+  position: relative;
+}
+.top swiper{
+  width: 750rpx;
+  height: 350rpx; 
+}
+.img_goodcover{
+  width: 750rpx;
+  height: 350rpx; 
+}
+/* dot */
+.dots{
+  margin: 54rpx auto 0;
+  justify-content: center;
+  position: absolute;
+  bottom: 100rpx;
+  right: 5%;
+  display: flex;
+}
+.dot{
+  margin-left:10rpx ;
+  width: 30rpx;
+  height: 4rpx;
+  background: #ECECEC;
+  border-radius: 2rpx;
+}
+.active{
+  background: #0F5EC5;
+}
+.content{
+  z-index: 1;
+
+}
+.dance_info_card{
+  width: 670rpx;
+  height: 300rpx;
+  background: red;
+  border-radius: 30rpx;
+  margin:-60rpx auto 0;
+}

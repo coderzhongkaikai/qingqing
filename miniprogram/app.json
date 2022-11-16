@@ -1,7 +1,26 @@
 {
+  "tabBar": {
+    "custom": true,
+    "color": "#000000",
+    "selectedColor": "#000000",
+    "backgroundColor": "#000000",
+    "list": [
+      {
+        "pagePath": "pages/TapPages/index/index"
+      },
+      {
+        "pagePath": "pages/TapPages/center_index/index"
+      },
+      {
+        "pagePath": "pages/TapPages/r_index/index"
+      }
+    ]
+  },
   "pages": [
-    "pages/index/index",
+    "pages/TapPages/index/index",
     "pages/getOpenId/index",
+    "pages/TapPages/r_index/index",
+    "pages/TapPages/center_index/index",
     "pages/getMiniProgramCode/index",
     "pages/deployService/index",
     "pages/createCollection/index",
