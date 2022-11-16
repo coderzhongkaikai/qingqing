@@ -1,0 +1,96 @@
+/**app.wxss**/
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+} 
+
+button {
+  background: initial;
+}
+
+button:focus{
+  outline: 0;
+}
+
+button::after{
+  border: none;
+}
+
+
+page {
+  background: #f6f6f6;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+
+
+@font-face {
+  font-family: "iconfont"; /* Project id 3772881 */
+  src: url('//at.alicdn.com/t/c/font_3772881_81prhigkd9t.woff2?t=1668585569195') format('woff2'),
+       url('//at.alicdn.com/t/c/font_3772881_81prhigkd9t.woff?t=1668585569195') format('woff'),
+       url('//at.alicdn.com/t/c/font_3772881_81prhigkd9t.ttf?t=1668585569195') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-fanhui:before {
+  content: "\e653";
+}
+
+.icon-RectangleCopy:before {
+  content: "\e6aa";
+}
+
+.icon-dianhua:before {
+  content: "\e682";
+}
+
+.icon-yingye:before {
+  content: "\e8e3";
+}
+
+.icon-calendar:before {
+  content: "\e746";
+}
+
+.icon-kefu:before {
+  content: "\e63c";
+}
+
+.icon-didian:before {
+  content: "\e60a";
+}
+
+.icon-activity:before {
+  content: "\e761";
+}
+
+.icon-mingcheng:before {
+  content: "\e600";
+}
+
+.icon-wode:before {
+  content: "\e649";
+}
+
+.icon-ico_yuyueguanli_fangjianyuyue:before {
+  content: "\e8b9";
+}
+
+.icon-shouye:before {
+  content: "\e617";
+}
+
+.icon-wode-wodeshouhuodizhi:before {
+  content: "\e644";
+}
