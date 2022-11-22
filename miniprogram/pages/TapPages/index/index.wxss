@@ -36,9 +36,40 @@
 
 }
 .dance_info_card{
-  width: 670rpx;
-  height: 300rpx;
-  background: red;
-  border-radius: 30rpx;
-  margin:-60rpx auto 0;
+  width: 620rpx;
+  height: 220rpx;
+  padding:30rpx;
+  background: #f6f6f6;
+  border-radius: 20rpx;
+  border:1rpx solid rgba(0, 0, 0, 0.1);
+  margin:-90rpx auto 0;
+}
+.dance_info_card_title{
+
+}
+.address,.phone{
+  font-size: 28rpx;
+  color: #606161;
+  margin-top: 20rpx;
+  display: flex;  
+  
+}
+
+.info_icon{
+  width: 130rpx;
+  height: 20rpx;
+  flex-grow: 1;
+  font-size: 28rpx;
+  text-align: right;
+  position: relative;
+}
+
+._card{
+  width: 620rpx;
+  height: 220rpx;
+  padding:30rpx;
+  background: #f6f6f6;
+  border-radius: 20rpx;
+  border:1rpx solid rgba(0, 0, 0, 0.1);
+  margin:20rpx auto;
 }

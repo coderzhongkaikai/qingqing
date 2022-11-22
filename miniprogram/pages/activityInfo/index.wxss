@@ -1,0 +1,4 @@
+.title_p{
+ font-size: 40rpx;
+ text-align: center;
+}

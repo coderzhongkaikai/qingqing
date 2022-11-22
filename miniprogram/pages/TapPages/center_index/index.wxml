@@ -1,24 +1,43 @@
 <!--index.wxml-->
-<view>
-<!-- <map id="map"
-longitude="{{longitude}}"
-latitude="{{latitude}}"
-scale="14"
-markers="{{markers}}"
-bindmarkertap="markertap"
-bindregionchange="regionchange"
-show-location
-style="width: 100%; height: 300px;"
->
-</map> -->
+<view class="type_dance">
+  <view class="nav_title">
+    舞种</view>
+  <scroll-view class="scroll-view-x" scroll-x="true">
+    <view class="nav_box">
+      <view class="nav_item activate">
+        网红舞</view>
+      <view class="nav_item">
+        网红舞</view>
+      <view class="nav_item">
+        网红舞</view>
+      <view class="nav_item">
+        网红舞</view>
+      <view class="nav_item">
+        网红舞</view>
+      <view class="nav_item">
+        网红舞</view>
+      <view class="nav_item">
+        民族舞</view>
+      <view class="nav_item">
+        芭蕾舞</view>
+      <view class="nav_item">
+        恰恰舞</view>
+      <view class="nav_item">
+        韩国舞</view>
+      <view wx:for="{{top_nav}}" wx:for-index="index" wx:for-item="item" class="nav_p {{item==select_item?'nav_p_active':' '}}" data-item="{{item}}" bindtap="change_type">
+        {{item}}</view>
+    </view>
+  </scroll-view>
 </view>
-<view class="iconfont  icon-yingye"></view>
-<view>
-<button type="primary" bindtap="navigate">导航</button>
-</view>
+
+<!-- <view class="iconfont  icon-yingye"></view> -->
+<!-- <view> -->
+<!-- <button type="primary" bindtap="navigate">导航</button> -->
+<!-- </view> -->
 
 
 <calendar title="" spotMap="{{spotMap}}" bindgetDateList="getDateList" bindselectDay="selectDay" disabledDate="{{disabledDate}}" changeTime="{{changeTime}}"></calendar>
+
 <view class="operation-wrap">
   <button bindtap="changetime" size="mini">点击跳转至22年1月1日</button>
 </view>
@@ -28,32 +47,8 @@ style="width: 100%; height: 300px;"
       bindgetphonenumber="onGetPhoneNumber">获取手机号码</button> -->
 <view class="container">
 
-  <view class="title">快速了解云开发</view>
-
-  <view class="top_tip">免鉴权接口调用 免部署后台 高并发</view>
-
-  <view class="power" wx:key="title" wx:for="{{powerList}}" wx:for-item="power">
-    <view class="power_info" data-index="{{index}}" bindtap="onClickPowerInfo">
-      <view class="power_info_text">
-        <view class="power_info_text_title">{{power.title}}</view>
-        <view class="power_info_text_tip">{{power.tip}}</view>
-      </view>
-      <image wx:if="{{!power.showItem}}" class="power_info_more" src="../../images/arrow.svg"></image>
-      <image wx:if="{{power.showItem}}" class="power_info_less" src="../../images/arrow.svg"></image>
-    </view>
-    <view wx:if="{{power.showItem}}">
-      <view wx:key="title" wx:for="{{power.item}}">
-        <view class="line"></view>
-        <view class="power_item" bindtap="jumpPage" data-page="{{item.page}}">
-          <view class="power_item_title">{{item.title}}</view>
-          <image class="power_item_icon" src="../../images/arrow.svg"></image>
-        </view>
-      </view>
-    </view>
-  </view>
-
-  <view class="environment" bindtap="onChangeShowEnvChoose">当前环境 {{ selectedEnv.alias }}</view>
-
-  <cloud-tip-modal showUploadTipProps="{{showUploadTip}}"></cloud-tip-modal>
 
 </view>
+
+
+<view style="{{popHeight?'height: '+popHeight+'px':'padding-bottom:25%'}}"></view>

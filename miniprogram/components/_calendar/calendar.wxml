@@ -1,6 +1,10 @@
 <!-- component/calendar/calendar.wxml -->
 {{date}}
-<van-cell title="选择单个日期" value="{{ date }}" bind:click="onDisplay" />
+<!-- <van-cell title="选择单个日期" value="{{ date }}" bind:click="onDisplay" /> -->
+<!-- <view class="btn_onDisplay" bindtap="onDisplay"> -->
+<!-- </view> -->
+
+
 <van-calendar show="{{ show }}"  
   show-confirm="{{ false }}" bind:close="onClose" bind:confirm="onConfirm" />
 <view class="calendar">
@@ -19,7 +23,7 @@
           back_now
         </view>
         <view class="btn_openChange">
-          icon
+          <view class="iconfont icon-calendar" bindtap="onDisplay"></view>
         </view>
 
         <block wx:if="{{goNow}}">

@@ -4,7 +4,10 @@
     "calendar":"/components/_calendar/calendar",
     "van-button": "@vant/weapp/button/index",
     "van-cell": "@vant/weapp/cell/index",
-    "van-popup": "@vant/weapp/popup/index"
-    
-  }
+    "van-popup": "@vant/weapp/popup/index",
+    "van-tab": "@vant/weapp/tab/index",
+  "van-tabs": "@vant/weapp/tabs/index"
+  },
+  "navigationBarTitleText": "约课"
+
 }

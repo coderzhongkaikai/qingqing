@@ -1,0 +1,54 @@
+
+
+    <view class="teacher_avar_card">
+      <view class="teacher_avar_nickname">
+        <view class="teacher_avar">
+          <van-uploader preview-size="140rpx" style="background: red;" file-list="{{ fileList }}" bind:after-read="afterRead" />
+        </view>
+        <view class="teacher_nickname">
+          名称
+          <van-icon name="edit" />
+        </view>
+      </view>
+      <view class="dance_tag_box">
+          <view class="tag_item">
+            <van-tag type="primary">
+              网红舞
+            </van-tag>
+          </view>
+          <view class="tag_item">
+            <van-tag type="primary">
+              网红舞
+            </van-tag>
+          </view>
+          <view class="tag_item">
+            <van-tag type="primary">
+              <van-icon name="add-o" />
+            </van-tag>
+          </view>
+        </view>
+
+
+    <!-- <view class="dance_time">
+      上课时间 用上传excel的形式
+      <van-icon name="tosend" />
+    </view> -->
+
+
+  </view>
+  <view class="teacher_card">
+    <view class="card_title">
+      老师相册
+    </view>
+    <view>
+      <van-uploader file-list="{{ fileList }}" />
+    </view>
+  </view>
+
+  <view class="teacher_card">
+    <van-tabs style='background: none;' active="{{ active }}" bind:change="onChange">
+  <van-tab title="课表">课表内容</van-tab>
+  <van-tab title="简介">简介内容</van-tab>
+</van-tabs>
+
+  </view>

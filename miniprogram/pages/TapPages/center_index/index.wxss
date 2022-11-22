@@ -1,11 +1,30 @@
 /**index.wxss**/
-
-page {
-  padding-top: 54rpx;
-  background-color: #f6f6f6;
-  padding-bottom: 60rpx;
+.type_dance{
+  display: flex;
 }
-
+.nav_title{
+  width: 150rpx;
+  text-align: center;
+  font-size: 36rpx;
+  font-weight: 800;
+}
+.scroll-view-x{
+  /* width: 600rpx; */
+  padding-right:30rpx;
+}
+.nav_box {
+  display: flex;
+  width: 600rpx;
+  flex-wrap: nowrap;
+}
+.activate{
+  border-bottom: 1rpx solid red;
+}
+.nav_item{
+  word-break: keep-all;
+  margin-right: 10rpx;
+  padding:0 10rpx 10rpx; 
+}
 .title {
   font-family: PingFang SC;
   font-weight: 500;

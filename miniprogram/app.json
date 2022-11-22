@@ -14,7 +14,8 @@
       {
         "pagePath": "pages/TapPages/r_index/index"
       }
-    ]
+    ],
+    "position": "bottom"
   },
   "pages": [
     "pages/TapPages/index/index",
@@ -30,7 +31,12 @@
     "pages/updateRecordResult/index",
     "pages/updateRecordSuccess/index",
     "pages/sumRecord/index",
-    "pages/sumRecordResult/index"
+    "pages/sumRecordResult/index",
+    "pages/index_cloud/index",
+    "pages/admin/index",
+    "pages/userInfo/index",
+    "pages/teacherInfo/index",
+    "pages/activityInfo/index"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -43,6 +49,9 @@
     "scope.userLocation": {
       "desc": "你的位置信息将用于小程序位置接口的效果展示"
     }
+  },
+  "useExtendedLib": { 
+    "weui": true
   },
   "sitemapLocation": "sitemap.json"
 }

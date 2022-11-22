@@ -62,6 +62,7 @@ Component({
    */
   methods: {
     onDisplay() {
+      console.log('onDisplay')
       this.setData({
         show: true
       });

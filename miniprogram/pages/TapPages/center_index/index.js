@@ -1,17 +1,7 @@
 // index.js
-// const app = getApp()
+const app = getApp()
 Page({
-  navigate() {
-    ////使用微信内置地图查看标记点位置，并进行导航
-    wx.openLocation({
-      latitude:32.274105,
-      longitude:118.310713,
-      name:'青青的舞蹈室',
-      address:'一个临时地址的详细说明'
-      // latitude: this.data.markers[0].latitude, //要去的纬度-地址
-      // longitude: this.data.markers[0].longitude, //要去的经度-地址
-    })
-  },
+
   showPopup() {
     this.setData({
       show: true
@@ -38,6 +28,7 @@ Page({
     });
   },
   data: {
+    popHeight: app.globalData.popHeight,
     date: '',
     show: false,
     spotMap: {

@@ -1,6 +1,9 @@
-
+<van-notice-bar
+  left-icon="volume-o"
+  text="在代码阅读过程中人们说脏话的频率是衡量代码质量的唯一标准。"
+/>
 <view class="top">
-  <swiper current="{{swiperCurrent}}" bindchange="swiperChange"  circular="true" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+  <swiper current="{{swiperCurrent}}" bindchange="swiperChange" circular="true" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
     <block wx:for="{{imgList}}">
       <swiper-item>
         <image src="{{item}}" data-src="{{item}}" class="img_goodcover" bindtap="previewImage"></image>
@@ -15,33 +18,58 @@
   </view>
 </view>
 
+
 <view class="content">
 
-<view class="dance_info_card">
-    <view class="head">
-      
+  <view class="dance_info_card">
+    <view class="dance_info_card_title">
+      联系我们
     </view>
+   
     <view class="address">
-      
+      <view class="info_txt">
+        地址:安徽省滁州市滁州学院会峰校区--青青舞蹈室
+      </view>
+      <view class="info_icon">
+        <view class="iconfont icon-didian" bindtap="onDisplay"></view>
+        <button style="width: 100%; height: 100%;position: absolute;opacity: 0;top: 0;right: 0;" type="primary" bindtap="navigate">导航</button>
+      </view>
     </view>
     <view class="phone">
-      
+      <view class="info_txt">
+        电话:15180704772
+      </view>
+      <view class="info_icon">
+        <view class="iconfont icon-dianhua" data-phone="15180704772" bindtap="call"></view>
+      </view>
     </view>
-</view>
-<view>
- 热门舞种 
-</view>
-<view>
- 明星老师
-</view>
-<!-- <view>
+  </view>
+
+  <view class="_card">
+    <view class="_card_title">
+      热门舞种
+    </view>
+  </view>
+  <navigator url="../../teacherInfo/index">
+  <view class="_card">
+    <view class="_card_title">
+      明星老师
+    </view>
+  </view>
+</navigator>
+  <!-- <view>
  学员风采
 </view> -->
+<navigator url="../../activityInfo/index">
+<view class="_card">
+    <view class="_card_title">
+      近期活动
+    </view>
+  </view>
+</navigator>
 
-<view>
-  最近活动
 </view>
 
-  
-</view>
 
+<view style="{{popHeight?'height: '+popHeight+'px':'padding-bottom:25%'}}"></view>
+<!-- <view style="padding-bottom: 15%;"></view> -->

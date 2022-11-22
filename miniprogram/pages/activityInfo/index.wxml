@@ -1,0 +1,20 @@
+<view>
+  <van-button  round type="info" block>确认发布</van-button>
+<view class="title_p">
+  标题
+  <van-icon name="edit" />
+</view>
+  <van-icon name="underway-o" />发布时间：2022-11-21
+  <van-icon name="browsing-history-o" />浏览量:
+</view>
+<van-uploader file-list="{{ fileList }}" />
+<!-- <van-cell-group> -->
+  <van-field
+    value="{{ message }}"
+    label="备注"
+    type="textarea"
+    placeholder="请输入活动备注"
+    autosize
+    border="{{ false }}"
+  />
+<!-- </van-cell-group> -->
