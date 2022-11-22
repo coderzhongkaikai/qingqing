@@ -1,6 +1,7 @@
 {
   "navigationBarTitleText": "舞蹈室活动",
   "usingComponents": {
+    "haibao":"/components/haibao/haibao",
     "van-cell-group": "@vant/weapp/cell-group/index",
     "van-field": "@vant/weapp/field/index",
     "van-uploader": "@vant/weapp/uploader/index",

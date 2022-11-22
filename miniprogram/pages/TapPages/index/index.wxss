@@ -66,7 +66,7 @@
 
 ._card{
   width: 620rpx;
-  height: 220rpx;
+  min-height: 220rpx;
   padding:30rpx;
   background: #f6f6f6;
   border-radius: 20rpx;

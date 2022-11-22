@@ -201,8 +201,6 @@ Component({
     // 加载事件
     ready() {
       this.init_calendar()
-
-
     },
   },
   observers: {

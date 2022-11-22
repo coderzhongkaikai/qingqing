@@ -1,3 +1,5 @@
+<wxs src="../../dateUtils.wxs" module="dateTool"></wxs>
+
 <van-notice-bar
   left-icon="volume-o"
   text="在代码阅读过程中人们说脏话的频率是衡量代码质量的唯一标准。"
@@ -50,6 +52,7 @@
       热门舞种
     </view>
   </view>
+
   <navigator url="../../teacherInfo/index">
   <view class="_card">
     <view class="_card_title">
@@ -60,16 +63,25 @@
   <!-- <view>
  学员风采
 </view> -->
-<navigator url="../../activityInfo/index">
-<view class="_card">
-    <view class="_card_title">
+<!-- <navigator url="../../activityInfo/index"> -->
+<view class="_card" bindtap="jumpActivatyPage">
+    <view class="_card_title" >
       近期活动
+      
+   <view wx:for="{{ActivatyInfo_list}}">
+   {{dateTool.formatTime(item.createTime)}}
+   <!-- {{item.createTime}} -->
+    <!-- <text class="content-text-time"> -->
+    <!-- {{dateTool.formatTime(item.createTime)}} -->
+    <!-- </text> -->
+   </view>
     </view>
   </view>
-</navigator>
+
+
+<!-- </navigator> -->
 
 </view>
 
-
+<!-- 解决tab-bar造成的遮挡-->
 <view style="{{popHeight?'height: '+popHeight+'px':'padding-bottom:25%'}}"></view>
-<!-- <view style="padding-bottom: 15%;"></view> -->

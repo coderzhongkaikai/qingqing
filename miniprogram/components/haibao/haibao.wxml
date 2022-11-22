@@ -1,0 +1,6 @@
+<image src="{{imgUrl.url}}"
+bindload="loadSuccess"
+bindtap="showImg"
+ mode="widthFix"/>
+
+ <!-- style="width:{{imageWidth}}px; height:{{imageHeight}}px"  -->

@@ -19,6 +19,8 @@
   },
   "pages": [
     "pages/TapPages/index/index",
+    "pages/index_cloud/index",
+
     "pages/getOpenId/index",
     "pages/TapPages/r_index/index",
     "pages/TapPages/center_index/index",
@@ -32,7 +34,6 @@
     "pages/updateRecordSuccess/index",
     "pages/sumRecord/index",
     "pages/sumRecordResult/index",
-    "pages/index_cloud/index",
     "pages/admin/index",
     "pages/userInfo/index",
     "pages/teacherInfo/index",

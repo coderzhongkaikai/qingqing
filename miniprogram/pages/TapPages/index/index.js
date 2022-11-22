@@ -1,11 +1,14 @@
 // pages/index/index.js
 const app = getApp()
+var Ttime = require('../../util.js');
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    ActivatyInfo_list:[],
     popHeight: app.globalData.popHeight,
     active: 0,
     icon: {
@@ -19,7 +22,12 @@ Page({
     duration: 1000, //  滑动动画时长1s
     swiperCurrent: '',
   },
-
+  jumpActivatyPage() {
+    console.log('sfadfsaf')
+    wx.navigateTo({
+      url: `/pages/activityInfo/index?init=${"edit"}`,
+    });
+  },
   swiperChange: function (e) {
     this.setData({
       swiperCurrent: e.detail.current
@@ -60,7 +68,18 @@ Page({
    */
   onLoad(options) {
     console.log(app)
-
+    wx.cloud.database().collection('activityInfo')
+    .get()
+    .then(res => {
+      // console.log(Ttime.formatTime(res.data[0].createTime,'Y/M/D h:m:s'))
+      this.setData({
+        ActivatyInfo_list:res.data
+      })
+      console.log('数据库获取数据成功' , res)
+    })
+    .catch(err =>{
+      console.log('数据库获取数据失败' , err)
+    })
 
   },
 

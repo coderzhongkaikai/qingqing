@@ -46,4 +46,5 @@
 </navigator>
 </view>
 </view>
+
 <view style="{{popHeight?'height: '+popHeight+'px':'padding-bottom:25%'}}"></view>
