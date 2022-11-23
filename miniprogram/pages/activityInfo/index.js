@@ -119,6 +119,9 @@ Page({
         // this.setData({
         //   haveCreateCollection: true
         // });
+        this.setData({
+          type:'publish'
+        })
       }
       // this.setData({
       //   powerList
@@ -132,13 +135,18 @@ Page({
       wx.hideLoading();
     });
   },
+  edit(){
+    this.setData({
+      type:'edit'
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
     console.log(options)
     this.setData({
-      type:'edit'
+      // type:'edit'
     })
   },
 

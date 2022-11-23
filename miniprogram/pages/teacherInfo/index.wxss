@@ -4,6 +4,7 @@
 .dance_tag_box{
  /* padding: 0 20rpx; */
   display: flex;
+ 
 }
 .tag_item{
   margin: 10rpx 10rpx;
@@ -41,8 +42,8 @@
 }
 .teacher_card{
   width: 640rpx;
-  height: 250rpx;
-  margin: 20rpx auto 0;
+  min-height: 250rpx;
+  margin: 20rpx auto ;
   padding: 20rpx;
   background: #f6f6f6;
   border-radius: 20rpx;
@@ -66,4 +67,8 @@
 } */
 .van-tabs__scroll{
   background: none !important;
+}
+.tag_item .van-tag{
+  /* width:100% !important;
+  height:100% !important; */
 }

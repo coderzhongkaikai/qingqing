@@ -1,52 +1,49 @@
 <view class="box">
-  <view>
-    <view class="title_p">
-      <view wx:if="{{type=='edit'}}">
-        <van-field left-icon="contact" model:value="{{ title }}" label="标题" placeholder="请输入标题" type="textarea" autosize />
-      </view>
-      <view wx:else>
-        <view wx:if="{{isAdmin}}">
-
-          {{'标题'}}
-          <van-icon name="edit" />
-        </view>
-        <view>
-          {{'标题'}}
-        </view>
-      </view>
-
+  <view class="title_p">
+    <view wx:if="{{type=='edit'}}">
+      <van-field left-icon="contact" model:value="{{ title }}" label="标题" placeholder="请输入标题" type="textarea" autosize />
+    </view>
+    <view wx:else>
+      {{title?title:'标题'}}
       <view>
-
       </view>
     </view>
-    <view wx:if="{{!(type=='edit')}}">
-      <van-icon name="underway-o" />发布时间：2022-11-21
-      <van-icon name="browsing-history-o" />浏览量:
-    </view>
   </view>
+</view>
+<view wx:if="{{!(type=='edit')}}">
+  <van-icon name="underway-o" />发布时间：2022-11-21
+  <van-icon name="browsing-history-o" />浏览量:
+</view>
 
 
-  <!-- file-list="{{ fileList }}"  -->
-  <view class="img_box">
-    <!-- <block wx:for="{{ fileList }}">
+<!-- file-list="{{ fileList }}"  -->
+<view class="img_box">
+  <!-- <block wx:for="{{ fileList }}">
   <haibao title="" imgUrl="{{item}}"   index="{{index}}" ></haibao> -->
-    <view class="img_p" wx:for="{{ fileList }}">
-      <image src="{{item.url}}" data-url="{{item.url}}" data-index="{{index}}" bindload="loadSuccess" bindtap="showImg" mode="widthFix" />
-      <!-- <view class="img_p_icon"> -->
-      <van-icon class="img_p_icon" name="close" data-index="{{index}}" bindtap="delete_photo" />
-      <!-- </view> -->
-    </view>
-    <van-uploader deletable="{{ true }} " bind:after-read="uploader_photo" />
+  <view class="img_p" wx:for="{{ fileList }}">
+    <image src="{{item.url}}" data-url="{{item.url}}" data-index="{{index}}" bindload="loadSuccess" bindtap="showImg" mode="widthFix" />
+    <!-- <view class="img_p_icon"> -->
 
+    <van-icon wx:if="{{type=='edit'}}" class="img_p_icon" name="close" data-index="{{index}}" bindtap="delete_photo" />
+    <!-- </view> -->
   </view>
-  <!-- <van-cell-group> -->
-  <view>
-    <van-field model:value="{{ beizhu }}" label="备注" type="textarea" placeholder="请输入活动备注" autosize border="{{ false }}" />
-  </view>
-
-  <!-- </van-cell-group> -->
-
-
-  <van-button round type="info" block bindtap="publish">保存发布</van-button>
+  <van-uploader wx:if="{{type=='edit'}}" deletable="{{ true }} " bind:after-read="uploader_photo" />
 
 </view>
+<!-- <van-cell-group> -->
+<view wx:if="{{type=='edit'}}">
+  <van-field model:value="{{ beizhu }}" label="备注" type="textarea" placeholder="请输入活动备注" autosize border="{{ false }}" />
+</view>
+<view wx:else>
+  {{ beizhu?beizhu:'没有备注' }}
+</view>
+
+<!-- </van-cell-group> -->
+
+
+<block wx:if="{{type=='edit'}}">
+  <van-button round type="info" block bindtap="publish">保存发布</van-button>
+</block>
+<block wx:else>
+  <van-button round type="info" block bindtap="edit">修改内容</van-button>
+</block>

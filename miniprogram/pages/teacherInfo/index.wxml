@@ -1,54 +1,67 @@
+<view class="teacher_avar_card">
+  <view class="teacher_avar_nickname">
+    <view class="teacher_avar">
+      <van-uploader preview-size="140rpx" style="background: red;" file-list="{{ fileList }}" bind:after-read="afterRead" />
+    </view>
+    <view class="teacher_nickname">
+      <van-field custom-style="width:500rpx; text-align: right;" left-icon="edit" model:value="{{ name }}" style="width:100%" placeholder="请输入老师名称" type="textarea" />
+      <!-- 名称
+          <van-icon name="edit" /> -->
+    </view>
+  </view>
+  <view class="dance_tag_box">
+
+    <view class="tag_item" wx:for="{{tagList}}">
+      <van-tag closeable size="medium" id="primary" data-index="{{index}}" bind:close="onTagClose" type="primary">
+        {{item}}
+      </van-tag>
+    </view>
+
+    <!-- 底部picker弹窗 -->
+    <van-action-sheet bind:click-overlay="action_sheet_hidden" show="{{ sheet_show }}">
+      <van-picker show-toolbar="{{true}}" columns="{{ columns }}" bind:change="onChange" bind:confirm="picker_confirm" bind:cancel="action_sheet_hidden" />
+    </van-action-sheet>
+
+    <view class="tag_item">
+      <van-tag size="large" id="primary" type="primary">
+        <van-icon name="add-o" bindtap="tag_add" />
+        添加舞种
+      </van-tag>
+    </view>
+  </view>
 
 
-    <view class="teacher_avar_card">
-      <view class="teacher_avar_nickname">
-        <view class="teacher_avar">
-          <van-uploader preview-size="140rpx" style="background: red;" file-list="{{ fileList }}" bind:after-read="afterRead" />
-        </view>
-        <view class="teacher_nickname">
-          名称
-          <van-icon name="edit" />
-        </view>
-      </view>
-      <view class="dance_tag_box">
-          <view class="tag_item">
-            <van-tag type="primary">
-              网红舞
-            </van-tag>
-          </view>
-          <view class="tag_item">
-            <van-tag type="primary">
-              网红舞
-            </van-tag>
-          </view>
-          <view class="tag_item">
-            <van-tag type="primary">
-              <van-icon name="add-o" />
-            </van-tag>
-          </view>
-        </view>
-
-
-    <!-- <view class="dance_time">
+  <!-- <view class="dance_time">
       上课时间 用上传excel的形式
       <van-icon name="tosend" />
     </view> -->
 
 
+</view>
+<view class="teacher_card">
+  <view class="card_title">
+    老师相册
   </view>
-  <view class="teacher_card">
-    <view class="card_title">
-      老师相册
-    </view>
-    <view>
-      <van-uploader file-list="{{ fileList }}" />
-    </view>
+  <view>
+    <van-uploader bind:after-read="uploader_photo" bind:delete="delete_photo" file-list="{{ fileList }}" />
   </view>
+</view>
 
-  <view class="teacher_card">
-    <van-tabs style='background: none;' active="{{ active }}" bind:change="onChange">
-  <van-tab title="课表">课表内容</van-tab>
-  <van-tab title="简介">简介内容</van-tab>
-</van-tabs>
+<view class="teacher_card">
+  <van-tabs style='background: none;' active="{{ active }}" bind:change="onChange">
+    <van-tab title="课表">课表内容</van-tab>
+    <van-tab title="简介">简介内容
+      <van-field left-icon="edit" model:value="{{ name }}" autosize placeholder="请输入简介内容" type="textarea" />
+    </van-tab>
+  </van-tabs>
 
-  </view>
+</view>
+
+
+
+<block wx:if="{{type=='edit'}}">
+  <van-button round type="info" block bindtap="publish">保存发布</van-button>
+</block>
+<block wx:else>
+  <van-button round type="info" block bindtap="edit">修改内容</van-button>
+</block>
