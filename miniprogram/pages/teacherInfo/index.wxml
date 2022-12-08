@@ -19,7 +19,7 @@
   <view class="dance_tag_box">
 
     <view class="tag_item" wx:for="{{tagList}}">
-      <van-tag closeable size="medium" id="primary" data-index="{{index}}" bind:close="onTagClose" type="primary">
+      <van-tag plain color="#df7a41" closeable size="large" id="primary" data-index="{{index}}" bind:close="onTagClose" type="primary">
         {{item}}
       </van-tag>
     </view>
@@ -31,7 +31,7 @@
       </van-action-sheet>
 
       <view class="tag_item" bindtap="tag_add">
-        <van-tag size="large" id="primary" type="primary">
+        <van-tag plain  color="#df7a41" size="large" id="primary" type="primary">
           <van-icon name="add-o" />
           添加舞种
         </van-tag>

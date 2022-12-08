@@ -1,41 +1,43 @@
-<van-collapse accordion value="{{ activeName }}" bind:change="onCollapseChange">
-  <van-collapse-item title="编辑舞种" name="1">
-    <!-- <van-cell-group> -->
-    <van-field value="{{ dance_item }}" label="添加舞种" placeholder="请输入新增舞种名" />
-    <van-button size="small" round type="info" block>圆形按钮</van-button>
-    <!-- </van-cell-group> -->
+<view class="contain_box">
+  <van-collapse accordion value="{{ activeName }}" bind:change="onCollapseChange">
 
-    <van-divider contentPosition="center" customStyle="color: #1989fa; border-color: #1989fa; font-size: 28rpx;">
-      已添加舞种
-    </van-divider>
-
-    <view class="dance_item_box">
-      <view class="dance_item">
-        <van-tag wx:if="{{ show.primary }}" closeable size="medium" type="primary" id="primary" bind:close="onTagClose">
-          网红舞
-        </van-tag>
-      </view>
-      <view class="dance_item">
-        <van-tag wx:if="{{ show.primary }}" closeable size="medium" type="success" id="success" bind:close="onTagClose">
-          网红舞
-        </van-tag>
-      </view>
-
-
+<van-collapse-item title="老师管理" name="1">
+  <view class="btn_box">
+    <view class="btn_item">
+      <van-button color="#df7a41"  size='normal' round type="info" block bindtap="add">批量创建老师</van-button>
     </view>
-
-  </van-collapse-item>
-  <van-collapse-item title="添加老师" name="2">
-    <!-- <van-cell-group inset> -->
-      <van-cell title="单元格" value="内容" />
-      <van-cell title="单元格" value="内容" label="描述信息" />
-    <!-- </van-cell-group> -->
-  </van-collapse-item>
-  <van-collapse-item title="活动列表" name="3">
-    代码是写出来给人看的，附带能在机器上运行
-  </van-collapse-item>
-   
-
-
+  
+    <view class="btn_item">
+      <van-button color="#df7a41"  size='normal' round type="info" block bindtap="add">批量创建课表</van-button>
+    </view>
+    <!-- <van-button color="#df7a41"  size='normal' round type="info" block bindtap="del">删除</van-button> -->
+  </view>
+</van-collapse-item>
+<van-collapse-item title="活动管理" name="2">
+  <view class="btn_box">
+    <view class="btn_item">
+    <van-button color="#df7a41"  size='normal' round type="info" block bindtap="add">新增活动</van-button>
+    </view>
+    <view class="btn_item">
+    <van-button color="#df7a41"  size='normal' round type="info" block bindtap="add">删除活动</van-button>
+    </view>
+    <!-- <van-button color="#df7a41"  size='normal' round type="info" block bindtap="del">删除</van-button> -->
+  </view>
+</van-collapse-item>
  
+
+<van-collapse-item title="其他设置" name="3">
+  <view class="btn_box">
+    <view class="btn_item">
+    <van-button color="#df7a41"  size='normal' round type="info" block bindtap="daochu">导出约课记录</van-button>
+    </view>
+    <view class="btn_item">
+    <van-button color="#df7a41"  size='normal' round type="info" block bindtap="edit_shouye">修改首页通知</van-button>
+    </view>
+    <!-- <van-button color="#df7a41"  size='normal' round type="info" block bindtap="del">删除</van-button> -->
+  </view>
+</van-collapse-item>
+
 </van-collapse>
+
+</view>

@@ -5,3 +5,12 @@
 .dance_item{
   margin: 10rpx 20rpx;
 }
+.contain_box{
+  padding: 20rpx;
+}
+.btn_box{
+  padding: 20rpx;
+}
+.btn_item{
+  padding: 20rpx;
+}

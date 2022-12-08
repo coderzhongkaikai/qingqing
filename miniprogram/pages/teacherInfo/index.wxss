@@ -15,7 +15,7 @@
   margin: 100rpx auto 0;
   padding:0 20rpx 20rpx; 
   /* position: relative; */
-  background: #f6f6f6;
+  background: #ffffff;
   border-radius: 20rpx;
   border: 1rpx solid rgba(0, 0, 0, 0.1);
   /* position: relative; */
@@ -45,7 +45,7 @@
   min-height: 250rpx;
   margin: 20rpx auto ;
   padding: 20rpx;
-  background: #f6f6f6;
+  background: #ffffff;
   border-radius: 20rpx;
   border: 1rpx solid rgba(0, 0, 0, 0.1);
 }

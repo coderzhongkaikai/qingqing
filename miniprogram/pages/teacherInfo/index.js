@@ -9,7 +9,6 @@ Page({
   data: {
     fileList: [],
     avarList:[],//头像
-    touxiang:[],
     tagList: [],
     active: 0,
     columns: ['网红舞', '芭蕾舞', '拉丁舞','民族舞', '街舞', '爵士舞'],
@@ -273,6 +272,45 @@ Page({
     this.setData({
       type:'edit'
     })
+  },
+  publish(){
+    const {avarList,tagList,name,jianjie}=this.data
+    console.log(avarList)
+    console.log(tagList)
+    console.log(name)
+    console.log(jianjie)
+    //想清楚是批量上传，还是单个。
+    //批量上传相册不好上传
+    //单个上传感觉鸡肋
+    
+    // wx.cloud.callFunction({
+    //   name: 'quickstartFunctions',
+    //   data: {
+    //     type: 'teacher',
+    //     data:{
+    //       type:'create',
+    //       fileList,beizhu,title,createTime:new Date(),
+    //       watch:0
+    //     }
+    //   }
+    // }).then((resp) => {
+    //   console.log(resp)
+    //   if (resp.result.success) {
+    //     // this.setData({
+    //     //   haveCreateCollection: true
+    //     // });
+    //     this.setData({
+    //       type:'publish'
+    //     })
+    //   }
+    //   wx.hideLoading();
+    // }).catch((e) => {
+    //   console.log(e);
+    //   // this.setData({
+    //   //   showUploadTip: true
+    //   // });
+    //   wx.hideLoading();
+    // });
   },
   /**
    * 生命周期函数--监听页面加载

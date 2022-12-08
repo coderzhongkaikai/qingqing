@@ -67,7 +67,8 @@
 <view class="_card" bindtap="jumpActivatyPage">
     <view class="_card_title" >
       近期活动
-      
+    </view>
+          
    <view wx:for="{{ActivatyInfo_list}}">
    {{dateTool.formatTime(item.createTime)}}
    <!-- {{item.createTime}} -->
@@ -75,7 +76,6 @@
     <!-- {{dateTool.formatTime(item.createTime)}} -->
     <!-- </text> -->
    </view>
-    </view>
   </view>
 
 
