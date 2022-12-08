@@ -39,7 +39,7 @@
   width: 620rpx;
   height: 220rpx;
   padding:30rpx;
-  background: #f6f6f6;
+  background: #ffffff;
   border-radius: 20rpx;
   border:1rpx solid rgba(0, 0, 0, 0.1);
   margin:-90rpx auto 0;
@@ -68,7 +68,7 @@
   width: 620rpx;
   min-height: 220rpx;
   padding:30rpx;
-  background: #f6f6f6;
+  background: #ffffff;
   border-radius: 20rpx;
   border:1rpx solid rgba(0, 0, 0, 0.1);
   margin:20rpx auto;

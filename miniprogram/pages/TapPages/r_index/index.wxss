@@ -42,7 +42,7 @@ align-items: center;
 }
 .name_show{
   margin: 15rpx 0;
-  color: rgb(102, 41, 41);
+  color: #ffffff;
   font-size: 36rpx;
   z-index: 99;
   text-align: center;
@@ -52,11 +52,11 @@ white-space:nowrap;
 }
 
 
-.menu_card{
+/* .menu_card{
   width: 100vw;
   background: #fff;
   border-radius: 100rpx 100rpx 0 0;
-}
+} */
 .menu_box{
 margin: 0rpx 30rpx 20rpx 30rpx;
 border-radius: 20rpx;
@@ -66,7 +66,7 @@ box-sizing: border-box;
   position: relative;
   height: 90rpx;  
   border-radius: 20rpx;
-  background: #f7f7f7;
+  background: #ffffff;
   display: flex;
   margin-top: 20rpx;
   align-items: center;

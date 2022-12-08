@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "舞蹈室活动",
+  "navigationBarTitleText": "老师主页",
   "usingComponents": {
     "van-uploader": "@vant/weapp/uploader/index",
     "van-icon": "@vant/weapp/icon/index",

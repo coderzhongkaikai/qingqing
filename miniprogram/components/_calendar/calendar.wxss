@@ -2,7 +2,7 @@
 @import "../../iconfont.wxss";
 .icon-calendar{
   font-size: 60rpx;
-  color: #606161;
+  color: #444444;
   /* width: 100rpx;
   height: 50rpx; */
 }
@@ -16,7 +16,7 @@
   width: 60rpx;
   height: 60rpx;
   line-height: 60rpx;
-  color: #606161;
+  color: #444444;
   text-align: center;
   margin-right: 6rpx;
   /* background: red; */
@@ -37,6 +37,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0px 10rpx 0 20rpx;
 }
 
 .today {
@@ -111,12 +112,12 @@
 }
 
 .calendar {
-  margin-top: 20rpx;
+  margin-top: 10rpx;
   font-family: "PingFang SC", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", "Source Han Sans", "Noto Sans CJK Sc", "Microsoft YaHei", "Microsoft Jhenghei", sans-serif;
 }
 
 .calendar .title {
-  padding: 10rpx 16rpx 10rpx 20rpx;
+  padding: 10rpx 20rpx;
   line-height: 60rpx;
   font-size: 32rpx;
   font-weight: 600;
@@ -216,8 +217,8 @@
   width: 66rpx;
   border-radius: 50%;
   text-align: center;
-  color: #0EC0B8;
-  background: rgba(14, 192, 184, 0.2);
+  /* color: #1c1f1b; */
+  /* background: rgba(46, 46, 45, 0.2); */
   margin: 0 auto;
 }
 
@@ -226,7 +227,7 @@
   border-radius: 50%;
   text-align: center;
   color: #fff;
-  background: #0EC0B8;
+  background: #444444;
   margin: 0 auto;
 }
 
@@ -265,5 +266,5 @@
 
 .header-wrap .month {
   font-size: 28rpx;
-  color: #606161;
+  color: #444444;
 }

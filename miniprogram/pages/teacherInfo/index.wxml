@@ -1,12 +1,19 @@
 <view class="teacher_avar_card">
   <view class="teacher_avar_nickname">
-    <view class="teacher_avar">
-      <van-uploader preview-size="140rpx" style="background: red;" file-list="{{ fileList }}" bind:after-read="afterRead" />
+    <view class="teacher_avar" wx:if="{{type=='edit'}}" style="overflow:visible;">
+      <van-uploader deletable="true" file-list="{{ avarList }}" bind:delete="delete_avar" bind:after-read="uploader_avar" />
+    </view>
+    <view class="teacher_avar" wx:else>
+      <van-uploader disabled="true" file-list="{{ avarList }}" max-count="1" />
     </view>
     <view class="teacher_nickname">
-      <van-field custom-style="width:500rpx; text-align: right;" left-icon="edit" model:value="{{ name }}" style="width:100%" placeholder="请输入老师名称" type="textarea" />
-      <!-- 名称
-          <van-icon name="edit" /> -->
+      <block wx:if="{{type=='edit'}}">
+        <van-field custom-style="width:500rpx; text-align: right;" left-icon="edit" model:value="{{ name }}" style="width:100%" placeholder="请输入老师名称" type="textarea" />
+      </block>
+      <block wx:else>
+        {{name?name:'名称空白'}}
+      </block>
+
     </view>
   </view>
   <view class="dance_tag_box">
@@ -17,17 +24,19 @@
       </van-tag>
     </view>
 
-    <!-- 底部picker弹窗 -->
-    <van-action-sheet bind:click-overlay="action_sheet_hidden" show="{{ sheet_show }}">
-      <van-picker show-toolbar="{{true}}" columns="{{ columns }}" bind:change="onChange" bind:confirm="picker_confirm" bind:cancel="action_sheet_hidden" />
-    </van-action-sheet>
+    <block wx:if="{{type=='edit'}}">
+      <!-- 底部picker弹窗 -->
+      <van-action-sheet bind:click-overlay="action_sheet_hidden" show="{{ sheet_show }}">
+        <van-picker show-toolbar="{{true}}" columns="{{ columns }}" bind:change="onChange" bind:confirm="picker_confirm" bind:cancel="action_sheet_hidden" />
+      </van-action-sheet>
 
-    <view class="tag_item">
-      <van-tag size="large" id="primary" type="primary">
-        <van-icon name="add-o" bindtap="tag_add" />
-        添加舞种
-      </van-tag>
-    </view>
+      <view class="tag_item" bindtap="tag_add">
+        <van-tag size="large" id="primary" type="primary">
+          <van-icon name="add-o" />
+          添加舞种
+        </van-tag>
+      </view>
+    </block>
   </view>
 
 
@@ -43,15 +52,42 @@
     老师相册
   </view>
   <view>
-    <van-uploader bind:after-read="uploader_photo" bind:delete="delete_photo" file-list="{{ fileList }}" />
+
+    <block wx:if="{{type=='edit'}}"> 
+      <van-uploader accept="all"  deletable="true" bind:after-read="uploader_photo" 
+    bind:delete="delete_photo" file-list="{{ fileList }}" />
+    </block>
+    <block wx:else>
+      <van-uploader accept="all"  deletable="false" 
+    max-count="{{ fileList.length }}"
+    file-list="{{ fileList }}" />
+    </block>
   </view>
 </view>
 
 <view class="teacher_card">
   <van-tabs style='background: none;' active="{{ active }}" bind:change="onChange">
-    <van-tab title="课表">课表内容</van-tab>
-    <van-tab title="简介">简介内容
-      <van-field left-icon="edit" model:value="{{ name }}" autosize placeholder="请输入简介内容" type="textarea" />
+    <van-tab title="课表">
+      <block wx:if="{{type=='edit'}}">
+        课表内容
+        <van-uploader accept="file" bind:after-read="uploader_excel">
+        <van-button icon="plus" type="primary">上传课表内容</van-button>
+      </van-uploader>
+      </block>
+      <block wx:else>
+        none
+      </block>
+
+
+    </van-tab>
+    <van-tab title="简介">
+    <block wx:if="{{type=='edit'}}">
+      <van-field left-icon="edit" model:value="{{ jianjie }}" autosize placeholder="请输入简介内容" type="textarea" />
+    </block>
+    <block wx:else>
+      {{jianjie?jianjie:'空白简介'}}
+    </block>
+    
     </van-tab>
   </van-tabs>
 
@@ -60,8 +96,8 @@
 
 
 <block wx:if="{{type=='edit'}}">
-  <van-button round type="info" block bindtap="publish">保存发布</van-button>
+  <van-button round type="info" block bindtap="publish">点击保存</van-button>
 </block>
 <block wx:else>
-  <van-button round type="info" block bindtap="edit">修改内容</van-button>
+  <van-button round type="info" block bindtap="edit">点击修改</van-button>
 </block>

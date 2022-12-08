@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "青青舞蹈室",
+  "navigationBarBackgroundColor":"#ffffff",
   "usingComponents": {
     "van-tabbar": "/miniprogram_npm/@vant/weapp/tabbar/index",
     "van-tabbar-item": "/miniprogram_npm/@vant/weapp/tabbar-item/index",

@@ -42,8 +42,8 @@
 
 
 <block wx:if="{{type=='edit'}}">
-  <van-button round type="info" block bindtap="publish">保存发布</van-button>
+  <van-button round type="info" block bindtap="publish">点击保存</van-button>
 </block>
 <block wx:else>
-  <van-button round type="info" block bindtap="edit">修改内容</van-button>
+  <van-button round type="info" block bindtap="edit">点击修改</van-button>
 </block>

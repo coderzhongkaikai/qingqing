@@ -8,6 +8,7 @@
     "van-tab": "@vant/weapp/tab/index",
   "van-tabs": "@vant/weapp/tabs/index"
   },
+  "navigationBarBackgroundColor":"#ffffff",
   "navigationBarTitleText": "约课"
 
 }

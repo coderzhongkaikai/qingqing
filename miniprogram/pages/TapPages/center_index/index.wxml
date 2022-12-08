@@ -1,7 +1,7 @@
 <!--index.wxml-->
 <view class="type_dance">
-  <view class="nav_title">
-    舞种</view>
+  <!-- <view class="nav_title">
+    舞种</view> -->
   <scroll-view class="scroll-view-x" scroll-x="true">
     <view class="nav_box">
       <view class="nav_item activate">
@@ -38,9 +38,9 @@
 
 <calendar title="" spotMap="{{spotMap}}" bindgetDateList="getDateList" bindselectDay="selectDay" disabledDate="{{disabledDate}}" changeTime="{{changeTime}}"></calendar>
 
-<view class="operation-wrap">
+<!-- <view class="operation-wrap">
   <button bindtap="changetime" size="mini">点击跳转至22年1月1日</button>
-</view>
+</view> -->
 
 
 <!-- <button class="authbtn"  open-type="getPhoneNumber" type="primary"

@@ -1,5 +1,5 @@
 <!-- component/calendar/calendar.wxml -->
-{{date}}
+<!-- {{date}} -->
 <!-- <van-cell title="选择单个日期" value="{{ date }}" bind:click="onDisplay" /> -->
 <!-- <view class="btn_onDisplay" bindtap="onDisplay"> -->
 <!-- </view> -->
@@ -12,16 +12,18 @@
     <view class="title">
       <view class="header-wrap">
         <view class="flex">
-          <view class="title">{{title}}</view>
+          <!-- <view class="title">{{title}}</view> -->
+       
           <view class="month">
-            <block wx:if="{{title}}">(</block>
-            {{nowDay.year}}年{{nowDay.month}}月{{nowDay.day}}日
-            <block wx:if="{{title}}">)</block>
+            {{selectDay.year}}年{{selectDay.month}}月{{selectDay.day}}日
           </view>
+          <block wx:if="{{fanhui}}">
+              回到今日
+          </block>
         </view>
-        <view class="back_now" bindtap="back_now">
-          back_now
-        </view>
+        <!-- <view class="back_now" bindtap="back_now">
+          回到今天
+        </view> -->
         <view class="btn_openChange">
           <view class="iconfont icon-calendar" bindtap="onDisplay"></view>
         </view>

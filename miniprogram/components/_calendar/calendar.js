@@ -74,11 +74,13 @@ Component({
     },
     formatDate(date) {
       date = new Date(date);
-      return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+      return `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
     },
     onConfirm(event) {
       console.log(event)
       let date=event.detail
+      console.log(new Date(date)-new Date())
+
       let selectDay = {
         year: date.getFullYear(),
         month: date.getMonth() + 1,
@@ -87,6 +89,7 @@ Component({
       this.setData({
         show: false,
         date: this.formatDate(date),
+        // nowDay:selectDay,
         selectDay:selectDay
       });
      
@@ -133,6 +136,9 @@ Component({
           // }
         );
       }
+      this.setData({
+        selectDay:selectDay
+      })
     },
     getNearly7Day(date = new Date()) {
       // var date = new Date()

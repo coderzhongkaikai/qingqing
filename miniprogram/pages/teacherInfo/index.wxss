@@ -31,14 +31,14 @@
 }
 .teacher_avar{
   z-index: 99;
-  width: 140rpx;
-  height: 140rpx;
+  width: 150rpx;
+  height: 150rpx;
   overflow: hidden;
   border-radius: 50%;
   box-sizing: border-box;
 }
 .teacher_nickname{
-  margin-top: 10rpx;
+  margin-top: 20rpx;
 }
 .teacher_card{
   width: 640rpx;

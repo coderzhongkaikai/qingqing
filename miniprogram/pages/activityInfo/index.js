@@ -106,7 +106,7 @@ Page({
       //   env: this.data.selectedEnv.envId
       // },
       data: {
-        type: 'ActivityInfo',
+        type: 'activityInfo',
         data:{
           type:'create',
           fileList,beizhu,title,createTime:new Date(),
