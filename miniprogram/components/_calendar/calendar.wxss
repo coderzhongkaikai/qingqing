@@ -183,7 +183,7 @@
   line-height: 40rpx;
   padding: 0 22rpx;
   font-size: 28rpx;
-  color: #999;
+  /* color: #999; */
 }
 
 .calendar .calendar-week .view {
@@ -227,7 +227,7 @@
   border-radius: 50%;
   text-align: center;
   color: #fff;
-  background: #444444;
+  background: #df7a41;
   margin: 0 auto;
 }
 

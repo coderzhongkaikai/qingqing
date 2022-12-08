@@ -4,26 +4,13 @@
     舞种</view> -->
   <scroll-view class="scroll-view-x" scroll-x="true">
     <view class="nav_box">
-      <view class="nav_item activate">
-        网红舞</view>
-      <view class="nav_item">
-        网红舞</view>
-      <view class="nav_item">
-        网红舞</view>
-      <view class="nav_item">
-        网红舞</view>
-      <view class="nav_item">
-        网红舞</view>
-      <view class="nav_item">
-        网红舞</view>
-      <view class="nav_item">
-        民族舞</view>
-      <view class="nav_item">
-        芭蕾舞</view>
-      <view class="nav_item">
-        恰恰舞</view>
-      <view class="nav_item">
-        韩国舞</view>
+    <block wx:for="{{dance_type}}">
+      <view class="nav_item {{click_dance_index==index?'activate':''}}" 
+      data-index="{{index}}" data-item="{{item}}" bindtap="click_dance_type">
+        {{item}}</view>
+    </block>
+  
+     
       <view wx:for="{{top_nav}}" wx:for-index="index" wx:for-item="item" class="nav_p {{item==select_item?'nav_p_active':' '}}" data-item="{{item}}" bindtap="change_type">
         {{item}}</view>
     </view>

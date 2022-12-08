@@ -2,6 +2,7 @@
 .type_dance{
   padding: 30rpx 22rpx 0rpx;
   display: flex;
+  /* color: #999; */
 }
 .nav_title{
   width: 150rpx;
@@ -20,8 +21,8 @@
   flex-wrap: nowrap;
 }
 .activate{
-  color: #444444;
-  border-bottom: 1rpx solid #444444;
+  color: #df7a41;
+  border-bottom: 4rpx solid #df7a41;
 }
 .nav_item{
   word-break: keep-all;

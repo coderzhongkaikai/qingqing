@@ -35,6 +35,9 @@
   z-index: 1;
 
 }
+._card_title,.dance_info_card_title{
+  color: #000000;
+}
 .dance_info_card{
   width: 620rpx;
   height: 220rpx;

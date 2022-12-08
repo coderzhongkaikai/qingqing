@@ -30,20 +30,23 @@
   <van-uploader wx:if="{{type=='edit'}}" deletable="{{ true }} " bind:after-read="uploader_photo" />
 
 </view>
-<!-- <van-cell-group> -->
-<view wx:if="{{type=='edit'}}">
+<view class="beizhu">
+<block wx:if="{{type=='edit'}}">
   <van-field model:value="{{ beizhu }}" label="备注" type="textarea" placeholder="请输入活动备注" autosize border="{{ false }}" />
-</view>
-<view wx:else>
+</block>
+<block wx:else>
   {{ beizhu?beizhu:'没有备注' }}
+</block>
 </view>
 
 <!-- </van-cell-group> -->
 
 
-<block wx:if="{{type=='edit'}}">
-  <van-button round type="info" block bindtap="publish">点击保存</van-button>
+<view style="padding: 10rpx 20rpx;">
+  <block wx:if="{{type=='edit'}}">
+  <van-button  color="#df7a41"  round type="info" block bindtap="publish">点击保存</van-button>
 </block>
 <block wx:else>
-  <van-button round type="info" block bindtap="edit">点击修改</van-button>
+  <van-button color="#df7a41"  round type="info" block bindtap="edit">点击修改</van-button>
 </block>
+</view>

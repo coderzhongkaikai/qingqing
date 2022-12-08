@@ -51,6 +51,10 @@
 }
 .card_title{
   padding: 0 20rpx;
+  color: #000000;
+}
+.tab_content{
+  margin: 20rpx auto;
 }
 /* 
 .van-uploader__upload {

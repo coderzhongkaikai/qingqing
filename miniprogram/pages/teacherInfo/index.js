@@ -12,7 +12,7 @@ Page({
     touxiang:[],
     tagList: [],
     active: 0,
-    columns: ['网红舞', '芭蕾舞', '拉丁舞', '街舞', '爵士舞'],
+    columns: ['网红舞', '芭蕾舞', '拉丁舞','民族舞', '街舞', '爵士舞'],
   },
   delete_photo(e) {
     console.log(e)
@@ -279,7 +279,7 @@ Page({
    */
   onLoad(options) {
     this.setData({
-      // type: 'edit'
+      type: 'edit'
     })
   },
 

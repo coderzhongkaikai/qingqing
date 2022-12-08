@@ -1,7 +1,13 @@
 // index.js
 const app = getApp()
 Page({
-
+  click_dance_type(e){
+    console.log(e)
+    const index=e.currentTarget.dataset.index
+    this.setData({
+      click_dance_index:index
+    })
+  },
   showPopup() {
     this.setData({
       show: true
@@ -28,6 +34,8 @@ Page({
     });
   },
   data: {
+    click_dance_index:0,
+    dance_type: ['网红舞', '芭蕾舞', '拉丁舞','民族舞' ,'街舞', '爵士舞'],
     popHeight: app.globalData.popHeight,
     date: '',
     show: false,
