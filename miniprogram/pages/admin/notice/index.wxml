@@ -1,0 +1,19 @@
+<view class="content">
+  <van-field left-icon="bulb-o" color="#df7a41" border="{{ false }}" model:value="{{ notice }}" type="textarea" placeholder="请输入首页通知栏内容" autosize />
+  <view class="shettBtn" bindtap="open_sheet">
+    {{select_value?select_value:'选择点击通知栏跳转活动页面'}}
+  </view>
+
+  <van-button  color="#df7a41"  round type="info" block bindtap="noticeUpdate">点击保存</van-button>
+</view>
+
+
+<van-action-sheet  show="{{ sheet_show }}"bind:close="onSheetClose">
+  <van-picker columns="{{ columns }}"   show-toolbar
+  title="选择定位页面"
+  columns="{{ columns }}"
+  bind:cancel="onCancel"
+  bind:confirm="onConfirm"  />
+
+
+</van-action-sheet>

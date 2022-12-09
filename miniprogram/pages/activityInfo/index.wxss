@@ -1,9 +1,21 @@
 .box{
   padding:40rpx 20rpx;
+  text-align: center;
 }
 .title_p{
  font-size: 40rpx;
+ color: #000;
  /* text-align: center; */
+}
+.icon_p{
+  margin: 10rpx auto;
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+  /* justify-content: space-around; */
+}
+.icon_p_item{
+  margin-right: 20rpx;
 }
 .img_box{
   text-align: center;
@@ -22,16 +34,20 @@
   top: 0rpx;
   right: 40rpx;
   font-size: 60rpx;
-  color: red;
+  color: #df7a41;
 }
 .van-cell {
   background:none !important
 }
 .van-field__body--textarea{
-  border-bottom:1rpx solid red !important;
+  border-bottom:1rpx solid #df7a41 !important;
   /* text-decoration: underline !important;
   text-decoration-color:red !important; */
 }
+.van-icon {
+  color: #df7a41 !important;
+}
 .beizhu{
   padding: 0 20rpx;
+  text-align: center;
 }

@@ -11,7 +11,7 @@ exports.main = async (event, context) => {
   console.log(event)
   console.log(context)
   const  {
-    fileList,beizhu,title,createTime,watch,type
+    fileList,beizhu,title,createTime,watch,type,content,_id
   }=event.data
   const {OPENID}=cloud.getWXContext()
   try {
@@ -19,23 +19,55 @@ exports.main = async (event, context) => {
     if (type == "create") {
       // await db.createCollection('activityInfo');
       // console.log(fileList)
-      await db.collection('activityInfo').add({
+      const result= await db.collection('activityInfo').add({
         // data 字段表示需新增的 JSON 数据
         data: {
           fileList:fileList,
           beizhu:beizhu,
           title:title,
+          content:content,
           createTime:createTime,
           watch:watch,
           OPENID:OPENID
         }
       });
+      console.log(result)
       return {
         type:'create',
+        data:result,
         success: true
       };
-    }else{
-
+    }else if(type == "update"){
+      const result= await db.collection('activityInfo').doc(_id)
+      .update({
+        data:{
+          fileList,beizhu,title,content
+        }
+      })
+      return {
+        type:'update',
+        data:result,
+        success: true
+      };
+    }else if(type=='getItem'){
+      const result= await db.collection('activityInfo').doc(_id).get()
+      db.collection('activityInfo').doc(_id).update({
+        data:{
+          watch:result.data.watch+1
+        }
+      })
+      return {
+        type:'getItem',
+        data:result,
+        success: true
+      };
+    }else if(type=='delItem'){
+      const result= await db.collection('activityInfo').doc(_id).remove()
+      return {
+        type:'delItem',
+        data:result,
+        success: true
+      };
     }
     // 创建集合
     // await db.createCollection('sales');
@@ -47,14 +79,7 @@ exports.main = async (event, context) => {
     //     sales: 11
     //   }
     // });
-    // await db.collection('sales').add({
-    //   // data 字段表示需新增的 JSON 数据
-    //   data: {
-    //     region: '华东',
-    //     city: '南京',
-    //     sales: 11
-    //   }
-    // });
+    
 
   
   } catch (e) {

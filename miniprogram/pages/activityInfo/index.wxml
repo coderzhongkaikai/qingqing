@@ -1,19 +1,40 @@
+<wxs src="../dateUtils.wxs" module="dateTool"></wxs>
+
 <view class="box">
   <view class="title_p">
     <view wx:if="{{type=='edit'}}">
-      <van-field left-icon="contact" model:value="{{ title }}" label="标题" placeholder="请输入标题" type="textarea" autosize />
+      <van-field color="#df7a41" left-icon="label" model:value="{{ title }}" placeholder="请输入标题" type="textarea" autosize />
     </view>
     <view wx:else>
-      {{title?title:'标题'}}
+      {{title?title:'TP-LINK是普联技术有限公司旗下的品牌'}}
       <view>
       </view>
     </view>
   </view>
+  <view class="icon_p" wx:if="{{!(type=='edit')}}">
+  <view class="icon_p_item">
+    <van-icon color="#df7a41" name="underway-o" />
+  <!-- 发布时间：2022-11-21 -->
+  {{dateTool.formatTime(item.createTime)}}
+  </view>
+  <view>
+    <van-icon color="#df7a41" name="browsing-history-o" />
+  {{item.watch}}
+  <!-- 浏览量:22 次 -->
+  </view>
+ 
+
 </view>
-<view wx:if="{{!(type=='edit')}}">
-  <van-icon name="underway-o" />发布时间：2022-11-21
-  <van-icon name="browsing-history-o" />浏览量:
+<view class="content">
+  <view wx:if="{{type=='edit'}}">
+  <van-field color="#df7a41"  left-icon="edit" border="{{ false }}" model:value="{{ content }}" type="textarea" placeholder="请输入活动文字介绍" autosize />
+  </view>
+  <view wx:else>
+  {{ content?content:'TP-LINK是普联技术有限公司旗下的品牌，成立于1996年，是专门从事网络与通信终端设备研发、制造和行销的业内主流厂商，也是国内少数几家拥有完全独立自主研发和制造能力的公司之一，创建了享誉全国的知名网络与通信品牌：TP-LINK。是一家正处于高速发展和国际' }}
+  </view>
 </view>
+</view>
+
 
 
 <!-- file-list="{{ fileList }}"  -->
@@ -24,7 +45,7 @@
     <image src="{{item.url}}" data-url="{{item.url}}" data-index="{{index}}" bindload="loadSuccess" bindtap="showImg" mode="widthFix" />
     <!-- <view class="img_p_icon"> -->
 
-    <van-icon wx:if="{{type=='edit'}}" class="img_p_icon" name="close" data-index="{{index}}" bindtap="delete_photo" />
+    <van-icon wx:if="{{type=='edit'}}" class="img_p_icon"  color="#df7a41" name="close" data-index="{{index}}" bindtap="delete_photo" />
     <!-- </view> -->
   </view>
   <van-uploader wx:if="{{type=='edit'}}" deletable="{{ true }} " bind:after-read="uploader_photo" />
@@ -32,10 +53,10 @@
 </view>
 <view class="beizhu">
 <block wx:if="{{type=='edit'}}">
-  <van-field model:value="{{ beizhu }}" label="备注" type="textarea" placeholder="请输入活动备注" autosize border="{{ false }}" />
+  <van-field left-icon="bulb-o" color="#df7a41" border="{{ false }}" model:value="{{ beizhu }}" type="textarea" placeholder="请输入活动备注" autosize />
 </block>
 <block wx:else>
-  {{ beizhu?beizhu:'没有备注' }}
+  {{ beizhu?beizhu:'TP-LINK是普联技术有限公司旗下的品牌，成立于1996年，是专门从事网络与通信终端设备研发、制造和行销的业内主流厂商，也是国内少数几家拥有完全独立自主研发和制造能力的公司之一，创建了享誉全国的知名网络与通信品牌：TP-LINK。是一家正处于高速发展和国际' }}
 </block>
 </view>
 

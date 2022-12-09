@@ -7,9 +7,13 @@ const sumRecord = require('./sumRecord/index');
 const activityInfo = require('./activityInfo/index');
 const kebiao= require('./kebiao/index');
 const teacher=require('./teacher/index');
+const otherSet=require('./otherSet/index');
+
 // 云函数入口函数
 exports.main = async (event, context) => {
   switch (event.type) {
+    case 'otherSet':
+      return await otherSet.main(event, context);
     case 'teacher':
       return await teacher.main(event, context);
     case 'kebiao':

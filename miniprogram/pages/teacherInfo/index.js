@@ -279,7 +279,7 @@ Page({
     console.log(tagList)
     console.log(name)
     console.log(jianjie)
-    //想清楚是批量上传，还是单个。
+    //想清楚是创建教师是批量上传，还是单个。
     //批量上传相册不好上传
     //单个上传感觉鸡肋
     

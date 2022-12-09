@@ -64,13 +64,19 @@
  学员风采
 </view> -->
 <!-- <navigator url="../../activityInfo/index"> -->
-<view class="_card" bindtap="jumpActivatyPage">
+<view class="_card" >
     <view class="_card_title" >
       近期活动
     </view>
           
-   <view wx:for="{{ActivatyInfo_list}}">
-   {{dateTool.formatTime(item.createTime)}}
+   <view class="active_p" wx:for="{{ActivatyInfo_list}}" 
+   data-item="{{item}}"bindtap="click_active">
+    <view class="active_p_l">
+       {{item.title}}
+    </view>
+    <view class="active_p_r">
+     {{dateTool.formatDay(item.createTime)}}
+    </view>
    <!-- {{item.createTime}} -->
     <!-- <text class="content-text-time"> -->
     <!-- {{dateTool.formatTime(item.createTime)}} -->

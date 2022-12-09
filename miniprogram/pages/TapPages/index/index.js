@@ -22,12 +22,7 @@ Page({
     duration: 1000, //  滑动动画时长1s
     swiperCurrent: '',
   },
-  jumpActivatyPage() {
-    console.log('sfadfsaf')
-    wx.navigateTo({
-      url: `/pages/activityInfo/index?init=${"edit"}`,
-    });
-  },
+
   swiperChange: function (e) {
     this.setData({
       swiperCurrent: e.detail.current
@@ -63,12 +58,19 @@ Page({
       }
     })
   },
+  click_active(e){
+    console.log(e)
+    const item=e.currentTarget.dataset.item
+    wx.navigateTo({
+      url: `/pages/activityInfo/index?item=${JSON.stringify(item)}`,
+    });
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
     console.log(app)
-    wx.cloud.database().collection('activityInfo')
+    wx.cloud.database().collection('activityInfo').orderBy('createTime','desc')
     .get()
     .then(res => {
       // console.log(Ttime.formatTime(res.data[0].createTime,'Y/M/D h:m:s'))
@@ -79,6 +81,16 @@ Page({
     })
     .catch(err =>{
       console.log('数据库获取数据失败' , err)
+    })
+    wx.cloud.database().collection('notice').orderBy('createTime','desc').limit(1)
+    .get()
+    .then(res => {
+      this.setData({
+        notice:res.data[0].content,
+        activityID:res.data[0].activityID 
+        // n:res.data[0]
+      })
+      console.log('数据库获取数据成功' , res)
     })
 
   },

@@ -8,16 +8,17 @@ Page({
    */
   data: {
     type:'',
-    fileList: [
-      {
-        url: 'https://img.yzcdn.cn/vant/leaf.jpg',
-      },
-      // Uploader 根据文件后缀来判断是否为图片文件
-      // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
-      {
-        url: 'http://iph.href.lu/60x60?text=default',
-      },
-    ],
+    fileList:[],
+    // fileList: [
+    //   {
+    //     url: 'https://img.yzcdn.cn/vant/leaf.jpg',
+    //   },
+    //   // Uploader 根据文件后缀来判断是否为图片文件
+    //   // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
+    //   {
+    //     url: 'http://iph.href.lu/60x60?text=default',
+    //   },
+    // ],
     beizhu:'',
     title:''
   },
@@ -55,8 +56,6 @@ Page({
       console.log(error)
       wx.hideLoading()
     })
- 
-
   },
   uploader_photo(e){
     console.log(e)
@@ -96,31 +95,47 @@ Page({
    
   },
   publish(){  
-    const {fileList,beizhu,title}=this.data
+    const {fileList,beizhu,content,title,item}=this.data
     console.log(fileList)
     console.log(beizhu)
     console.log(title)
+    wx.showLoading({
+      title: '保存中...',
+    })
+    let data  
+    if(item){
+      data={
+        type:'update',
+        fileList,beizhu,title,content,
+        _id:item._id
+      }
+    }else{
+      data={
+        type:'create',
+        fileList,beizhu,title,createTime:new Date(),content,
+        watch:0
+      }
+    }
     wx.cloud.callFunction({
       name: 'quickstartFunctions',
-      // config: {
-      //   env: this.data.selectedEnv.envId
-      // },
       data: {
         type: 'activityInfo',
-        data:{
-          type:'create',
-          fileList,beizhu,title,createTime:new Date(),
-          watch:0
-        }
+        data:data
       }
-    }).then((resp) => {
-      console.log(resp)
-      if (resp.result.success) {
+    }).then((res) => {
+      console.log(res)
+      if (res.result.success) {
         // this.setData({
         //   haveCreateCollection: true
         // });
+        const data=res.result.data
         this.setData({
-          type:'publish'
+          type:'publish',
+        })
+        wx.showToast({
+          title: '成功',
+          duration: 1000,
+          icon: 'success',
         })
       }
       // this.setData({
@@ -129,10 +144,15 @@ Page({
       wx.hideLoading();
     }).catch((e) => {
       console.log(e);
+      wx.showToast({
+        title:e.errMsg,
+        duration: 1000,
+        icon: 'none',
+      })
+      wx.hideLoading()
       // this.setData({
       //   showUploadTip: true
       // });
-      wx.hideLoading();
     });
   },
   edit(){
@@ -145,9 +165,54 @@ Page({
    */
   onLoad(options) {
     console.log(options)
-    this.setData({
-      // type:'edit'
-    })
+    const {type,item}=options
+    if(item){
+      console.log(JSON.parse(item))
+      const _item=JSON.parse(item)
+      wx.showLoading({
+        title: '加载中...',
+      })
+      wx.cloud.callFunction({
+        name: 'quickstartFunctions',
+        data: {
+          type: 'activityInfo',
+          data:{
+            type:'getItem',
+            _id:_item._id
+          }
+        }
+      }).then((res) => {
+        console.log(res)
+        if (res.result.success) {
+          const _item=res.result.data.data
+          const {_id,fileList,title,watch,content,beizhu}=_item
+          this.setData({
+            fileList:fileList,
+            title:title,
+            beizhu:beizhu,
+            content:content,
+            item:_item
+          })
+        }
+        wx.hideLoading();
+      }).catch((e) => {
+        console.log(e);
+        wx.showToast({
+          title:e.errMsg,
+          duration: 1000,
+          icon: 'none',
+        })
+        wx.hideLoading()
+      });
+
+    }
+    if(type){
+      console.log(type)
+      this.setData({
+        type:type
+      })
+    }
+  
   },
 
   /**

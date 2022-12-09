@@ -14,3 +14,9 @@
 .btn_item{
   padding: 20rpx;
 }
+.tag_box{
+  padding: 20rpx;
+}
+.tag_item{
+    margin:20rpx;
+}
