@@ -165,10 +165,10 @@ Page({
    */
   onLoad(options) {
     console.log(options)
-    const {type,item}=options
-    if(item){
-      console.log(JSON.parse(item))
-      const _item=JSON.parse(item)
+    const {type,_id}=options
+    if(_id){
+      // console.log(JSON.parse(item))
+      // const _item=JSON.parse(item)
       wx.showLoading({
         title: '加载中...',
       })
@@ -178,7 +178,7 @@ Page({
           type: 'activityInfo',
           data:{
             type:'getItem',
-            _id:_item._id
+            _id:_id
           }
         }
       }).then((res) => {

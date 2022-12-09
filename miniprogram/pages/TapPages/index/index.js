@@ -62,7 +62,13 @@ Page({
     console.log(e)
     const item=e.currentTarget.dataset.item
     wx.navigateTo({
-      url: `/pages/activityInfo/index?item=${JSON.stringify(item)}`,
+      url: `/pages/activityInfo/index?_id=${item._id}`,
+    });
+  },
+  goactivity(e){
+    console.log(e)
+    wx.navigateTo({
+      url: `/pages/activityInfo/index?_id=${e.currentTarget.dataset.activityid}`,
     });
   },
   /**
