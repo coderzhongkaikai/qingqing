@@ -19,7 +19,7 @@
   </view>
   <view>
     <van-icon color="#df7a41" name="browsing-history-o" />
-  {{item.watch}}
+  {{item.watch+1}}
   <!-- 浏览量:22 次 -->
   </view>
  

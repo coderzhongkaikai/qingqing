@@ -71,11 +71,27 @@ Page({
       url: `/pages/activityInfo/index?_id=${e.currentTarget.dataset.activityid}`,
     });
   },
+ 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
     console.log(app)
+   
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow() {
+    this.getTabBar().init();
     wx.cloud.database().collection('activityInfo').orderBy('createTime','desc')
     .get()
     .then(res => {
@@ -99,20 +115,6 @@ Page({
       console.log('数据库获取数据成功' , res)
     })
 
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-    this.getTabBar().init();
     // this.setData({
     //   popHeight: app.globalData.popHeight
     // })

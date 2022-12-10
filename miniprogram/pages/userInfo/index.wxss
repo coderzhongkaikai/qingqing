@@ -11,6 +11,12 @@
   width: 56px;
   height: 56px;
 }
+.content_box{
+  padding: 20rpx;
+}
+.btn{
+  margin: 20rpx;
+}
 
 .container {
   display: flex;

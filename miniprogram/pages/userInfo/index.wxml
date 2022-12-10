@@ -1,15 +1,28 @@
-<view data-weui-theme="{{theme}}">
+<view class="content_box">
+  <view data-weui-theme="{{theme}}">
   <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
-    <image class="avatar" src="{{avatarUrl}}"></image>
+    <block wx:if="{{avatarUrl}}">
+       <image class="avatar" src="{{avatarUrl}}"></image>
+    </block>
+    <block wx:else>
+      <image class="avatar" src="https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0"></image>
+    </block>
+  
+
+ 
   </button> 
   <mp-form>
     <mp-cells>
       <mp-cell title="昵称">
-        <input type="nickname" class="weui-input" placeholder="请输入昵称"/>
+        <input type="nickname" model:value="{{nickname}}" class="weui-input" placeholder="请输入昵称"/>
       </mp-cell>
       <mp-cell title="手机号">
-        <input type="phone" class="weui-input" placeholder="请输入手机号"/>
+        <input type="number"  model:value="{{phone}}"   class="weui-input" placeholder="请输入手机号"/>
       </mp-cell>
     </mp-cells>
   </mp-form>
+</view>
+<view class="btn">
+  <van-button color="#df7a41"  round type="info" block bindtap="save">点击保存</van-button>
+</view>
 </view>

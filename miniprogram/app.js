@@ -1,8 +1,12 @@
 // app.js
 App({
   onLaunch: function () {
-    this.globalData = {};
+    this.globalData = {
+      User:null
+    };
+    
     const res = wx.getSystemInfoSync()
+    this.globalData.User=wx.getStorageSync('User') || null
     const { screenHeight, safeArea: { bottom } } = res
     console.log('resHeight',res);
     if (screenHeight && bottom){

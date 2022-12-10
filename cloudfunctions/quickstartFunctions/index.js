@@ -8,10 +8,12 @@ const activityInfo = require('./activityInfo/index');
 const kebiao= require('./kebiao/index');
 const teacher=require('./teacher/index');
 const otherSet=require('./otherSet/index');
-
+const User=require('./User/index');
 // 云函数入口函数
 exports.main = async (event, context) => {
   switch (event.type) {
+    case 'User':
+      return await User.main(event, context);
     case 'otherSet':
       return await otherSet.main(event, context);
     case 'teacher':

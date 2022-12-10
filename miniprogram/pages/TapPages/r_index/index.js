@@ -11,6 +11,57 @@ Page({
     toView: '',
     jump_index:0
   },
+  unpdateUser:function(){
+    console.log(app.globalData.User)
+    const {User}=app.globalData
+    console.log(wx.getStorageSync('User'))
+    if(User){
+      this.setData({
+        User:User
+      })
+    }else{
+      wx.cloud.callFunction({
+        name: 'quickstartFunctions',
+        data: {
+          type: 'User',
+          data: {
+            type:'getItem'
+          }
+        }
+      }).then((res) => {
+        console.log(res)
+        if (res.result.success) {
+          const data=res.result.data.data[0]
+          console.log(data)
+          const User = {
+            _id: data._id,
+            imgSrc:data.imgSrc,
+            phone:data.phone,
+            nickname:data.nickname
+          }
+          app.globalData.User = User
+          wx.setStorageSync('User', User)
+          this.setData({
+            User:User
+          })
+        }
+     
+        wx.hideLoading();
+      }).catch((e) => {
+        console.log(e);
+        wx.showToast({
+          title: e.errMsg,
+          duration: 1000,
+          icon: 'none',
+        })
+        wx.hideLoading()
+        // this.setData({
+        //   showUploadTip: true
+        // });
+      });
+    }
+
+  },
   jump:function(e){
     let type = e.currentTarget.dataset.type;
     let jump_index=this.data.jump_index
@@ -49,7 +100,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-
+    this.unpdateUser()
   },
 
   /**
