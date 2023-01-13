@@ -139,11 +139,15 @@ Page({
           nickname
         }
         app.globalData.User = User
+        
         wx.setStorageSync('User', User)
         let pages = getCurrentPages(); // 当前页面
         let beforePage = pages[pages.length - 2]; // 上一页
         //调用上一页的生命周期函数
         beforePage.unpdateUser()
+        this.setData({
+          ...User,
+        })
         //   wx.navigateBack({
         //     success:res => {
         //       beforePage.unpdateUser();//周期函数或者函数名

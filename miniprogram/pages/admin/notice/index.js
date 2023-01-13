@@ -80,7 +80,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-
+    wx.showLoading({
+      title: '',
+    })
     wx.cloud.database().collection('activityInfo').orderBy('createTime','desc')
     .get()
     .then(res => {
@@ -96,6 +98,7 @@ Page({
           select_value:select_value.title+' '+util.formatTime(select_value.createTime)
         })
         console.log('数据库获取数据成功' , res)
+        wx.hideLoading()
       })
       //保存获取到的所以活动列表
       this.setData({
@@ -105,6 +108,11 @@ Page({
       console.log('数据库获取数据成功' , res)
     })
     .catch(err =>{
+      wx.hideLoading()
+      wx.showToast({
+        title: '获取失败',
+        icon:'none'
+      })
       console.log('数据库获取数据失败' , err)
     })
   },

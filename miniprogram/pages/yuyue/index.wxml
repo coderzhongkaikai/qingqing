@@ -1,0 +1,31 @@
+<view class="_card">
+    <view class="_p">
+      <view class="_time">
+        19:40~20:40
+      </view>
+      <view class="_tag">
+        tag
+      </view>
+    </view>
+    <view class="_p">
+      <view class="_p_box">
+        <view class="l">
+          <van-image width="100" height="100" src="https://img.yzcdn.cn/vant/cat.jpeg" />
+        </view>
+        <view class="r">
+          <view class="_title">
+            成人零基础 爵士舞
+          </view>
+          <view class="_p">
+            楠楠老师
+          </view>
+          <view class="jianjie">
+            楠楠老师人好，课程质量好，1周学3周练1个月见效
+          </view>
+          <view class="btn">
+            <van-button round color='#7b7674' size='small'>已预约</van-button>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>

@@ -11,7 +11,7 @@ exports.main = async (event, context) => {
   console.log(event)
   console.log(context)
   const  {
-    fileList,beizhu,title,createTime,watch,type
+    avarList,fileList,tagList,teacher_name,jianjie,createTime,type
   }=event.data
   const {OPENID}=cloud.getWXContext()
   try {
@@ -19,23 +19,33 @@ exports.main = async (event, context) => {
     if (type == "create") {
       // await db.createCollection('activityInfo');
       // console.log(fileList)
-      await db.collection('teacher').add({
+ 
+      const result= await db.collection('teacher').add({
         // data 字段表示需新增的 JSON 数据
         data: {
-          fileList:fileList,
-          beizhu:beizhu,
-          title:title,
+          avarList,fileList,tagList,teacher_name,jianjie,
           createTime:createTime,
-          watch:watch,
           OPENID:OPENID
         }
       });
       return {
         type:'create',
+        data:result,
         success: true
       };
-    }else{
-
+      console.log(result)
+    }else if(type == "update"){
+      const result= await db.collection('teacher').doc(_id)
+      .update({
+        data:{
+          avarList,fileList,tagList,teacher_name,jianjie,
+        }
+      })
+      return {
+        type:'update',
+        data:result,
+        success: true
+      };
     }
   } catch (e) {
     // 这里catch到的是该collection已经存在，从业务逻辑上来说是运行成功的，所以catch返回success给前端，避免工具在前端抛出异常

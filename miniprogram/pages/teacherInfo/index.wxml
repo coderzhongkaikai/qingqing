@@ -1,14 +1,14 @@
 <view class="teacher_avar_card">
   <view class="teacher_avar_nickname">
     <view class="teacher_avar" wx:if="{{type=='edit'}}" style="overflow:visible;">
-      <van-uploader deletable="true" file-list="{{ avarList }}" bind:delete="delete_avar" bind:after-read="uploader_avar" />
+      <van-uploader deletable="true" file-list="{{ avarList }}" max-count="1" bind:delete="delete_avar" bind:after-read="uploader_avar" />
     </view>
     <view class="teacher_avar" wx:else>
       <van-uploader disabled="true" file-list="{{ avarList }}" max-count="1" />
     </view>
     <view class="teacher_nickname">
       <block wx:if="{{type=='edit'}}">
-        <van-field custom-style="width:500rpx; text-align: right;" left-icon="edit" model:value="{{ name }}" style="width:100%" placeholder="请输入老师名称" type="textarea" />
+        <van-field custom-style="width:500rpx; text-align: right;" left-icon="edit" model:value="{{ teacher_name }}" style="width:100%" placeholder="请输入老师名称" type="textarea" />
       </block>
       <block wx:else>
         {{name?name:'名称空白'}}

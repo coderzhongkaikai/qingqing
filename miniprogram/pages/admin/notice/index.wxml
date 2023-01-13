@@ -10,7 +10,7 @@
 
 <van-action-sheet  show="{{ sheet_show }}"bind:close="onSheetClose">
   <van-picker columns="{{ columns }}"   show-toolbar
-  title="选择定位页面"
+  title="选择点击后跳转活动页面"
   columns="{{ columns }}"
   bind:cancel="onCancel"
   bind:confirm="onConfirm"  />

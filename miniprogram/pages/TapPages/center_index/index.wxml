@@ -4,13 +4,12 @@
     舞种</view> -->
   <scroll-view class="scroll-view-x" scroll-x="true">
     <view class="nav_box">
-    <block wx:for="{{dance_type}}">
-      <view class="nav_item {{click_dance_index==index?'activate':''}}" 
-      data-index="{{index}}" data-item="{{item}}" bindtap="click_dance_type">
-        {{item}}</view>
-    </block>
-  
-     
+      <block wx:for="{{dance_type}}">
+        <view class="nav_item {{click_dance_index==index?'activate':''}}" data-index="{{index}}" data-item="{{item}}" bindtap="click_dance_type">
+          {{item}}</view>
+      </block>
+
+
       <view wx:for="{{top_nav}}" wx:for-index="index" wx:for-item="item" class="nav_p {{item==select_item?'nav_p_active':' '}}" data-item="{{item}}" bindtap="change_type">
         {{item}}</view>
     </view>
@@ -32,9 +31,55 @@
 
 <!-- <button class="authbtn"  open-type="getPhoneNumber" type="primary"
       bindgetphonenumber="onGetPhoneNumber">获取手机号码</button> -->
-<view class="container">
+<view class="container_box">
+  <view class="_card">
+    <view class="_p">
+      <view class="_time">
+        19:40~20:40
+      </view>
+      <view class="_tag">
+        tag
+      </view>
+    </view>
+    <view class="_p">
+      <view class="_p_box">
+        <view class="l">
+          <van-image width="100" height="100" src="https://img.yzcdn.cn/vant/cat.jpeg" />
+        </view>
+        <view class="r">
+          <view class="_title">
+            成人零基础 爵士舞
+          </view>
+          <view class="_p">
+            楠楠老师
+          </view>
+          <view class="jianjie">
+            楠楠老师人好，课程质量好，1周学3周练1个月见效
+          </view>
+          <view class="btn">
+            <van-button round type="warning" size='small'>预约</van-button>
+          </view>
+        </view>
+      </view>
+    </view>
 
 
+  </view>
+
+
+  <view class="_card">
+    <view class="_title">
+      温馨提示
+    </view>
+    <view class="_p">
+      亲，第一次上课可以先提前预约哦～
+    </view>
+    <view class="_p">
+      预约请留下您的正确手机电话，我们会主动联系您的～
+    </view>
+
+
+  </view>
 </view>
 
 

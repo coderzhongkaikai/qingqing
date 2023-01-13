@@ -33,11 +33,12 @@
 			<text>我的信息</text><i class="iconfont icon-next right" />
 		</view>
   </navigator>
-
+  <navigator url="../../yuyue/index">
 		<view class="menu_list" data-title="sheetpublish" bindtap="page_change">
     <i class="iconfont icon-calendars" />
-			<text>约课记录</text><i class="iconfont icon-next right" />
+			<text>预约记录</text><i class="iconfont icon-next right" />
 		</view>
+  </navigator>
 
   <view class="menu_list" data-title="zixun" bindtap="page_change"><i class="iconfont icon-guanyu" />
 		<!-- <text></text> -->

@@ -6,7 +6,7 @@
       <van-field color="#df7a41" left-icon="label" model:value="{{ title }}" placeholder="请输入标题" type="textarea" autosize />
     </view>
     <view wx:else>
-      {{title?title:'TP-LINK是普联技术有限公司旗下的品牌'}}
+      {{title?title:'...加载中'}}
       <view>
       </view>
     </view>
@@ -30,7 +30,7 @@
   <van-field color="#df7a41"  left-icon="edit" border="{{ false }}" model:value="{{ content }}" type="textarea" placeholder="请输入活动文字介绍" autosize />
   </view>
   <view wx:else>
-  {{ content?content:'TP-LINK是普联技术有限公司旗下的品牌，成立于1996年，是专门从事网络与通信终端设备研发、制造和行销的业内主流厂商，也是国内少数几家拥有完全独立自主研发和制造能力的公司之一，创建了享誉全国的知名网络与通信品牌：TP-LINK。是一家正处于高速发展和国际' }}
+  {{ content?content:'内容加载中...' }}
   </view>
 </view>
 </view>
@@ -56,7 +56,7 @@
   <van-field left-icon="bulb-o" color="#df7a41" border="{{ false }}" model:value="{{ beizhu }}" type="textarea" placeholder="请输入活动备注" autosize />
 </block>
 <block wx:else>
-  {{ beizhu?beizhu:'TP-LINK是普联技术有限公司旗下的品牌，成立于1996年，是专门从事网络与通信终端设备研发、制造和行销的业内主流厂商，也是国内少数几家拥有完全独立自主研发和制造能力的公司之一，创建了享誉全国的知名网络与通信品牌：TP-LINK。是一家正处于高速发展和国际' }}
+  {{ beizhu?beizhu:'...内容加载中' }}
 </block>
 </view>
 

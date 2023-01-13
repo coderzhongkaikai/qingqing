@@ -228,6 +228,7 @@
   text-align: center;
   color: #fff;
   background: #df7a41;
+  background: -webkit-linear-gradient(left, #df7a41, #f79b66 );
   margin: 0 auto;
 }
 

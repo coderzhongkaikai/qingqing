@@ -37,7 +37,7 @@ Page({
   delete_photo(e) {
     console.log(e)
     wx.showLoading({
-      title: '...',
+      title: '请等待...',
     })
     const index=e.currentTarget.dataset.index
     const url=this.data.fileList[index].url
@@ -63,7 +63,7 @@ Page({
       url:e.detail.file.url
     }
     wx.showLoading({
-      title: '...',
+      title: '请等待...',
     })
     // 将图片上传至云存储空间
     wx.cloud.uploadFile({
@@ -128,7 +128,18 @@ Page({
         // this.setData({
         //   haveCreateCollection: true
         // });
-        const data=res.result.data
+        // const data=res.result.data
+        //数据修改后，重新获取一次页面。保证数据刷新，保证item是更新的
+        //根据res.result.type
+        //**************************************************************？？？！！！！！！！
+        // this.reload(_id)
+        let _id
+        if(res.result.type=='create'){
+          _id=res.result.data._id
+        }else{
+          _id=this.data.item._id
+        }
+        this.reload(_id)
         this.setData({
           type:'publish',
         })
@@ -138,9 +149,6 @@ Page({
           icon: 'success',
         })
       }
-      // this.setData({
-      //   powerList
-      // });
       wx.hideLoading();
     }).catch((e) => {
       console.log(e);
@@ -150,15 +158,46 @@ Page({
         icon: 'none',
       })
       wx.hideLoading()
-      // this.setData({
-      //   showUploadTip: true
-      // });
     });
   },
   edit(){
     this.setData({
       type:'edit'
     })
+  },
+  reload(_id){
+    wx.cloud.callFunction({
+      name: 'quickstartFunctions',
+      data: {
+        type: 'activityInfo',
+        data:{
+          type:'getItem',
+          _id:_id
+        }
+      }
+    }).then((res) => {
+      console.log(res)
+      if (res.result.success) {
+        const _item=res.result.data.data
+        const {_id,fileList,title,watch,content,beizhu}=_item
+        this.setData({
+          fileList:fileList,
+          title:title,
+          beizhu:beizhu,
+          content:content,
+          item:_item
+        })
+      }
+      wx.hideLoading();
+    }).catch((e) => {
+      console.log(e);
+      wx.showToast({
+        title:e.errMsg,
+        duration: 1000,
+        icon: 'none',
+      })
+      wx.hideLoading()
+    });
   },
   /**
    * 生命周期函数--监听页面加载
@@ -172,38 +211,8 @@ Page({
       wx.showLoading({
         title: '加载中...',
       })
-      wx.cloud.callFunction({
-        name: 'quickstartFunctions',
-        data: {
-          type: 'activityInfo',
-          data:{
-            type:'getItem',
-            _id:_id
-          }
-        }
-      }).then((res) => {
-        console.log(res)
-        if (res.result.success) {
-          const _item=res.result.data.data
-          const {_id,fileList,title,watch,content,beizhu}=_item
-          this.setData({
-            fileList:fileList,
-            title:title,
-            beizhu:beizhu,
-            content:content,
-            item:_item
-          })
-        }
-        wx.hideLoading();
-      }).catch((e) => {
-        console.log(e);
-        wx.showToast({
-          title:e.errMsg,
-          duration: 1000,
-          icon: 'none',
-        })
-        wx.hideLoading()
-      });
+      this.reload(_id)
+    
 
     }
     if(type){

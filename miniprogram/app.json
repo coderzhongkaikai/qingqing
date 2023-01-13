@@ -37,7 +37,8 @@
     "pages/userInfo/index",
     "pages/teacherInfo/index",
     "pages/activityInfo/index",
-    "pages/admin/notice/index"
+    "pages/admin/notice/index",
+    "pages/yuyue/index"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

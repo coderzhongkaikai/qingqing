@@ -1,0 +1,66 @@
+​​<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="UTF-8">
+ <title></title>
+ <style type="text/css">
+/*设置下面这个矩形，上面为直角，下面为圆角*/
+.jianhu_left_content{
+      width: 125px;
+      height: 70px;
+      content: "";
+     /*position: relative;*/
+     background: ;
+     border: 1px solid #F2F2F2;
+     border-radius: 0 0 12px 12px;  /*设置上面为直角，下面为圆角*/
+     text-align: left;
+     color: white;
+     font-size: 16px;
+     color: #000000;
+}
+/*设置上面这个矩形，上面两角为圆角，下面为直角*/
+.wrap{
+       width: 125px;
+       height: 30px;
+       line-height: 30px;
+       position: relative;
+       background-size: 100%;
+}
+/*通过after伪元素设置来设置背景颜色*/
+.wrap:after{
+       position: absolute;
+       top: 0;
+       left: 0;
+       content: "";
+       border-radius: 12px 12px 0 0;  /*设置上面为圆角,下面为直角*/
+       background-color: #E47100;
+       background: -webkit-linear-gradient(left, #E47100, #FFC20E );
+      opacity: 0.6;   /*设置透明度*/
+      z-index: 1;  /*设置元素的堆叠顺序，从高往低*/
+      width: 100%;
+      height: 100%;
+}
+
+h2{
+       margin-top: 6px;
+       margin-left: 16px;
+       font-size: 16px;
+
+}
+span{
+     font-size: 30px;
+     font-weight: 100;
+}
+ </style>
+</head>
+<body>
+ <div class="jianhu_left">
+             <div class="wrap">
+             <h2>心率</h2>
+             </div>
+             <div class="jianhu_left_content">
+       
+             </div>
+            </div>
+</body>
+</html>
