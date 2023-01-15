@@ -33,6 +33,77 @@ Page({
       date: this.formatDate(event.detail),
     });
   },
+  get_kebiao_list(){
+    wx.cloud.callFunction({
+      name: 'quickstartFunctions',
+      data: {
+        type: 'kebiao',
+        data:{
+          type:'getlist',
+          // _id:_id
+        }
+      }
+    }).then((res) => {
+      console.log(res)
+      if (res.result.success) {
+        this.setData({
+          kebiao_list:res.result.data.list
+        })
+        // const _item=res.result.data.data
+        // const {_id,fileList,title,watch,content,beizhu}=_item
+        // this.setData({
+        //   fileList:fileList,
+        //   title:title,
+        //   beizhu:beizhu,
+        //   content:content,
+        //   item:_item
+        // })
+      }
+      wx.hideLoading();
+    }).catch((e) => {
+      console.log(e);
+      wx.showToast({
+        title:e.errMsg,
+        duration: 1000,
+        icon: 'none',
+      })
+      wx.hideLoading()
+    });
+  },
+  go_teacherInfo(e){
+    console.log(e)
+    const _id=e.currentTarget.dataset.teacher_id
+    wx.showLoading({
+      title: '请稍等...',
+    })
+      wx.cloud.callFunction({
+        name: 'quickstartFunctions',
+        data: {
+          type: 'teacher',
+          data:{
+            type:'getItem',
+            _id:_id
+          }
+        }
+      }).then((res) => {
+        console.log(res)
+        if (res.result.success) {
+          const jumpData=res.result.data
+          wx.navigateTo({
+            url: `/pages/teacherInfo/index?jumpData=${JSON.stringify(jumpData)}`,
+          });
+        }
+        wx.hideLoading();
+      }).catch((e) => {
+        console.log(e);
+        wx.showToast({
+          title:e.errMsg,
+          duration: 1000,
+          icon: 'none',
+        })
+        wx.hideLoading()
+      });
+  },
   data: {
     click_dance_index:0,
     dance_type: ['网红舞', '芭蕾舞', '拉丁舞','民族舞' ,'街舞', '爵士舞'],
@@ -136,23 +207,23 @@ Page({
   },
   onLoad() {
     //获取当前位置
-    wx.getLocation({
-      type: 'gcj02',
-      success: (res) => {
-        console.log(res)
-        this.setData({
-          latitude: res.latitude,
-          longitude: res.longitude
-        })
-      }
-    })
+    // wx.getLocation({
+    //   type: 'gcj02',
+    //   success: (res) => {
+    //     console.log(res)
+    //     this.setData({
+    //       latitude: res.latitude,
+    //       longitude: res.longitude
+    //     })
+    //   }
+    // })
   },
     /**
    * 生命周期函数--监听页面显示
    */
   onShow() {
     this.getTabBar().init();
-  
+    this.get_kebiao_list()
   },
   // 获取日期数据，通常用来请求后台接口获取数据
   getDateList({

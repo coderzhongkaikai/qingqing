@@ -132,6 +132,10 @@
 }
 ._p_box{
   display: flex;
+    width: 100%;
+}
+._p_box .r{
+  flex:1
 }
 ._time{
   color: #df7a41;

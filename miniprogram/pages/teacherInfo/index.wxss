@@ -49,13 +49,36 @@
   border-radius: 20rpx;
   border: 1rpx solid rgba(0, 0, 0, 0.1);
 }
+
+.jianjie_p{
+  margin: 10rpx 0;
+}
+.p_content{
+  margin: 10rpx 0;
+  font-size: 26rpx;
+}
+.p_title{
+  color: #d37e4d;
+}
 .card_title{
-  padding: 0 20rpx;
-  color: #000000;
+  /* padding: 0 20rpx; */
+  margin-bottom: 10rpx;
+  color: #d37e4d;
 }
 .tab_content{
-  margin: 20rpx auto;
+  margin: 10rpx auto;
+  font-size: 26rpx;
+  padding: 10rpx;
 }
+.kebiao_data{
+  padding: 10rpx;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.1);
+}
+.kebiao_p{
+  display: flex;
+  justify-content: space-between;
+}
+
 /* 
 .van-uploader__upload {
   align-items: center;

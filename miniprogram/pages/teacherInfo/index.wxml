@@ -1,45 +1,60 @@
 <view class="teacher_avar_card">
   <view class="teacher_avar_nickname">
     <view class="teacher_avar" wx:if="{{type=='edit'}}" style="overflow:visible;">
-      <van-uploader deletable="true" file-list="{{ avarList }}" max-count="1" bind:delete="delete_avar" bind:after-read="uploader_avar" />
+      <van-uploader deletable="{{ true }}" file-list="{{ avarList }}" max-count="1" bind:delete="delete_avar" bind:after-read="uploader_avar" />
     </view>
     <view class="teacher_avar" wx:else>
-      <van-uploader disabled="true" file-list="{{ avarList }}" max-count="1" />
+      <van-uploader deletable="{{ false }}" file-list="{{ avarList }}" max-count="1" />
     </view>
     <view class="teacher_nickname">
       <block wx:if="{{type=='edit'}}">
         <van-field custom-style="width:500rpx; text-align: right;" left-icon="edit" model:value="{{ teacher_name }}" style="width:100%" placeholder="请输入老师名称" type="textarea" />
       </block>
       <block wx:else>
-        {{name?name:'名称空白'}}
+        {{teacher_name?teacher_name:'名称空白'}}
       </block>
 
     </view>
   </view>
-  <view class="dance_tag_box">
 
-    <view class="tag_item" wx:for="{{tagList}}">
-      <van-tag plain color="#df7a41" closeable size="large" id="primary" data-index="{{index}}" bind:close="onTagClose" type="primary">
-        {{item}}
-      </van-tag>
+
+  <view class="jianjie_p">
+    <view class="p_title">
+      简介
     </view>
-
     <block wx:if="{{type=='edit'}}">
-      <!-- 底部picker弹窗 -->
-      <van-action-sheet bind:click-overlay="action_sheet_hidden" show="{{ sheet_show }}">
-        <van-picker show-toolbar="{{true}}" columns="{{ columns }}" bind:change="onChange" bind:confirm="picker_confirm" bind:cancel="action_sheet_hidden" />
-      </van-action-sheet>
-
-      <view class="tag_item" bindtap="tag_add">
-        <van-tag plain  color="#df7a41" size="large" id="primary" type="primary">
-          <van-icon name="add-o" />
-          添加舞种
-        </van-tag>
+      <van-field left-icon="edit" model:value="{{ jianjie }}" autosize placeholder="请输入简介内容" type="textarea" />
+    </block>
+    <block wx:else>
+      <view class="p_content">
+        老师人好，耐心，课程质量好，
+      {{jianjie?jianjie:'空白简介'}}
       </view>
     </block>
+
   </view>
+  <view class="dance_tag_box">
 
+<view class="tag_item" wx:for="{{tagList}}">
+  <van-tag plain color="#df7a41" closeable size="large" id="primary" data-index="{{index}}" bind:close="onTagClose" type="primary">
+    {{item}}
+  </van-tag>
+</view>
 
+<block wx:if="{{type=='edit'}}">
+  <!-- 底部picker弹窗 -->
+  <van-action-sheet bind:click-overlay="action_sheet_hidden" show="{{ sheet_show }}">
+    <van-picker show-toolbar="{{true}}" columns="{{ columns }}" bind:change="onChange" bind:confirm="picker_confirm" bind:cancel="action_sheet_hidden" />
+  </van-action-sheet>
+
+  <view class="tag_item" bindtap="tag_add">
+    <van-tag plain color="#df7a41" size="large" id="primary" type="primary">
+      <van-icon name="add-o" />
+      添加舞种
+    </van-tag>
+  </view>
+</block>
+</view>
   <!-- <view class="dance_time">
       上课时间 用上传excel的形式
       <van-icon name="tosend" />
@@ -54,18 +69,31 @@
   <view>
 
     <block wx:if="{{type=='edit'}}">
-      <van-uploader accept="all" deletable="true" bind:after-read="uploader_photo" bind:delete="delete_photo" file-list="{{ fileList }}" />
+      <van-uploader accept="all" deletable="{{ true }}" bind:after-read="uploader_photo" bind:delete="delete_photo" file-list="{{ fileList }}" />
     </block>
     <block wx:else>
-      <van-uploader accept="all" deletable="false" max-count="{{ fileList.length }}" file-list="{{ fileList }}" />
+      <van-uploader deletable="{{ false }}" max-count="{{ fileList.length }}" file-list="{{ fileList }}" />
     </block>
   </view>
 </view>
 
 <view class="teacher_card">
-  <van-tabs style='background: none;' active="{{ active }}" bind:change="onChange">
+  <!-- #d37e4d -->
+  <van-tabs style='background: none;' color="#d37e4d" active="{{ active }}" bind:change="onChange">
     <van-tab title="课表">
       <view class="tab_content">
+        <view class="kebiao_data" wx:for="{{kebiao_data}}" data-item="{{item}}">
+          <view class="kebiao_title">
+          {{item.type}} | {{item.name_title}} 
+          </view>
+          <view class="kebiao_p">
+            <view>
+            {{item.startTime}} ~ {{item.endTime}}
+            </view>
+            <van-button round type="warning" size='small'>预约</van-button>
+          </view>
+        </view>
+
         <block wx:if="{{type=='edit'}}">
           课表内容
           <van-uploader accept="file" bind:after-read="uploader_excel">
@@ -80,13 +108,15 @@
 
 
     </van-tab>
-    <van-tab title="简介">
+    <van-tab title="课程">
       <view class="tab_content">
         <block wx:if="{{type=='edit'}}">
-          <van-field left-icon="edit" model:value="{{ jianjie }}" autosize placeholder="请输入简介内容" type="textarea" />
+         上传课表保存后，自动分类课表课程！
+          <!-- <van-field left-icon="edit" model:value="{{ jianjie }}" autosize placeholder="请输入简介内容" type="textarea" /> -->
         </block>
         <block wx:else>
-          {{jianjie?jianjie:'空白简介'}}
+          课程空白
+          <!-- {{jianjie?jianjie:'空白简介'}} -->
         </block>
       </view>
     </van-tab>

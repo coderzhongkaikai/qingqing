@@ -23,16 +23,55 @@ exports.main = async (event, context) => {
     OPENID
   } = cloud.getWXContext()
   if (type == 'add') {
-    const result={
-      new_kebiao_data,
-      teacher_id,
-      createTime,
+    new_kebiao_data.map(item=>{
+      item['teacher_id']=teacher_id,
+      item['createTime']=createTime,
+      item['OPENID']=OPENID
+    })
+    try {
+      for(let i=0;i<new_kebiao_data.length;i++){
+        console.log(new_kebiao_data[i])
+          await db.collection('kebiao').add({
+                data: new_kebiao_data[i]
+              })
+      }
+      return  {
+        type:'add',
+        // data: result,
+        success: true
+      };
+    } catch (e) {
+      console.log(e)
+      return {
+        type: '课表插入数据库错误',
+        data: null,
+        success: false
+      };
     }
-    return  {
-      type:'add',
-      data: result,
-      success: true
-    };
+ 
+  }else if (type == 'getlist') {
+    try {
+      const result= await db.collection('kebiao').aggregate().lookup({
+            from: 'teacher',
+            localField: 'teacher_id',
+            foreignField: '_id',
+            as: 'teacherInfo',
+          })
+          .end()
+      return  {
+        type:'getlist',
+        data: result,
+        success: true
+      };
+    } catch (e) {
+      console.log(e)
+      return {
+        type: '错误',
+        data: null,
+        success: false
+      };
+    }
+ 
   } else {
     try {
       let {
@@ -66,50 +105,54 @@ exports.main = async (event, context) => {
 
   //下面就是我通过将这个数组files[0].data使用回调函数进行循环一行一行内容添加到云数据库中
   //可以先用随便定义一个变量  arr=files[0].data,我懒得改了就做操作了。 
-  function addfile(i) {
-    db.collection("books").add({
-      data: {
-        title: files[0].data[i][0],
-        jiesi: files[0].data[i][1],
-        laiyuan: files[0].data[i][2],
-        yujing: files[0].data[i][3],
-        zaoju: files[0].data[i][4],
-      }
-    }).then(res => {
-      i++
-      if (i == files[0].data.length) {
-        //循环结束删除上传的文件不占用云存储
-        cloud.deleteFile({
-          fileList: [fileID],
-          success(res) {
-            return console.log(res, '删除文件')
-          },
-        })
-      } else {
-        addfile(i)
-      }
-    })
-  }
+  
   //课程解析函数，将excel数据转化成数组对象 
   function files_data_parse(excel_data) {
     const data = excel_data[0]['data']
     const data_result = []
+    console.log(data)
     //第一行是行头需要跳过。
     for (let i = 1; i < data.length; i++) {
       let item = {}
-      item['teacher_id'] = data[i][0]
-      item['type'] = data[i][1]
-      item['name_title'] = data[i][2]
-      item['year'] = data[i][3]
-      item['month'] = data[i][4]
-      item['day'] = data[i][5]
-      item['time'] = data[i][6]
-      item['yuyue_count'] = [7]
+      item['teacher_id'] = data[i][0]?data[i][0]:''
+      item['type_id'] = data[i][1]?data[i][1]:''
+      item['type'] = data[i][2]?data[i][2]:''
+      item['name_title'] = data[i][3]?data[i][3]:''
+      item['detail']=data[i][4]?data[i][4]:''
+      item['year'] = data[i][5]?data[i][5]:''
+      item['month'] = data[i][6]?data[i][6]:''
+      item['day'] = data[i][7]?data[i][7]:''
+      item['startTime'] =  data[i][8]?data[i][8]:''
+      item['endTime'] = data[i][9]?data[i][9]:''
+      item['yuyue_count'] = []//存放预约用户的id
       data_result.push(item)
     }
     return data_result
   }
   //  addfile(1)
-
+//  function  addfile(i) {
+  //  await db.collection("books").add({
+  //     data: {
+  //       title: files[0].data[i][0],
+  //       jiesi: files[0].data[i][1],
+  //       laiyuan: files[0].data[i][2],
+  //       yujing: files[0].data[i][3],
+  //       zaoju: files[0].data[i][4],
+  //     }
+  //   }).then(res => {
+  //     i++
+  //     if (i == files[0].data.length) {
+  //       //循环结束删除上传的文件不占用云存储
+  //       cloud.deleteFile({
+  //         fileList: [fileID],
+  //         success(res) {
+  //           return console.log(res, '删除文件')
+  //         },
+  //       })
+  //     } else {
+  //       addfile(i)
+  //     }
+  //   })
+  // }
 
 }

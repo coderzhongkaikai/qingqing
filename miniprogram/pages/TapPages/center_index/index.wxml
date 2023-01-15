@@ -32,6 +32,44 @@
 <!-- <button class="authbtn"  open-type="getPhoneNumber" type="primary"
       bindgetphonenumber="onGetPhoneNumber">获取手机号码</button> -->
 <view class="container_box">
+  
+
+   <view class="_card" wx:for="{{kebiao_list}}" 
+   data-item="{{item}}">
+    <view class="_p">
+      <view class="_time">
+        {{item.startTime}}~{{item.endTime}}
+      </view>
+      <view class="_tag">
+        {{item.type}}
+      </view>
+    </view>
+    <view class="_p">
+      <view class="_p_box">
+        <view class="l" data-teacher_id="{{item.teacher_id}}"bindtap="go_teacherInfo">
+          <van-image width="100" height="100" src="{{item.teacherInfo[0].avarList[0].url}}" />
+        </view>
+        <view class="r">
+          <view class="_title">
+            {{item.name_title}}
+          </view>
+          <view class="_p">
+            {{item.teacherInfo[0].teacher_name}}
+          </view>
+          <view class="jianjie">
+            {{item.detail}}
+            <!-- 楠楠老师人好，课程质量好，1周学3周练1个月见效 -->
+          </view>
+          <view class="btn">
+            <van-button round type="warning" size='small'>预约</van-button>
+          </view>
+        </view>
+      </view>
+    </view>
+
+
+  </view>
+
   <view class="_card">
     <view class="_p">
       <view class="_time">
@@ -65,7 +103,7 @@
 
 
   </view>
-
+ 
 
   <view class="_card">
     <view class="_title">

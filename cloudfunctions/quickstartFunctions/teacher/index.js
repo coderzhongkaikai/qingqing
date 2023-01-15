@@ -11,7 +11,7 @@ exports.main = async (event, context) => {
   console.log(event)
   console.log(context)
   const  {
-    avarList,fileList,tagList,teacher_name,jianjie,createTime,type
+    avarList,fileList,tagList,teacher_name,jianjie,createTime,type,_id
   }=event.data
   const {OPENID}=cloud.getWXContext()
   try {
@@ -46,12 +46,33 @@ exports.main = async (event, context) => {
         data:result,
         success: true
       };
+    }else if(type=='getItem'){
+      const teacher= await db.collection('teacher').doc(_id).get()
+      const kebiao=await db.collection('kebiao').where({'teacher_id':_id}).get()
+      const result={
+        teacher,
+        kebiao
+      }
+      console.log(result)
+      return {
+        type:'getItem',
+        data:result,
+        success: true
+      };
+    }else if(type=='delItem'){
+      //kebiao 和teacher绑定，teacher删除了kebiao也需要删除
+      const result= await db.collection('teacher').doc(_id).remove()
+      return {
+        type:'delItem',
+        data:result,
+        success: true
+      };
     }
   } catch (e) {
     // 这里catch到的是该collection已经存在，从业务逻辑上来说是运行成功的，所以catch返回success给前端，避免工具在前端抛出异常
     return {
       success: true,
-      data: 'create teacher success'
+      data: 'edit teacher error'
     };
   }
 };

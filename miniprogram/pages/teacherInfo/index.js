@@ -270,17 +270,18 @@ Page({
         data:{
           type:'add',
           new_kebiao_data,teacher_id,
-          createTime:new Date(),
+          createTime:new Date().getTime(),
         }
       }
     }).then((res) => {
       console.log(res)
       if (res.result.success) {   
-        //合并已有的课表数据
-        const kebiao_data=this.data.kebiao_data.concat(new_kebiao_data)
+        // //合并已有的课表数据 重新获取reload后就不需要在这里合并，直接在reload函数里面赋值
+        // const kebiao_data=this.data.kebiao_data.concat(new_kebiao_data)
         this.setData({
           type:'publish',
-          kebiao_data:kebiao_data,
+          // kebiao_data:kebiao_data,
+          is_kebiao_update:false,
           new_kebiao_data:[]//更新后清空
         })
         wx.showToast({
@@ -288,7 +289,7 @@ Page({
           duration: 1000,
           icon: 'success',
         })
-        this.reload(_id)
+        this.reload(teacher_id)
       }
       wx.hideLoading();
     }).catch((e) => {
@@ -300,11 +301,11 @@ Page({
       })
       wx.hideLoading()
     });
-    //更新完成后，修改页面状态，课表状态
-    this.setData({
-      type:'publish',
-      is_kebiao_update:false
-    })
+    // //更新完成后，修改页面状态，课表状态
+    // this.setData({
+    //   type:'publish',
+    //   is_kebiao_update:false
+    // })
 
   },
   edit(){
@@ -320,6 +321,10 @@ Page({
     console.log(fileList)
     console.log(jianjie)
     console.log(kebiao_data)
+    wx.showLoading({
+      title: '保存中...',
+    })
+    let data
     if(item){
       data={
         type:'update',
@@ -330,7 +335,7 @@ Page({
       data={
         type:'create',
         avarList,fileList,tagList,teacher_name,jianjie,
-        createTime:new Date(),
+        createTime:new Date().getTime(),
       }
     }
     //想清楚是创建教师是批量上传，还是单个。
@@ -362,11 +367,16 @@ Page({
 
           //**************************************************************？？？！！！！！！！
         //如果是data.type=update res.result.data._id是没有值的回报错
-        if(is_kebiao_update){
+        if(this.data.is_kebiao_update){
           this.kebiao_add(_id)
         }else{
           this.setData({
             type:'publish'
+          })
+          wx.showToast({
+            title: '成功',
+            duration: 1000,
+            icon: 'success',
           })
           this.reload(_id)
 
@@ -376,7 +386,6 @@ Page({
         //**************************************************************？？？！！！！！！！
         // this.reload(_id)
       }
-      wx.hideLoading();
     }).catch((e) => {
       console.log(e);
       // this.setData({
@@ -386,15 +395,60 @@ Page({
     });
   },
   reload(_id){
-
+    
+    wx.cloud.callFunction({
+      name: 'quickstartFunctions',
+      data: {
+        type: 'teacher',
+        data:{
+          type:'getItem',
+          _id:_id
+        }
+      }
+    }).then((res) => {
+      console.log(res)
+      if (res.result.success) {
+        const {kebiao,teacher}=res.result.data.data
+        const {avarList,fileList,tagList,teacher_name,jianjie}=teacher.data
+        this.setData({
+          kebiao_data:kebiao.data,
+          avarList,fileList,tagList,teacher_name,jianjie,
+          item:teacher.data
+        })
+      }
+      wx.hideLoading();
+    }).catch((e) => {
+      console.log(e);
+      wx.showToast({
+        title:e.errMsg,
+        duration: 1000,
+        icon: 'none',
+      })
+      wx.hideLoading()
+    });
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    this.setData({
-      type: 'edit'
-    })
+    console.log(options)
+    const {jumpData}=options
+    if(jumpData){
+    // console.log(JSON.parse(jumpData))
+      const {kebiao,teacher}=JSON.parse(jumpData)
+      const {avarList,fileList,tagList,teacher_name,jianjie}=teacher.data
+      this.setData({
+        kebiao_data:kebiao.data,
+        avarList,fileList,tagList,teacher_name,jianjie,
+        item:teacher.data
+      })
+
+    }else{
+      this.setData({
+        type: 'edit'
+      })
+    }
+   
   },
 
   /**
