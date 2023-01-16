@@ -56,7 +56,7 @@
   <van-field left-icon="bulb-o" color="#df7a41" border="{{ false }}" model:value="{{ beizhu }}" type="textarea" placeholder="请输入活动备注" autosize />
 </block>
 <block wx:else>
-  {{ beizhu?beizhu:'...内容加载中' }}
+  {{ beizhu?beizhu:'' }}
 </block>
 </view>
 

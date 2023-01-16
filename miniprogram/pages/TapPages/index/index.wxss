@@ -35,6 +35,20 @@
   z-index: 1;
 
 }
+.page-on-sectispacing{
+  margin-top: 20rpx;
+}
+.scroll_item{
+  /* margin: 10rpx 20rpx; */
+  margin-right: 20rpx;
+}
+.scroll_item .teacher_name{
+  width: 140rpx;
+  font-size: 26rpx;
+  text-align: center;
+  word-break: break-all;
+  white-space:normal
+}
 ._card_title,.dance_info_card_title{
   color: #000000;
 }
@@ -59,6 +73,16 @@
 }
 .dance_info_card_title{
    
+}
+.page-section-spacing{
+  /* display: flex; */
+}
+.scroll{
+  display: flex;
+  white-space: nowrap;
+}
+.scroll_box{
+  display: flex;
 }
 .address,.phone{
   font-size: 26rpx;

@@ -27,34 +27,42 @@
     </block>
     <block wx:else>
       <view class="p_content">
-        老师人好，耐心，课程质量好，
-      {{jianjie?jianjie:'空白简介'}}
+
+        {{jianjie?jianjie:'老师人好，耐心'}}
       </view>
     </block>
 
   </view>
   <view class="dance_tag_box">
+    <block wx:if="{{type=='edit'}}">
+      <view class="tag_item" wx:for="{{tagList}}">
+      <van-tag plain color="#df7a41" closeable size="large" id="primary" data-index="{{index}}" bind:close="onTagClose" type="primary">
+        {{item}}
+      </van-tag>
+    </view>
+    </block>
+    <block wx:else>
+      <view class="tag_item" wx:for="{{tagList}}">
+      <van-tag plain color="#df7a41"  size="large" id="primary" data-index="{{index}}"  type="primary">
+        {{item}}
+      </van-tag>
+    </view>
+    </block>
 
-<view class="tag_item" wx:for="{{tagList}}">
-  <van-tag plain color="#df7a41" closeable size="large" id="primary" data-index="{{index}}" bind:close="onTagClose" type="primary">
-    {{item}}
-  </van-tag>
-</view>
+    <block wx:if="{{type=='edit'}}">
+      <!-- 底部picker弹窗 -->
+      <van-action-sheet bind:click-overlay="action_sheet_hidden" show="{{ sheet_show }}">
+        <van-picker show-toolbar="{{true}}" columns="{{ columns }}" bind:change="onChange" bind:confirm="picker_confirm" bind:cancel="action_sheet_hidden" />
+      </van-action-sheet>
 
-<block wx:if="{{type=='edit'}}">
-  <!-- 底部picker弹窗 -->
-  <van-action-sheet bind:click-overlay="action_sheet_hidden" show="{{ sheet_show }}">
-    <van-picker show-toolbar="{{true}}" columns="{{ columns }}" bind:change="onChange" bind:confirm="picker_confirm" bind:cancel="action_sheet_hidden" />
-  </van-action-sheet>
-
-  <view class="tag_item" bindtap="tag_add">
-    <van-tag plain color="#df7a41" size="large" id="primary" type="primary">
-      <van-icon name="add-o" />
-      添加舞种
-    </van-tag>
+      <view class="tag_item" bindtap="tag_add">
+        <van-tag plain color="#df7a41" size="large" id="primary" type="primary">
+          <van-icon name="add-o" />
+          添加舞种
+        </van-tag>
+      </view>
+    </block>
   </view>
-</block>
-</view>
   <!-- <view class="dance_time">
       上课时间 用上传excel的形式
       <van-icon name="tosend" />
@@ -84,24 +92,57 @@
       <view class="tab_content">
         <view class="kebiao_data" wx:for="{{kebiao_data}}" data-item="{{item}}">
           <view class="kebiao_title">
-          {{item.type}} | {{item.name_title}} 
+            <view>
+              {{item.type}} | {{item.name_title}}
+            </view>
+            <van-icon wx:if="{{type=='edit'}}" data-index="{{index}}" data-id="{{item._id}}" bindtap="del_kebiao" name="cross" />
           </view>
           <view class="kebiao_p">
             <view>
-            {{item.startTime}} ~ {{item.endTime}}
+              {{item.year}}.{{item.month}}.{{item.day}}  {{item.startTime}} ~ {{item.endTime}}
             </view>
-            <van-button round type="warning" size='small'>预约</van-button>
+            <view class="kebiao_detail">
+              <view>
+                {{item.detail}}这是课表详细介绍
+              </view>
+              <van-button round type="warning" size='small'>预约</van-button>
+
+            </view>
           </view>
         </view>
 
         <block wx:if="{{type=='edit'}}">
-          课表内容
-          <van-uploader accept="file" bind:after-read="uploader_excel">
-            <van-button color="#df7a41" round size='small' icon="plus" type="primary">上传课表Excel文件内容</van-button>
-          </van-uploader>
+          <view class="p_title">
+            添加课表内容
+          </view>
+          <view class="kebiao_data" wx:for="{{new_kebiao_data}}" data-item="{{item}}">
+            <view class="kebiao_title">
+              <view>
+                {{item.type}} | {{item.name_title}}
+              </view>
+
+              <!-- <van-icon name="cross" /> -->
+            </view>
+            <view class="kebiao_p">
+              <view>
+                {{item.startTime}} ~ {{item.endTime}}
+              </view>
+              <view class="kebiao_detail">
+                <view>
+                  {{item.detail}}这是课表详细介绍
+                </view>
+                <!-- <van-button round type="warning" size='small'>预约</van-button> -->
+              </view>
+            </view>
+          </view>
+          <view class="p_title">
+            <van-uploader accept="file" bind:after-read="uploader_excel">
+              <van-button color="#df7a41" round size='small' icon="plus" type="primary">上传课表Excel文件内容</van-button>
+            </van-uploader>
+          </view>
         </block>
         <block wx:else>
-          none
+          <!-- none -->
         </block>
       </view>
 
@@ -111,11 +152,60 @@
     <van-tab title="课程">
       <view class="tab_content">
         <block wx:if="{{type=='edit'}}">
-         上传课表保存后，自动分类课表课程！
+          上传课表保存后，自动分类课表课程！
           <!-- <van-field left-icon="edit" model:value="{{ jianjie }}" autosize placeholder="请输入简介内容" type="textarea" /> -->
         </block>
         <block wx:else>
-          课程空白
+        <view class="cource_card"  wx:for="{{cource}}" data-item="{{item}}" data-index="index">
+          <view class="_p">
+            <view class="_p_box">
+              <view class="l" data-teacher_id="{{item.teacher_id}}" bindtap="go_teacherInfo">
+                <van-image width="100" height="100" src="{{item.teacherInfo[0].avarList[0].url}}" />
+              </view>
+              <view class="r">
+                <view class="_title">
+                  {{item.name_title}}
+                </view>
+                <view class="_p">
+                  课程类型:{{item.type}}
+                </view>
+                <!-- <view class="_p">
+                  课程次数:{{item.kebiao.length}}
+                </view> -->
+                <view class="jianjie">
+                  {{item.detail}}
+                  <!-- 楠楠老师人好，课程质量好，1周学3周练1个月见效 -->
+                  
+                </view>
+                <view class="btn">
+                  <van-button data-index="{{index}}" bindtap="show_cource_kebiao" round type="warning"  size='small'>查看课表</van-button>
+                </view>
+              </view>
+            </view>
+          </view>
+          <block wx:if="{{index==cource_index}}">
+            <view class="kebiao_data" wx:for="{{item.kebiao}}" data-item="{{item}}">
+            <view class="kebiao_title">
+              <view>
+                {{item.type}} | {{item.name_title}}
+              </view>
+
+              <!-- <van-icon name="cross" /> -->
+            </view>
+            <view class="kebiao_p">
+              <view>
+                {{item.year}}.{{item.month}}.{{item.day}} {{item.startTime}} ~ {{item.endTime}}
+              </view>
+              <view class="kebiao_detail">
+                <view>
+                  {{item.detail}}这是课表详细介绍
+                </view>
+                <van-button round type="warning" size='small'>预约</van-button>
+              </view>
+            </view>
+          </view>
+          </block>
+        </view>
           <!-- {{jianjie?jianjie:'空白简介'}} -->
         </block>
       </view>

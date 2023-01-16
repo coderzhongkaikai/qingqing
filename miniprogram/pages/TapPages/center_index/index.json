@@ -1,6 +1,5 @@
 {
   "usingComponents": {
-    "cloud-tip-modal": "/components/cloudTipModal/index",
     "calendar":"/components/_calendar/calendar",
     "van-button": "@vant/weapp/button/index",
     "van-cell": "@vant/weapp/cell/index",

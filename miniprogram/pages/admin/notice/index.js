@@ -95,9 +95,9 @@ Page({
       console.log(select_value)
         this.setData({
           notice:res.data[0].content,
-          select_value:select_value.title+' '+util.formatTime(select_value.createTime)
+          // select_value:select_value.title+' '+util.formatTime(select_value.createTime)
         })
-        console.log('数据库获取数据成功' , res)
+        // console.log('数据库获取数据成功' , res)
         wx.hideLoading()
       })
       //保存获取到的所以活动列表

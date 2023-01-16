@@ -1,11 +1,6 @@
 <wxs src="../../dateUtils.wxs" module="dateTool"></wxs>
 
-<van-notice-bar
-  left-icon="volume-o"
-  text="{{notice}}"
-  data-activityID="{{activityID}}"
-  bindtap="goactivity"
-/>
+<van-notice-bar left-icon="volume-o" text="{{notice}}" data-activity_id="{{activityID}}" bindtap="top_go_activity" />
 <view class="top">
   <swiper current="{{swiperCurrent}}" bindchange="swiperChange" circular="true" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
     <block wx:for="{{imgList}}">
@@ -29,7 +24,7 @@
     <view class="dance_info_card_title">
       联系我们
     </view>
-   
+
     <view class="address">
       <view class="info_txt">
         地址:安徽省滁州市滁州学院会峰校区--青青舞蹈室
@@ -55,39 +50,51 @@
     </view>
   </view>
 
-  <navigator url="../../teacherInfo/index">
+  <!-- <navigator url="../../teacherInfo/index"> -->
   <view class="_card">
     <view class="_card_title">
       明星老师
     </view>
+    <view class="page-on-sectispacing">
+      <scroll-view class="scroll" scroll-x="true" style="width: 100%">
+        <view class="scroll_box">
+          <view class="scroll_item"  wx:for="{{teacher_list}}" data-item="{{item}}" bindtap="go_teacherInfo">
+            <van-image round width="140rpx" height="140rpx" src="{{item.avarList[0].url}}" />
+            <view class="teacher_name">
+            {{item.teacher_name}}
+            </view>
+          </view>
+          
+        </view>
+      </scroll-view>
+    </view>
   </view>
-</navigator>
+  <!-- </navigator> -->
   <!-- <view>
  学员风采
 </view> -->
-<!-- <navigator url="../../activityInfo/index"> -->
-<view class="_card" >
-    <view class="_card_title" >
+  <!-- <navigator url="../../activityInfo/index"> -->
+  <view class="_card">
+    <view class="_card_title">
       近期活动
     </view>
-          
-   <view class="active_p" wx:for="{{ActivatyInfo_list}}" 
-   data-item="{{item}}"bindtap="click_active">
-    <view class="active_p_l">
-       {{item.title}}
+
+    <view class="active_p" wx:for="{{ActivatyInfo_list}}" data-item="{{item}}" bindtap="go_activity">
+      <view class="active_p_l">
+        {{item.title}}
+      </view>
+      <view class="active_p_r">
+        {{dateTool.formatDay(item.createTime)}}
+      </view>
+      <!-- {{item.createTime}} -->
+      <!-- <text class="content-text-time"> -->
+      <!-- {{dateTool.formatTime(item.createTime)}} -->
+      <!-- </text> -->
     </view>
-    <view class="active_p_r">
-     {{dateTool.formatDay(item.createTime)}}
-    </view>
-   <!-- {{item.createTime}} -->
-    <!-- <text class="content-text-time"> -->
-    <!-- {{dateTool.formatTime(item.createTime)}} -->
-    <!-- </text> -->
-   </view>
   </view>
 
 
-<!-- </navigator> -->
+  <!-- </navigator> -->
 
 </view>
 

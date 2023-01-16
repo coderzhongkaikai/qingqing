@@ -204,23 +204,43 @@ Page({
    */
   onLoad(options) {
     console.log(options)
-    const {type,_id}=options
-    if(_id){
-      // console.log(JSON.parse(item))
-      // const _item=JSON.parse(item)
-      wx.showLoading({
-        title: '加载中...',
+    const {
+      jumpData
+    } = options
+    if (jumpData) {
+      console.log(JSON.parse(jumpData))
+      const _item = JSON.parse(jumpData)
+      const {_id,fileList,title,watch,content,beizhu}=_item
+      this.setData({
+        fileList:fileList,
+        title:title,
+        beizhu:beizhu,
+        content:content,
+        item:_item
       })
-      this.reload(_id)
+    } else {
+      this.setData({
+        type: 'edit'
+      })
+    }
+    // console.log(options)
+    // const {type,_id}=options
+    // if(_id){
+    //   // console.log(JSON.parse(item))
+    //   // const _item=JSON.parse(item)
+    //   wx.showLoading({
+    //     title: '加载中...',
+    //   })
+    //   this.reload(_id)
     
 
-    }
-    if(type){
-      console.log(type)
-      this.setData({
-        type:type
-      })
-    }
+    // }
+    // if(type){
+    //   console.log(type)
+    //   this.setData({
+    //     type:type
+    //   })
+    // }
   
   },
 

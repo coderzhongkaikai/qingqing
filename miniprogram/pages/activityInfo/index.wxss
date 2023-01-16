@@ -31,10 +31,10 @@
 }
 .img_p_icon{
   position: absolute;
-  top: 0rpx;
+  top: -20rpx;
   right: 40rpx;
   font-size: 60rpx;
-  color: #df7a41;
+  /* color: rgba(0, 0, 0, 0.1) */
 }
 .van-cell {
   background:none !important

@@ -103,7 +103,8 @@
 
 
   </view>
- 
+  
+  开设此类课程的其他老师 
 
   <view class="_card">
     <view class="_title">
@@ -118,6 +119,8 @@
 
 
   </view>
+
+
 </view>
 
 

@@ -30,7 +30,7 @@ Page({
       url: `/pages/activityInfo/index?type=${"edit"}`,
     });
   },
-  delActivaty(){
+  showActivaty(){
     wx.cloud.database().collection('activityInfo').orderBy('createTime','desc')
     .get()
     .then(res => {
@@ -38,8 +38,8 @@ Page({
       this.setData({
         ActivatyInfo_list:res.data,
         sheet_show:true,
-        sheet_type:'Activaty',
-        sheet_title:'删除活动'
+        sheet_type:'activaty',
+        sheet_title:'活动列表'
       })
       console.log('数据库获取数据成功' , res)
     })
@@ -48,39 +48,54 @@ Page({
     })
 
   },
-  onSheetClose(){
-    this.setData({
-      sheet_show:false
+  showTeacher(){
+    wx.cloud.database().collection('teacher').orderBy('createTime','desc')
+    .get()
+    .then(res => {
+      // console.log(Ttime.formatTime(res.data[0].createTime,'Y/M/D h:m:s'))
+      this.setData({
+        teacher_list:res.data,
+        sheet_show:true,
+        sheet_type:'teacher',
+        sheet_title:'老师列表'
+      })
+      console.log('数据库获取数据成功' , res)
     })
+    .catch(err =>{
+      console.log('数据库获取数据失败' , err)
+    })
+
   },
-  onTagDel(e){
-    console.log(e)
-    const {item,index}=e.currentTarget.dataset
+  go_Activaty(e){
+    const {item}=e.currentTarget.dataset
+    console.log(item)
     wx.showLoading({
-      title: '加载中...',
+      title: '请稍等...',
     })
     wx.cloud.callFunction({
       name: 'quickstartFunctions',
       data: {
         type: 'activityInfo',
         data:{
-          type:'delItem',
+          type:'getItem',
           _id:item._id
         }
       }
     }).then((res) => {
       console.log(res)
       if (res.result.success) {
-        this.data.ActivatyInfo_list.splice([index], 1)
-        console.log(this.data.ActivatyInfo_list)
-        this.setData({
-          ActivatyInfo_list:this.data.ActivatyInfo_list
-        })
-        wx.showToast({
-          title: '成功',
-          duration: 1000,
-          icon: 'success',
-        })
+        const jumpData=res.result.data.data
+        wx.navigateTo({
+          url: `/pages/activityInfo/index?jumpData=${JSON.stringify(jumpData)}`,
+        });
+        // const {_id,fileList,title,watch,content,beizhu}=_item
+        // this.setData({
+        //   fileList:fileList,
+        //   title:title,
+        //   beizhu:beizhu,
+        //   content:content,
+        //   item:_item
+        // })
       }
       wx.hideLoading();
     }).catch((e) => {
@@ -93,6 +108,150 @@ Page({
       wx.hideLoading()
     });
   },
+  del_activaty(e){
+    console.log(e)
+    wx.showModal({
+      title: '删除确认',
+      content: '请您确认将删除所选内容',
+      complete: (res) => {
+        if (res.cancel) {
+          
+        }
+    
+        if (res.confirm) {
+          const {item,index}=e.currentTarget.dataset
+          wx.showLoading({
+            title: '加载中...',
+          })
+          wx.cloud.callFunction({
+            name: 'quickstartFunctions',
+            data: {
+              type: 'activityInfo',
+              data:{
+                type:'delItem',
+                _id:item._id
+              }
+            }
+          }).then((res) => {
+            console.log(res)
+            if (res.result.success) {
+              this.data.ActivatyInfo_list.splice([index], 1)
+              console.log(this.data.ActivatyInfo_list)
+              this.setData({
+                ActivatyInfo_list:this.data.ActivatyInfo_list
+              })
+              wx.showToast({
+                title: '成功',
+                duration: 1000,
+                icon: 'success',
+              })
+            }
+            wx.hideLoading();
+          }).catch((e) => {
+            console.log(e);
+            wx.showToast({
+              title:e.errMsg,
+              duration: 1000,
+              icon: 'none',
+            })
+            wx.hideLoading()
+          });
+        }
+      }
+    })
+
+  },
+  go_teacherInfo(e){
+    const _id=e.currentTarget.dataset.teacher_id
+    wx.showLoading({
+      title: '请稍等...',
+    })
+    wx.cloud.callFunction({
+        name: 'quickstartFunctions',
+        data: {
+          type: 'teacher',
+          data:{
+            type:'getItem',
+            _id:_id
+          }
+        }
+      }).then((res) => {
+        console.log(res)
+        if (res.result.success) {
+          const jumpData=res.result.data
+          wx.navigateTo({
+            url: `/pages/teacherInfo/index?jumpData=${JSON.stringify(jumpData)}`,
+          });
+        }
+        wx.hideLoading();
+      }).catch((e) => {
+        console.log(e);
+        wx.showToast({
+          title:e.errMsg,
+          duration: 1000,
+          icon: 'none',
+        })
+        wx.hideLoading()
+      });
+  },
+  del_teacher(e){
+    console.log(e)
+    const {index,teacher_id}=e.currentTarget.dataset
+    wx.showModal({
+      title: '删除确认',
+      content: '请您确认将删除所选内容',
+      complete: (res) => {
+        if (res.cancel) {
+          
+        }
+    
+        if (res.confirm) {
+          wx.cloud.callFunction({
+            name: 'quickstartFunctions',
+            data: {
+              type: 'teacher',
+              data:{
+                type:'delItem',
+                _id:teacher_id
+              }
+            }
+          }).then((res) => {
+            console.log(res)
+            if (res.result.success) {
+              this.data.teacher_list.splice([index], 1)
+              this.setData({
+                teacher_list:this.data.teacher_list
+              })
+            }
+            wx.hideLoading();
+          }).catch((e) => {
+            console.log(e);
+            wx.showToast({
+              title:e.errMsg,
+              duration: 1000,
+              icon: 'none',
+            })
+            wx.hideLoading()
+          });
+          // const {item,index}=e.currentTarget.dataset
+          // wx.showToast({
+          //   title: '还没做',
+          //   icon:'none'
+          // })
+          // console.log(item)
+        }
+      }
+    })
+  },
+  onSheetClose(){
+    this.setData({
+      sheet_type:'',
+      ActivatyInfo_list:[],//
+      teacher_list:[],//清楚数据，解决数据响应有卡顿问题
+      sheet_show:false
+    })
+  },
+
   edit_shouye(){
     // otherSet
     wx.navigateTo({

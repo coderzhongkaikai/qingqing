@@ -1,9 +1,9 @@
 const getOpenId = require('./getOpenId/index');
-const getMiniProgramCode = require('./getMiniProgramCode/index');
-const createCollection = require('./createCollection/index');
-const selectRecord = require('./selectRecord/index');
-const updateRecord = require('./updateRecord/index');
-const sumRecord = require('./sumRecord/index');
+// const getMiniProgramCode = require('./getMiniProgramCode/index');
+// const createCollection = require('./createCollection/index');
+// const selectRecord = require('./selectRecord/index');
+// const updateRecord = require('./updateRecord/index');
+// const sumRecord = require('./sumRecord/index');
 const activityInfo = require('./activityInfo/index');
 const kebiao= require('./kebiao/index');
 const teacher=require('./teacher/index');

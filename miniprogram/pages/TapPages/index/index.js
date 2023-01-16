@@ -58,20 +58,106 @@ Page({
       }
     })
   },
-  click_active(e){
-    console.log(e)
-    const item=e.currentTarget.dataset.item
-    wx.navigateTo({
-      url: `/pages/activityInfo/index?_id=${item._id}`,
-    });
+  // click_active(e){
+  //   console.log(e)
+  //   const item=e.currentTarget.dataset.item
+  //   wx.navigateTo({
+  //     url: `/pages/activityInfo/index?_id=${item._id}`,
+  //   });
+  // },
+  top_go_activity(e){
+    const _id=e.currentTarget.dataset.activity_id
+    wx.cloud.database().collection('activityInfo').doc(_id).get().then(res=>{
+      console.log(res)
+      const jumpData=res.data
+      wx.navigateTo({
+        url: `/pages/activityInfo/index?jumpData=${JSON.stringify(jumpData)}`,
+      });
+    }).catch(e=>{
+      console.log('activity_id查不到，说明活动已经被删除')
+      console.log(e)
+    })
   },
-  goactivity(e){
+  go_activity(e){
     console.log(e)
-    wx.navigateTo({
-      url: `/pages/activityInfo/index?_id=${e.currentTarget.dataset.activityid}`,
+    const {item}=e.currentTarget.dataset
+    wx.showLoading({
+      title: '请稍等...',
+    })
+    wx.cloud.callFunction({
+      name: 'quickstartFunctions',
+      data: {
+        type: 'activityInfo',
+        data:{
+          type:'getItem',
+          _id:item._id
+        }
+      }
+    }).then((res) => {
+      console.log(res)
+      if (res.result.success) {
+        const jumpData=res.result.data.data
+        wx.navigateTo({
+          url: `/pages/activityInfo/index?jumpData=${JSON.stringify(jumpData)}`,
+        });
+        // const {_id,fileList,title,watch,content,beizhu}=_item
+        // this.setData({
+        //   fileList:fileList,
+        //   title:title,
+        //   beizhu:beizhu,
+        //   content:content,
+        //   item:_item
+        // })
+      }
+      wx.hideLoading();
+    }).catch((e) => {
+      console.log(e);
+      wx.showToast({
+        title:e.errMsg,
+        duration: 1000,
+        icon: 'none',
+      })
+      wx.hideLoading()
     });
+    // wx.navigateTo({
+    //   url: `/pages/activityInfo/index?_id=${e.currentTarget.dataset.activityid}`,
+    // });
   },
- 
+    //这里是直接根据老师数据表记录的_id跳转
+  go_teacherInfo(e){
+    console.log(e)
+    const _id=e.currentTarget.dataset.item._id
+    wx.showLoading({
+      title: '请稍等...',
+    })
+    wx.cloud.callFunction({
+        name: 'quickstartFunctions',
+        data: {
+          type: 'teacher',
+          data:{
+            type:'getItem',
+            _id:_id
+          }
+        }
+      }).then((res) => {
+        console.log(res)
+        if (res.result.success) {
+          const jumpData=res.result.data
+          wx.navigateTo({
+            url: `/pages/teacherInfo/index?jumpData=${JSON.stringify(jumpData)}`,
+          });
+        }
+        wx.hideLoading();
+      }).catch((e) => {
+        console.log(e);
+        wx.showToast({
+          title:e.errMsg,
+          duration: 1000,
+          icon: 'none',
+        })
+        wx.hideLoading()
+      });
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -98,6 +184,18 @@ Page({
       // console.log(Ttime.formatTime(res.data[0].createTime,'Y/M/D h:m:s'))
       this.setData({
         ActivatyInfo_list:res.data
+      })
+      console.log('数据库获取数据成功' , res)
+    })
+    .catch(err =>{
+      console.log('数据库获取数据失败' , err)
+    })
+    wx.cloud.database().collection('teacher').orderBy('createTime','desc')
+    .get()
+    .then(res => {
+      // console.log(Ttime.formatTime(res.data[0].createTime,'Y/M/D h:m:s'))
+      this.setData({
+        teacher_list:res.data
       })
       console.log('数据库获取数据成功' , res)
     })

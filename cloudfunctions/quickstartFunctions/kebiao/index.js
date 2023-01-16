@@ -18,6 +18,7 @@ exports.main = async (event, context) => {
     new_kebiao_data,
     teacher_id,
     createTime,
+    del_kebiao_id
   } = event.data
   const {
     OPENID
@@ -49,6 +50,26 @@ exports.main = async (event, context) => {
       };
     }
  
+  }else if(type == 'del'){
+    try {
+      for(let i=0;i<del_kebiao_id.length;i++){
+        console.log(del_kebiao_id[i])
+        let _id=del_kebiao_id[i]
+        await db.collection('kebiao').doc(_id).remove()
+      }
+      return  {
+        type:'del',
+        // data: result,
+        success: true
+      };
+    } catch (e) {
+      console.log(e)
+      return {
+        type: '课表删除数据库错误',
+        data: null,
+        success: false
+      };
+    }
   }else if (type == 'getlist') {
     try {
       const result= await db.collection('kebiao').aggregate().lookup({

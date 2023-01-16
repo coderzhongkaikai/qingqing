@@ -70,6 +70,7 @@ Page({
       wx.hideLoading()
     });
   },
+  //这里是根据课表记录的teacher_id跳转
   go_teacherInfo(e){
     console.log(e)
     const _id=e.currentTarget.dataset.teacher_id

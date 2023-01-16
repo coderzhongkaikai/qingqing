@@ -12,7 +12,7 @@
         </view>
 
         <view class="btn_item">
-          <van-button color="#df7a41" size='normal' round type="info" block bindtap="add">查看老师</van-button>
+          <van-button color="#df7a41" size='normal' round type="info" block bindtap="showTeacher">查看老师</van-button>
         </view>
         <!-- <van-button color="#df7a41"  size='normal' round type="info" block bindtap="del">删除</van-button> -->
       </view>
@@ -23,7 +23,7 @@
           <van-button color="#df7a41" size='normal' round type="info" block bindtap="jumpActivatyPage">新增活动</van-button>
         </view>
         <view class="btn_item">
-          <van-button color="#df7a41" size='normal' round type="info" block bindtap="delActivaty">查看活动</van-button>
+          <van-button color="#df7a41" size='normal' round type="info" block bindtap="showActivaty">查看活动</van-button>
         </view>
         <!-- <van-button color="#df7a41"  size='normal' round type="info" block bindtap="del">删除</van-button> -->
       </view>
@@ -48,18 +48,77 @@
 
 
 <van-action-sheet  show="{{ sheet_show }}" title="{{sheet_title}}" bind:close="onSheetClose">
-<block wx:if="{{ sheet_type=='Activaty'}}">
-  <view class="tag_box">
-    <view class="tag_item" wx:for="{{ActivatyInfo_list}}">
-      <van-tag plain  color="#df7a41" closeable size="large" type="primary" id="primary" data-item="{{item}}" data-index="{{index}}"  bind:close="onTagDel">
+<view class="sheet_box">
+  
+<block wx:if="{{ sheet_type=='activaty'}}">
+  <view class="activity_card">
+    <view class="activity_item" wx:for="{{ActivatyInfo_list}}">
+     
+        <view class="content" data-item="{{item}}" bindtap="go_Activaty">
+          {{item.title}}
+        {{dateTool.formatDay(item.createTime)}}
+        </view>
+        <view class="activaty_btn">
+          <van-button data-index="{{index}}" data-item="{{item}}" bindtap="del_activaty" round type="warning"  size='small'>删除活动</van-button>
+        </view>
+      <!-- <van-tag plain  color="#df7a41" closeable size="large" type="primary" id="primary" data-item="{{item}}" data-index="{{index}}"  bind:close="onTagDel">
         {{item.title}}
         {{dateTool.formatDay(item.createTime)}}
-      </van-tag>
+      </van-tag> -->
     </view>
   </view>
 </block>
- <block>
+ <block wx:else="{{ sheet_type=='teacher'}}">
+  <view class="teacher_card"  wx:for="{{teacher_list}}" data-item="{{item}}" data-index="index">
+          <view class="_p">
+            <view class="_p_box">
+              <view class="l" data-teacher_id="{{item._id}}" bindtap="go_teacherInfo">
+                <van-image width="100" height="100" src="{{item.avarList[0].url}}" />
+              </view>
+              <view class="r">
+                <view class="_title">
+                  {{item.teacher_name}}
+                </view>
+                <!-- <view class="_p">
+                  {{item.detail}}
+                </view> -->
+                <!-- <view class="_p">
+                  课程次数:{{item.kebiao.length}}
+                </view> -->
+                <view class="jianjie">
+                  {{item.detail}}
+                  <!-- 楠楠老师人好，课程质量好，1周学3周练1个月见效 -->
+                </view>
+                <view class="btn">
+                  <van-button data-index="{{index}}" data-teacher_id="{{item._id}}" bindtap="del_teacher" round type="warning"  size='small'>删除老师</van-button>
+                </view>
+              </view>
+            </view>
+          </view>
+          <block wx:if="{{index==cource_index}}">
+            <view class="kebiao_data" wx:for="{{item.kebiao}}" data-item="{{item}}">
+            <view class="kebiao_title">
+              <view>
+                {{item.type}} | {{item.name_title}}
+              </view>
 
+              <!-- <van-icon name="cross" /> -->
+            </view>
+            <view class="kebiao_p">
+              <view>
+                {{item.year}}.{{item.month}}.{{item.day}} {{item.startTime}} ~ {{item.endTime}}
+              </view>
+              <view class="kebiao_detail">
+                <view>
+                  {{item.detail}}这是课表详细介绍
+                </view>
+                <van-button round type="warning" size='small'>预约</van-button>
+              </view>
+            </view>
+          </view>
+          </block>
+        </view>
  </block>
+</view>
 
 </van-action-sheet>
