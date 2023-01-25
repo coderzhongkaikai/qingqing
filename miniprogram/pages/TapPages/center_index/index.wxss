@@ -17,8 +17,9 @@
 }
 .nav_box {
   display: flex;
-  width: 600rpx;
+  width: 100%;
   flex-wrap: nowrap;
+  justify-content: space-around;
 }
 .activate{
   color: #df7a41;

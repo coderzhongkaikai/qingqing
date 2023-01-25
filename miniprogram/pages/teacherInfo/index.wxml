@@ -4,7 +4,7 @@
       <van-uploader deletable="{{ true }}" file-list="{{ avarList }}" max-count="1" bind:delete="delete_avar" bind:after-read="uploader_avar" />
     </view>
     <view class="teacher_avar" wx:else>
-      <van-uploader deletable="{{ false }}" file-list="{{ avarList }}" max-count="1" />
+      <van-uploader deletable="{{ false }}" file-list="{{ avarList }}" max-count="1" disabled="{{true}}" show-upload="{{false}}" />
     </view>
     <view class="teacher_nickname">
       <block wx:if="{{type=='edit'}}">
@@ -198,7 +198,7 @@
               </view>
               <view class="kebiao_detail">
                 <view>
-                  {{item.detail}}这是课表详细介绍
+                  <!-- {{item.detail}} -->
                 </view>
                 <van-button round type="warning" size='small'>预约</van-button>
               </view>

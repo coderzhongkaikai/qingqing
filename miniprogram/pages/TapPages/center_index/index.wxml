@@ -61,7 +61,7 @@
             <!-- 楠楠老师人好，课程质量好，1周学3周练1个月见效 -->
           </view>
           <view class="btn">
-            <van-button round type="warning" size='small'>预约</van-button>
+            <van-button round type="warning" size='small' bindtap="SubscribeMessage">预约</van-button>
           </view>
         </view>
       </view>

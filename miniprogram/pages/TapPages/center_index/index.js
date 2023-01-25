@@ -1,5 +1,7 @@
 // index.js
 const app = getApp()
+const dance_type=['韩舞' ,'街舞', '爵士舞','芭蕾舞', '钢管舞']
+const dance_type_img=['hanwu.jpeg','jiewu.jpeg','jueshi.jpeg','balei.jpeg','gangguan.jpeg']
 Page({
   click_dance_type(e){
     console.log(e)
@@ -105,9 +107,52 @@ Page({
         wx.hideLoading()
       });
   },
+  SubscribeMessage: function (e) {
+    wx.requestSubscribeMessage({
+      // 传入订阅消息的模板id，模板 id 可在小程序管理后台申请
+      tmplIds: ['F7ajuHC3waSw91_dN8HXcuuNLCjRcTfdESdb605okPc'],
+      success(res) {
+        console.log(res)
+        // 申请订阅成功
+        if (res['F7ajuHC3waSw91_dN8HXcuuNLCjRcTfdESdb605okPc'] === 'accept') {
+          // 这里将订阅的课程信息调用云函数存入云开发数据
+          wx.showToast({
+            title: '订阅成功',
+            icon: 'success',
+            duration: 2000,
+          });
+          wx.cloud.callFunction({
+            name: 'quickstartFunctions',
+            data: {
+              type: 'order',
+              data:{
+                // type:'getItem',
+                // _id:_id
+              }
+            }
+          }).then((res) => {
+            console.log(res)
+            if (res.result.success) {
+       
+            }
+            wx.hideLoading();
+          }).catch((e) => {
+            console.log(e);
+            wx.showToast({
+              title:e.errMsg,
+              duration: 1000,
+              icon: 'none',
+            })
+            wx.hideLoading()
+          });
+        }
+      }
+    })
+
+  },
   data: {
     click_dance_index:0,
-    dance_type: ['网红舞', '芭蕾舞', '拉丁舞','民族舞' ,'街舞', '爵士舞'],
+    dance_type: dance_type,
     popHeight: app.globalData.popHeight,
     date: '',
     show: false,

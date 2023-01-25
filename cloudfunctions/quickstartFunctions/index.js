@@ -9,9 +9,12 @@ const kebiao= require('./kebiao/index');
 const teacher=require('./teacher/index');
 const otherSet=require('./otherSet/index');
 const User=require('./User/index');
+const order=require('./order/index')
 // 云函数入口函数
 exports.main = async (event, context) => {
   switch (event.type) {
+    case 'order':
+    return await order.main(event, context);
     case 'User':
       return await User.main(event, context);
     case 'otherSet':
