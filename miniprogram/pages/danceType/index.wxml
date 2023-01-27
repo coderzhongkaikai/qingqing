@@ -9,6 +9,7 @@
     </view>
   </view>
   <view class="_card_r">
+  {{dance_desc[index]}}
   </view>
 </view>
 <view class="_down">

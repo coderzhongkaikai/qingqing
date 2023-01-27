@@ -9,7 +9,6 @@
 }
 ._card ._up{
   display: flex;
-
 }
 ._card ._down{
   padding: 2rpx;
@@ -17,6 +16,9 @@
 }
 ._card_l{
   width: 200rpx;
+}
+._card_r{
+  padding: 10rpx 20rpx;
 }
 ._card_title, .dance_info_card_title {
   color: #000000;
