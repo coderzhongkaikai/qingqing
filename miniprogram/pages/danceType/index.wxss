@@ -1,0 +1,43 @@
+._card {
+  width: 620rpx;
+  min-height: 220rpx;
+  padding: 30rpx;
+  background: #ffffff;
+  border-radius: 20rpx;
+  border: 1rpx solid rgba(0, 0, 0, 0.1);
+  margin: 20rpx auto;
+}
+._card ._up{
+  display: flex;
+
+}
+._card ._down{
+  padding: 2rpx;
+  border-top: 1rpx solid rgba(0, 0, 0, 0.1);
+}
+._card_l{
+  width: 200rpx;
+}
+._card_title, .dance_info_card_title {
+  color: #000000;
+  text-align: center
+}
+.scroll-view-x {
+  padding-right: 30rpx;
+}
+.nav_box {
+  display: flex;
+  /* width: 100%; */
+  flex-wrap: nowrap;
+  /* justify-content: space-around; */
+}
+.scroll_item {
+  margin:0 20rpx;
+}
+.scroll_item .teacher_name {
+  width: 140rpx;
+  font-size: 26rpx;
+  text-align: center;
+  word-break: break-all;
+  white-space: normal;
+}

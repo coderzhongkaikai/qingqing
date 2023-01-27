@@ -43,14 +43,14 @@
       </view>
     </view>
   </view>
-
+  <navigator url="../../danceType/index">
   <view class="_card">
     <view class="_card_title">
       热门舞种
     </view>
   </view>
+  </navigator>
 
-  <!-- <navigator url="../../teacherInfo/index"> -->
   <view class="_card">
     <view class="_card_title">
       明星老师
@@ -69,7 +69,6 @@
       </scroll-view>
     </view>
   </view>
-  <!-- </navigator> -->
   <!-- <view>
  学员风采
 </view> -->

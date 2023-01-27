@@ -1,0 +1,34 @@
+<view class="_card" wx:for="{{dance_type}}" >
+<view class="_up">
+  <view class="_card_l">
+    <view class="_card_img">
+      <van-image width="100" height="100" src="/images/{{dance_type_img[index]}}" />
+    </view>
+    <view class="_card_title">
+      {{dance_type[index]}}
+    </view>
+  </view>
+  <view class="_card_r">
+  </view>
+</view>
+<view class="_down">
+  <view class="_card_title">
+      推荐老师
+    </view>
+    <scroll-view style="width: 100%" class="scroll-view-x" scroll-x="true">
+    <view class="nav_box">
+      <!-- <view wx:for="{{top_nav}}" wx:for-index="index" wx:for-item="item" class="nav_p {{item==select_item?'nav_p_active':' '}}" data-item="{{item}}" bindtap="change_type">
+        {{item}}
+        </view> -->
+        <view class="scroll_item"  wx:for="{{5}}" data-item="{{item}}" bindtap="go_teacherInfo">
+            <van-image round width="140rpx" height="140rpx" src="{{item.avarList[0].url}}" />
+            <view class="teacher_name">
+            {{item.teacher_name}}zkk
+            </view>
+          </view>
+    </view>
+  </scroll-view>
+</view>
+
+   
+  </view>

@@ -126,14 +126,14 @@ Page({
             data: {
               type: 'order',
               data:{
-                // type:'getItem',
-                // _id:_id
+                type:'add',
+                kebiao_id:'_id'
               }
             }
           }).then((res) => {
             console.log(res)
             if (res.result.success) {
-       
+                 
             }
             wx.hideLoading();
           }).catch((e) => {

@@ -1,0 +1,7 @@
+{  
+  "navigationBarTitleText": "热门舞种",
+  "navigationBarBackgroundColor":"#ffffff",
+  "usingComponents": {
+    "van-image": "@vant/weapp/image/index"
+  }
+}

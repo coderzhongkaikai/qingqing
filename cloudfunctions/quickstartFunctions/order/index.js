@@ -15,7 +15,7 @@ exports.main = async (event, context) => {
   const {
     type,
     new_kebiao_data,
-    teacher_id,
+    kebiao_id,
     createTime,
     del_kebiao_id
   } = event.data
@@ -24,7 +24,7 @@ exports.main = async (event, context) => {
   } = cloud.getWXContext()
   const admin_openid = 'o2Xer4jdphCbl0VCj0X3QWK0Y0A4'
   const result = await cloud.openapi.subscribeMessage.send({
-    touser: admin_openid,
+    touser: OPENID,
     // page: "pages/worksheet/worksheet?_id=" + tasks[m]._id,
     lang: 'zh_CN',
     data: {
@@ -57,6 +57,113 @@ exports.main = async (event, context) => {
     templateId: 'F7ajuHC3waSw91_dN8HXcuuNLCjRcTfdESdb605okPc',
   })
   return result
+
+  if (type == 'add') {
+    //创建order
+    //创建时间，用户opened,kebiao_id
+    // await db.collection('order').add({
+    //   data: new_kebiao_data[i]
+    // })
+
+    //给kebiao添加对应的openID已表示记录
+    
+    new_kebiao_data.map(item=>{
+      item['teacher_id']=teacher_id,
+      item['createTime']=createTime,
+      item['OPENID']=OPENID
+    })
+    try {
+      for(let i=0;i<new_kebiao_data.length;i++){
+        console.log(new_kebiao_data[i])
+          await db.collection('kebiao').add({
+                data: new_kebiao_data[i]
+              })
+      }
+      return  {
+        type:'add',
+        // data: result,
+        success: true
+      };
+    } catch (e) {
+      console.log(e)
+      return {
+        type: '课表插入数据库错误',
+        data: null,
+        success: false
+      };
+    }
+ 
+  }else if(type == 'del'){
+    try {
+      for(let i=0;i<del_kebiao_id.length;i++){
+        console.log(del_kebiao_id[i])
+        let _id=del_kebiao_id[i]
+        await db.collection('kebiao').doc(_id).remove()
+      }
+      return  {
+        type:'del',
+        // data: result,
+        success: true
+      };
+    } catch (e) {
+      console.log(e)
+      return {
+        type: '课表删除数据库错误',
+        data: null,
+        success: false
+      };
+    }
+  }else if (type == 'getlist') {
+    try {
+      const result= await db.collection('kebiao').aggregate().lookup({
+            from: 'teacher',
+            localField: 'teacher_id',
+            foreignField: '_id',
+            as: 'teacherInfo',
+          })
+          .end()
+      return  {
+        type:'getlist',
+        data: result,
+        success: true
+      };
+    } catch (e) {
+      console.log(e)
+      return {
+        type: '错误',
+        data: null,
+        success: false
+      };
+    }
+ 
+  } else {
+    try {
+      let {
+        fileID
+      } = event.data
+      //1,通过fileID下载云存储里的excel文件
+      const res = await cloud.downloadFile({
+        fileID: fileID,
+      })
+      console.log('下载的文件', res);
+      const file_xlsx = res.fileContent
+      //2,解析excel文件里的数据
+      var files = xlsx.parse(file_xlsx); //获取到已经解析的对象数组（下面我会出返回的代码结构，以及我的excel文件内容）
+      console.log('获得内容表格数组', files); //files[0].data里面就是我们的内容数组（以上直接复制即可）
+      result = files_data_parse(files)
+      return {
+        // type:'u',
+        data: result,
+        success: true
+      };
+    } catch (e) {
+      return {
+        type: '课表解析错误',
+        data: null,
+        success: false
+      };
+    }
+  }
   //     const date = new Date()
   //     const nowtime = (date.getHours()+8) * 100 + date.getMinutes()
   //     var timeform = ''
