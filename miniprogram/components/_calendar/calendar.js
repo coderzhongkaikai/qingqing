@@ -139,6 +139,7 @@ Component({
       this.setData({
         selectDay:selectDay
       })
+      this.triggerEvent("selectDay",selectDay)
     },
     getNearly7Day(date = new Date()) {
       // var date = new Date()

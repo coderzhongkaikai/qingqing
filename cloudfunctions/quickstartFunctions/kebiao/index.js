@@ -8,7 +8,7 @@ cloud.init({
 //引入node-xlsx npm包文件，注意在新环境下需要npm install node-xlsx
 var xlsx = require('node-xlsx');
 const db = cloud.database()
-
+const _ = db.command     //引用指令
 // 云函数入口函数
 exports.main = async (event, context) => {
   console.log(event)
@@ -18,6 +18,7 @@ exports.main = async (event, context) => {
     new_kebiao_data,
     teacher_id,
     createTime,
+    selectData,
     del_kebiao_id
   } = event.data
   const {
@@ -71,14 +72,21 @@ exports.main = async (event, context) => {
       };
     }
   }else if (type == 'getlist') {
+    console.log(selectData)
+    const {dance_type, timestamp}=selectData
+    console.log(dance_type)
+    console.log(timestamp)
+
     try {
       const result= await db.collection('kebiao').aggregate().lookup({
             from: 'teacher',
             localField: 'teacher_id',
             foreignField: '_id',
             as: 'teacherInfo',
-          })
-          .end()
+          }).match({
+            timestamp: _.gte(timestamp),
+            type: dance_type,
+          }).end()
       return  {
         type:'getlist',
         data: result,
@@ -146,6 +154,9 @@ exports.main = async (event, context) => {
       item['startTime'] =  data[i][8]?data[i][8]:''
       item['endTime'] = data[i][9]?data[i][9]:''
       item['yuyue_count'] = []//存放预约用户的id
+      //new Date('2018/08/09 10:10').getTime()
+      let timestamp=item['year']+'/'+item['month']+'/'+item['day']+' '+item['startTime']
+      item['timestamp']=new Date(timestamp).getTime()
       data_result.push(item)
     }
     return data_result

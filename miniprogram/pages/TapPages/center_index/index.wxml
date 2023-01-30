@@ -32,8 +32,6 @@
 <!-- <button class="authbtn"  open-type="getPhoneNumber" type="primary"
       bindgetphonenumber="onGetPhoneNumber">获取手机号码</button> -->
 <view class="container_box">
-  
-
    <view class="_card" wx:for="{{kebiao_list}}" 
    data-item="{{item}}">
     <view class="_p">

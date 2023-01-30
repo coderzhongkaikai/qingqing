@@ -6,6 +6,11 @@ Page({
   click_dance_type(e){
     console.log(e)
     const index=e.currentTarget.dataset.index
+    const selectData={
+      dance_type:this.data.dance_type[index],
+      timestamp:this.data.selectDayTimestamp
+  }
+  this.get_kebiao_list(selectData)
     this.setData({
       click_dance_index:index
     })
@@ -35,13 +40,14 @@ Page({
       date: this.formatDate(event.detail),
     });
   },
-  get_kebiao_list(){
+  get_kebiao_list(selectData){
     wx.cloud.callFunction({
       name: 'quickstartFunctions',
       data: {
         type: 'kebiao',
         data:{
           type:'getlist',
+          selectData:selectData
           // _id:_id
         }
       }
@@ -156,100 +162,44 @@ Page({
     popHeight: app.globalData.popHeight,
     date: '',
     show: false,
-    spotMap: {
-      y2022m5d9: 'deep-spot',
-      y2022m5d10: 'spot',
-      y2022m6d10: 'spot',
-      y2022m7d10: 'spot',
-      y2022m8d10: 'spot',
-      y2022m10d1: 'spot',
-      y2023m5d10: 'spot',
-    },
-    disabledDate({
-      day,
-      month,
-      year
-    }) {
-      // 例子，今天之后的日期不能被选中
-      const now = new Date();
-      const date = new Date(year, month - 1, day);
-      return date > now;
-    },
+    // spotMap: {
+    //   y2022m5d9: 'deep-spot',
+    //   y2022m5d10: 'spot',
+    //   y2022m6d10: 'spot',
+    //   y2022m7d10: 'spot',
+    //   y2022m8d10: 'spot',
+    //   y2022m10d1: 'spot',
+    //   y2023m5d10: 'spot',
+    // },
+    // disabledDate({
+    //   day,
+    //   month,
+    //   year
+    // }) {
+    //   // 例子，今天之后的日期不能被选中
+    //   const now = new Date();
+    //   const date = new Date(year, month - 1, day);
+    //   return date > now;
+    // },
     // 需要改变日期时所使用的字段
-    changeTime: '',
+    // changeTime: '',
     // 存储已经获取过的日期
-    dateListMap: [],
+    // dateListMap: [],
     //******以上是日历控件数据 */
-    showUploadTip: false,
-    powerList: [{
-      title: '云函数',
-      tip: '安全、免鉴权运行业务代码',
-      showItem: false,
-      item: [{
-          title: '获取OpenId',
-          page: 'getOpenId'
-        },
-        //  {
-        //   title: '微信支付'
-        // },
-        {
-          title: '生成小程序码',
-          page: 'getMiniProgramCode'
-        },
-        // {
-        //   title: '发送订阅消息',
-        // }
-      ]
-    }, {
-      title: '数据库',
-      tip: '安全稳定的文档型数据库',
-      showItem: false,
-      item: [{
-        title: '创建集合',
-        page: 'createCollection'
-      }, {
-        title: '更新记录',
-        page: 'updateRecord'
-      }, {
-        title: '查询记录',
-        page: 'selectRecord'
-      }, {
-        title: '聚合操作',
-        page: 'sumRecord'
-      }]
-    }, {
-      title: '云存储',
-      tip: '自带CDN加速文件存储',
-      showItem: false,
-      item: [{
-        title: '上传文件',
-        page: 'uploadFile'
-      }]
-    }, {
-      title: '云托管',
-      tip: '不限语言的全托管容器服务',
-      showItem: false,
-      item: [{
-        title: '部署服务',
-        page: 'deployService'
-      }]
-    }],
-
-    haveCreateCollection: false,
-
-
-    //设置标记点
-    markers: [{
-      iconPath: "/images/ljx.png",
-      id: 4,
-      latitude: 31.938841,
-      longitude: 118.799698,
-      width: 30,
-      height: 30
-    }],
-    //当前定位位置
-    latitude: '',
-    longitude: '',
+    // showUploadTip: false,
+  
+    // //设置标记点
+    // markers: [{
+    //   iconPath: "/images/ljx.png",
+    //   id: 4,
+    //   latitude: 31.938841,
+    //   longitude: 118.799698,
+    //   width: 30,
+    //   height: 30
+    // }],
+    // //当前定位位置
+    // latitude: '',
+    // longitude: '',
   },
   onLoad() {
     //获取当前位置
@@ -263,13 +213,20 @@ Page({
     //     })
     //   }
     // })
+    // new Date().getTime()-1675279800000 
+    this.data.selectDayTimestamp=new Date().getTime()
+    const selectData={
+      dance_type:this.data.dance_type[this.data.click_dance_index],
+      timestamp:this.data.selectDayTimestamp
+    }
+    this.get_kebiao_list(selectData)
+
   },
     /**
    * 生命周期函数--监听页面显示
    */
   onShow() {
     this.getTabBar().init();
-    this.get_kebiao_list()
   },
   // 获取日期数据，通常用来请求后台接口获取数据
   getDateList({
@@ -298,9 +255,17 @@ Page({
     return true;
   },
   // 日期改变的回调
-  selectDay({
-    detail
-  }) {
+  selectDay({detail}) {
+    let {
+      year,month,day
+    }=detail
+    let dayStr=year+'/'+month+'/'+day
+    this.data.selectDayTimestamp=new Date(dayStr).getTime()
+    const selectData={
+      dance_type:this.data.dance_type[this.data.click_dance_index],
+      timestamp:this.data.selectDayTimestamp
+    }
+    this.get_kebiao_list(selectData)
     console.log(detail, 'selectDay detail');
   },
   changetime() {

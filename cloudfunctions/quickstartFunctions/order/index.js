@@ -60,7 +60,14 @@ exports.main = async (event, context) => {
 
   if (type == 'add') {
     //创建order
-    //创建时间，用户opened,kebiao_id
+    //创建时间，用户opened,kebiao_id,订单状态state 0 1 -1,预约时间yuyueTime
+    const orderData={
+      createTime,
+      kebiao_id,
+      OPENID,
+      state,
+      yuyueTime
+    }
     // await db.collection('order').add({
     //   data: new_kebiao_data[i]
     // })
