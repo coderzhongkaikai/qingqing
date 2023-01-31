@@ -14,34 +14,60 @@ const $ = db.command.aggregate
 exports.main = async (event, context) => {
   const {
     type,
-    new_kebiao_data,
     kebiao_id,
+    yuyue_count,
     createTime,
-    del_kebiao_id
   } = event.data
   const {
     OPENID
   } = cloud.getWXContext()
   const admin_openid = 'o2Xer4jdphCbl0VCj0X3QWK0Y0A4'
-  const result = await cloud.openapi.subscribeMessage.send({
+  
+
+  if (type == 'add') {
+    console.log(kebiao_id,yuyue_count)
+    //创建order
+    //创建时间，用户opened,kebiao_id,订单状态state 0 1 -1,预约时间yuyueTime
+    // yuyue_count.indexOf(OPENID)
+    const orderData={
+      kebiao_id,
+      OPENID,
+      // yuyueTime,
+      state:0,
+      createTime:new Date().getTime()
+    }
+    await db.collection('order').add({
+      data:orderData
+    })
+    const kebiaoList= await db.collection('kebiao').aggregate().lookup({
+      from: 'teacher',
+      localField: 'teacher_id',
+      foreignField: '_id',
+      as: 'teacherInfo',
+    }).match({
+      _id: kebiao_id,
+    }).end()
+    const kebiao=kebiaoList.list[0]
+    console.log(kebiao)
+    const result = await cloud.openapi.subscribeMessage.send({
     touser: OPENID,
     // page: "pages/worksheet/worksheet?_id=" + tasks[m]._id,
     lang: 'zh_CN',
     data: {
       'thing5': {
-        "value": "tasks[m].title"
+        "value": kebiao['name_title']
       },
       'thing6': {
-        "value": '值sdfsdfsd醒'
+        "value": '青青舞蹈室'
       },
       'thing8': {
-        "value": '值班提醒'
+        "value": '预约时间'+kebiao['year']+'年'+kebiao['month']+'月'+kebiao['day']+'日 ' +kebiao['startTime']
       },
       'name10': {
-        "value": '值班提醒'
+        "value": kebiao['teacherInfo'][0]['teacher_name']
       },
       'character_string15': {
-        "value": 'sdfafasfafdsafasfasdfasdf'
+        "value": new Date().getTime()
       },
       // {{thing5.DATA}}
       // 商家名称
@@ -56,49 +82,42 @@ exports.main = async (event, context) => {
     miniprogram_state: 'developer',
     templateId: 'F7ajuHC3waSw91_dN8HXcuuNLCjRcTfdESdb605okPc',
   })
-  return result
+  //管理员的提示信息
 
-  if (type == 'add') {
-    //创建order
-    //创建时间，用户opened,kebiao_id,订单状态state 0 1 -1,预约时间yuyueTime
-    const orderData={
-      createTime,
-      kebiao_id,
-      OPENID,
-      state,
-      yuyueTime
-    }
-    // await db.collection('order').add({
-    //   data: new_kebiao_data[i]
-    // })
 
-    //给kebiao添加对应的openID已表示记录
-    
-    new_kebiao_data.map(item=>{
-      item['teacher_id']=teacher_id,
-      item['createTime']=createTime,
-      item['OPENID']=OPENID
-    })
-    try {
-      for(let i=0;i<new_kebiao_data.length;i++){
-        console.log(new_kebiao_data[i])
-          await db.collection('kebiao').add({
-                data: new_kebiao_data[i]
-              })
-      }
+  // return result
       return  {
         type:'add',
         // data: result,
         success: true
       };
-    } catch (e) {
-      console.log(e)
-      return {
-        type: '课表插入数据库错误',
-        data: null,
-        success: false
-      };
-    }
+    //给kebiao添加对应的openID已表示记录
+    
+    // new_kebiao_data.map(item=>{
+    //   item['teacher_id']=teacher_id,
+    //   item['createTime']=createTime,
+    //   item['OPENID']=OPENID
+    // })
+    // try {
+    //   for(let i=0;i<new_kebiao_data.length;i++){
+    //     console.log(new_kebiao_data[i])
+    //       await db.collection('kebiao').add({
+    //             data: new_kebiao_data[i]
+    //           })
+    //   }
+    //   return  {
+    //     type:'add',
+    //     // data: result,
+    //     success: true
+    //   };
+    // } catch (e) {
+    //   console.log(e)
+    //   return {
+    //     type: '课表插入数据库错误',
+    //     data: null,
+    //     success: false
+    //   };
+    // }
  
   }else if(type == 'del'){
     try {
@@ -122,13 +141,24 @@ exports.main = async (event, context) => {
     }
   }else if (type == 'getlist') {
     try {
-      const result= await db.collection('kebiao').aggregate().lookup({
-            from: 'teacher',
-            localField: 'teacher_id',
-            foreignField: '_id',
-            as: 'teacherInfo',
+      let kebiao_ids
+      await db.collection('order').where({OPENID}).get().then(async res => {
+          console.log(res)
+         kebiao_ids=res.data.map(item=>{
+            return item.kebiao_id
           })
-          .end()
+          console.log(kebiao_ids)
+      })
+      console.log(kebiao_ids)
+      const result= await db.collection('kebiao').aggregate().lookup({
+        from: 'teacher',
+        localField: 'teacher_id',
+        foreignField: '_id',
+        as: 'teacherInfo',
+      }).match({
+              _id: _.in(kebiao_ids)
+              // _id: _.in(["f28436a263d7a4a3011f006d790d53e4", "4f1d421c63d7a4a3011a345c39e66ecf", "0ac4213c63d7a4a3011cbc97312456bc"])
+            }).end()
       return  {
         type:'getlist',
         data: result,

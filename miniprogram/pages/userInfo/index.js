@@ -134,6 +134,7 @@ Page({
       if (res.result.success) {
         const User = {
           _id: _id?_id:res.result.data._id,
+          OPENID: _id?_id:res.result.data.OPENID,
           imgSrc,
           phone,
           nickname

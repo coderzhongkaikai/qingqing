@@ -78,6 +78,44 @@ Page({
       wx.hideLoading()
     });
   },
+  yuyue(data){
+    wx.cloud.callFunction({
+      name: 'quickstartFunctions',
+      data: {
+        type: 'order',
+        data:{
+          type:'add',
+          ...data
+          // _id:_id
+        }
+      }
+    }).then((res) => {
+      console.log(res)
+      if (res.result.success) {
+        // this.setData({
+        //   kebiao_list:res.result.data.list
+        // })
+        // const _item=res.result.data.data
+        // const {_id,fileList,title,watch,content,beizhu}=_item
+        // this.setData({
+        //   fileList:fileList,
+        //   title:title,
+        //   beizhu:beizhu,
+        //   content:content,
+        //   item:_item
+        // })
+      }
+      wx.hideLoading();
+    }).catch((e) => {
+      console.log(e);
+      wx.showToast({
+        title:e.errMsg,
+        duration: 1000,
+        icon: 'none',
+      })
+      wx.hideLoading()
+    });
+  },
   //这里是根据课表记录的teacher_id跳转
   go_teacherInfo(e){
     console.log(e)
@@ -114,43 +152,53 @@ Page({
       });
   },
   SubscribeMessage: function (e) {
+    console.log(e)
+    const OPENID=app.globalData.User.OPENID
     wx.requestSubscribeMessage({
       // 传入订阅消息的模板id，模板 id 可在小程序管理后台申请
       tmplIds: ['F7ajuHC3waSw91_dN8HXcuuNLCjRcTfdESdb605okPc'],
-      success(res) {
+      success:(res)=>{
         console.log(res)
         // 申请订阅成功
         if (res['F7ajuHC3waSw91_dN8HXcuuNLCjRcTfdESdb605okPc'] === 'accept') {
-          // 这里将订阅的课程信息调用云函数存入云开发数据
+          if(OPENID){
+        // 这里将订阅的课程信息调用云函数存入云开发数据
           wx.showToast({
             title: '订阅成功',
             icon: 'success',
             duration: 2000,
           });
-          wx.cloud.callFunction({
-            name: 'quickstartFunctions',
-            data: {
-              type: 'order',
-              data:{
-                type:'add',
-                kebiao_id:'_id'
-              }
-            }
-          }).then((res) => {
-            console.log(res)
-            if (res.result.success) {
-                 
-            }
-            wx.hideLoading();
-          }).catch((e) => {
-            console.log(e);
+          const {
+            kebiao_id,
+            kebiao_index
+          }=e.currentTarget.dataset
+          console.log(this.data.kebiao_list)
+          const yuyue_count=this.data.kebiao_list[kebiao_index]['yuyue_count']
+          const idx=yuyue_count.indexOf(OPENID)
+          //yuyue_cont是否存在OPENID存在则踢出，不存在则添加
+          if(idx>-1){
             wx.showToast({
-              title:e.errMsg,
-              duration: 1000,
+              title: '您已成功预约',
+              icon: 'success',
+              duration: 2000,
+            });
+            // yuyue_count.splice(idx,1)
+            // this.yuyue({yuyue_count,kebiao_id})
+          }else{
+            yuyue_count.push(OPENID)
+            this.yuyue({yuyue_count,kebiao_id})
+
+          }
+        
+          }else{
+            wx.showToast({
+              title: '请先注册信息',
               icon: 'none',
-            })
-            wx.hideLoading()
-          });
+              duration: 2000,
+            });
+
+          }
+      
         }
       }
     })
@@ -268,11 +316,11 @@ Page({
     this.get_kebiao_list(selectData)
     console.log(detail, 'selectDay detail');
   },
-  changetime() {
-    this.setData({
-      changeTime: '2022/1/1',
-    });
-  },
+  // changetime() {
+  //   this.setData({
+  //     changeTime: '2022/1/1',
+  //   });
+  // },
   onGetPhoneNumber(e) {
     var that = this;
     wx.login({
@@ -319,45 +367,45 @@ Page({
       }
     })
   },
-  onClickPowerInfo(e) {
-    const index = e.currentTarget.dataset.index;
-    const powerList = this.data.powerList;
-    powerList[index].showItem = !powerList[index].showItem;
-    if (powerList[index].title === '数据库' && !this.data.haveCreateCollection) {
-      this.onClickDatabase(powerList);
-    } else {
-      this.setData({
-        powerList
-      });
-    }
-  },
+  // onClickPowerInfo(e) {
+  //   const index = e.currentTarget.dataset.index;
+  //   const powerList = this.data.powerList;
+  //   powerList[index].showItem = !powerList[index].showItem;
+  //   if (powerList[index].title === '数据库' && !this.data.haveCreateCollection) {
+  //     this.onClickDatabase(powerList);
+  //   } else {
+  //     this.setData({
+  //       powerList
+  //     });
+  //   }
+  // },
 
-  onChangeShowEnvChoose() {
-    wx.showActionSheet({
-      itemList: this.data.envList.map(i => i.alias),
-      success: (res) => {
-        this.onChangeSelectedEnv(res.tapIndex);
-      },
-      fail(res) {
-        console.log(res.errMsg);
-      }
-    });
-  },
+  // onChangeShowEnvChoose() {
+  //   wx.showActionSheet({
+  //     itemList: this.data.envList.map(i => i.alias),
+  //     success: (res) => {
+  //       this.onChangeSelectedEnv(res.tapIndex);
+  //     },
+  //     fail(res) {
+  //       console.log(res.errMsg);
+  //     }
+  //   });
+  // },
 
-  onChangeSelectedEnv(index) {
-    if (this.data.selectedEnv.envId === this.data.envList[index].envId) {
-      return;
-    }
-    const powerList = this.data.powerList;
-    powerList.forEach(i => {
-      i.showItem = false;
-    });
-    this.setData({
-      selectedEnv: this.data.envList[index],
-      powerList,
-      haveCreateCollection: false
-    });
-  },
+  // onChangeSelectedEnv(index) {
+  //   if (this.data.selectedEnv.envId === this.data.envList[index].envId) {
+  //     return;
+  //   }
+  //   const powerList = this.data.powerList;
+  //   powerList.forEach(i => {
+  //     i.showItem = false;
+  //   });
+  //   this.setData({
+  //     selectedEnv: this.data.envList[index],
+  //     powerList,
+  //     haveCreateCollection: false
+  //   });
+  // },
 
   jumpPage(e) {
     wx.navigateTo({
@@ -365,34 +413,34 @@ Page({
     });
   },
 
-  onClickDatabase(powerList) {
-    wx.showLoading({
-      title: '',
-    });
-    wx.cloud.callFunction({
-      name: 'quickstartFunctions',
-      config: {
-        env: this.data.selectedEnv.envId
-      },
-      data: {
-        type: 'createCollection'
-      }
-    }).then((resp) => {
-      if (resp.result.success) {
-        this.setData({
-          haveCreateCollection: true
-        });
-      }
-      this.setData({
-        powerList
-      });
-      wx.hideLoading();
-    }).catch((e) => {
-      console.log(e);
-      this.setData({
-        showUploadTip: true
-      });
-      wx.hideLoading();
-    });
-  }
+  // onClickDatabase(powerList) {
+  //   wx.showLoading({
+  //     title: '',
+  //   });
+  //   wx.cloud.callFunction({
+  //     name: 'quickstartFunctions',
+  //     config: {
+  //       env: this.data.selectedEnv.envId
+  //     },
+  //     data: {
+  //       type: 'createCollection'
+  //     }
+  //   }).then((resp) => {
+  //     if (resp.result.success) {
+  //       this.setData({
+  //         haveCreateCollection: true
+  //       });
+  //     }
+  //     this.setData({
+  //       powerList
+  //     });
+  //     wx.hideLoading();
+  //   }).catch((e) => {
+  //     console.log(e);
+  //     this.setData({
+  //       showUploadTip: true
+  //     });
+  //     wx.hideLoading();
+  //   });
+  // }
 });

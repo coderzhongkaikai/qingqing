@@ -6,6 +6,8 @@ App({
     };
     
     const res = wx.getSystemInfoSync()
+    //初始化获取User，如果本地没有缓存，则需要访问云服务器获取用户信息
+    //访问云服务器获取用户信息  还没做
     this.globalData.User=wx.getStorageSync('User') || null
     const { screenHeight, safeArea: { bottom } } = res
     console.log('resHeight',res);
