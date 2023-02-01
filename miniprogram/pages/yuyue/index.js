@@ -1,4 +1,5 @@
 // pages/yuyue/index.js
+const app = getApp()
 Page({
 
   /**
@@ -7,7 +8,86 @@ Page({
   data: {
 
   },
+  cancelBtn(e){
+    const OPENID=app.globalData.User.OPENID
+    wx.showModal({
+      title: '取消确认',
+      content: '确认将取消预约这节课',
+      complete: (res) => {
+        if (res.cancel) {
+          
+        }
+    
+        if (res.confirm) {
+          const {
+            kebiao_id,
+            yuyue_index
+          }=e.currentTarget.dataset
+          // console.log(this.data.yuyue_list)
+          // console.log(e.currentTarget.dataset)
+          const yuyue_count=this.data.yuyue_list[yuyue_index]['yuyue_count']
+          const idx=yuyue_count.indexOf(OPENID)
+          //yuyue_cont是否存在OPENID存在则踢出，不存在则添加
+          if(idx>-1){
+            console.log('取消')
+            yuyue_count.splice(idx,1)
+            this.del_yuyue({yuyue_count,kebiao_id,yuyue_index})
+          }else{
+            // yuyue_count.push(OPENID)
+            // this.yuyue({yuyue_count,kebiao_id})
 
+          }
+        }
+      }
+    })
+  },
+  del_yuyue(data){
+    console.log(data)
+    wx.cloud.callFunction({
+      name: 'quickstartFunctions',
+      data: {
+        type: 'order',
+        data:{
+          type:'del',
+          ...data
+        }
+      }
+    }).then((res) => {
+      console.log(res)
+      if (res.result.success) {
+        wx.showToast({
+          title: '成功取消',
+          icon: 'success',
+          duration: 2000,
+        });
+        this.data.yuyue_list.splice(data.yuyue_index,1)
+        this.setData({
+          yuyue_list:this.data.yuyue_list
+        })
+        // this.setData({
+        //   kebiao_list:res.result.data.list
+        // })
+        // const _item=res.result.data.data
+        // const {_id,fileList,title,watch,content,beizhu}=_item
+        // this.setData({
+        //   fileList:fileList,
+        //   title:title,
+        //   beizhu:beizhu,
+        //   content:content,
+        //   item:_item
+        // })
+      }
+      wx.hideLoading();
+    }).catch((e) => {
+      console.log(e);
+      wx.showToast({
+        title:e.errMsg,
+        duration: 1000,
+        icon: 'none',
+      })
+      wx.hideLoading()
+    });
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -25,9 +105,9 @@ Page({
     }).then((res) => {
       console.log(res)
       if (res.result.success) {
-        // this.setData({
-        //   kebiao_list:res.result.data.list
-        // })
+        this.setData({
+          yuyue_list:res.result.data.list
+        })
         // const _item=res.result.data.data
         // const {_id,fileList,title,watch,content,beizhu}=_item
         // this.setData({

@@ -17,7 +17,6 @@ exports.main = async (event, context) => {
   try {
 
     if (type == "create") {
-
       const result= await db.collection('User').add({
         // data 字段表示需新增的 JSON 数据
         data: {

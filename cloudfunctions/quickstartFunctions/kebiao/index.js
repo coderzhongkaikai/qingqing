@@ -76,6 +76,16 @@ exports.main = async (event, context) => {
     const {dance_type, timestamp}=selectData
     console.log(dance_type)
     console.log(timestamp)
+    // new Date(1675510200000).getDate()
+    //new Date(1675510200000).getMonth()  +1
+    //new Date().getFullYear()
+    let year=new Date(timestamp).getFullYear()
+    let month=new Date(timestamp).getMonth()  +1
+    let day=new Date(timestamp).getDate()
+
+    console.log(year)
+    console.log(month)
+    console.log(day)
 
     try {
       const result= await db.collection('kebiao').aggregate().lookup({
@@ -84,6 +94,9 @@ exports.main = async (event, context) => {
             foreignField: '_id',
             as: 'teacherInfo',
           }).match({
+            year:year,
+            month:month,
+            day:day,
             timestamp: _.gte(timestamp),
             type: dance_type,
           }).end()

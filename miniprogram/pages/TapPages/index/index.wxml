@@ -48,6 +48,19 @@
     <view class="_card_title">
       热门舞种
     </view>
+    <view class="page-on-sectispacing">
+      <scroll-view class="scroll" scroll-x="true" style="width: 100%">
+        <view class="scroll_box">
+          <view class="scroll_item"  wx:for="{{dance_type}}" data-item="{{item}}">
+            <van-image round width="100rpx" height="100rpx" src="/images/{{dance_type_img[index]}}" />
+            <view class="dance_name">
+            {{item}}
+            </view>
+          </view>
+          
+        </view>
+      </scroll-view>
+    </view>
   </view>
   </navigator>
 
@@ -59,7 +72,7 @@
       <scroll-view class="scroll" scroll-x="true" style="width: 100%">
         <view class="scroll_box">
           <view class="scroll_item"  wx:for="{{teacher_list}}" data-item="{{item}}" bindtap="go_teacherInfo">
-            <van-image round width="140rpx" height="140rpx" src="{{item.avarList[0].url}}" />
+            <van-image round width="120rpx" height="120rpx" src="{{item.avarList[0].url}}" />
             <view class="teacher_name">
             {{item.teacher_name}}
             </view>

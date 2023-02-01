@@ -1,31 +1,49 @@
-<view class="_card">
+<view class="_card" wx:for="{{yuyue_list}}" data-item="{{item}}" data-index="{{item}}">
     <view class="_p">
       <view class="_time">
-        19:40~20:40
+        {{item.year+'年'+item.month+'月'+item.day+'日 '+item.startTime+'~'+item.endTime}}
       </view>
       <view class="_tag">
-        tag
+        {{item.type}}
       </view>
     </view>
     <view class="_p">
       <view class="_p_box">
         <view class="l">
-          <van-image width="100" height="100" src="https://img.yzcdn.cn/vant/cat.jpeg" />
+          <van-image width="100" height="100" src="{{item.teacherInfo[0].avarList[0].url}}" />
         </view>
         <view class="r">
           <view class="_title">
-            成人零基础 爵士舞
+          {{item.name_title}}
           </view>
           <view class="_p">
-            楠楠老师
+            {{item.teacherInfo[0].teacher_name}}
           </view>
           <view class="jianjie">
-            楠楠老师人好，课程质量好，1周学3周练1个月见效
+            {{item.detail}}
           </view>
           <view class="btn">
-            <van-button round color='#7b7674' size='small'>已预约</van-button>
+            <van-button round plain hairline color='#df7a41' size='small'  data-kebiao_id="{{item._id}}" data-yuyue_index="{{index}}"   bindtap="cancelBtn">取消预约</van-button>
           </view>
         </view>
       </view>
     </view>
+  </view>
+
+
+  <view class="_card">
+    <view class="_title">
+      温馨提示
+    </view>
+    <view class="_p">
+      预约的课将在这里展示，请及时参加哦～
+    </view>
+    <view class="_p">
+      预约的课程会有我们的专属客服和您联系～
+    </view>
+    <!-- <view class="_p">
+      预约的课程别让我们老师等太着急了～
+    </view> -->
+
+
   </view>

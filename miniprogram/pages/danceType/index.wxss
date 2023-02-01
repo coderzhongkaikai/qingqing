@@ -37,7 +37,7 @@
   margin:0 20rpx;
 }
 .scroll_item .teacher_name {
-  width: 140rpx;
+  width: 120rpx;
   font-size: 26rpx;
   text-align: center;
   word-break: break-all;

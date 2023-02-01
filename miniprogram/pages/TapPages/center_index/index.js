@@ -92,6 +92,11 @@ Page({
     }).then((res) => {
       console.log(res)
       if (res.result.success) {
+        wx.showToast({
+          title: '您已成功预约',
+          icon: 'success',
+          duration: 2000,
+        });
         // this.setData({
         //   kebiao_list:res.result.data.list
         // })
@@ -178,7 +183,7 @@ Page({
           //yuyue_cont是否存在OPENID存在则踢出，不存在则添加
           if(idx>-1){
             wx.showToast({
-              title: '您已成功预约',
+              title: '请不要重复预约',
               icon: 'success',
               duration: 2000,
             });

@@ -22,7 +22,7 @@
         {{item}}
         </view> -->
         <view class="scroll_item"  wx:for="{{5}}" data-item="{{item}}" bindtap="go_teacherInfo">
-            <van-image round width="140rpx" height="140rpx" src="{{item.avarList[0].url}}" />
+            <van-image round width="120rpx" height="120rpx" src="{{item.avarList[0].url}}" />
             <view class="teacher_name">
             {{item.teacher_name}}zkk
             </view>

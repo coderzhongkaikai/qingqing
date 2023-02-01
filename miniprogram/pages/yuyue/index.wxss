@@ -1,6 +1,6 @@
 ._card{
   width: 640rpx;
-  min-height: 220rpx;
+  /* min-height: 220rpx; */
   padding: 20rpx;
   background: #ffffff;
   border-radius: 20rpx;

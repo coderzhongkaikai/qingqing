@@ -1,13 +1,16 @@
 // pages/index/index.js
 const app = getApp()
 var Ttime = require('../../util.js');
-
+const dance_type=['韩舞' ,'街舞', '爵士舞','芭蕾舞', '钢管舞']
+const dance_type_img=['hanwu.jpeg','jiewu.jpeg','jueshi.jpeg','balei.jpeg','gangguan.jpeg']
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    dance_type,
+    dance_type_img,
     ActivatyInfo_list:[],
     popHeight: app.globalData.popHeight,
     active: 0,

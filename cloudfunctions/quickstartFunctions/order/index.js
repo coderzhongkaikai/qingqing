@@ -22,24 +22,31 @@ exports.main = async (event, context) => {
     OPENID
   } = cloud.getWXContext()
   const admin_openid = 'o2Xer4jdphCbl0VCj0X3QWK0Y0A4'
-  
+
 
   if (type == 'add') {
-    console.log(kebiao_id,yuyue_count)
+    console.log(kebiao_id, yuyue_count)
     //创建order
     //创建时间，用户opened,kebiao_id,订单状态state 0 1 -1,预约时间yuyueTime
     // yuyue_count.indexOf(OPENID)
-    const orderData={
+    const orderData = {
       kebiao_id,
       OPENID,
       // yuyueTime,
-      state:0,
-      createTime:new Date().getTime()
+      state: 0,
+      createTime: new Date().getTime()
     }
     await db.collection('order').add({
-      data:orderData
+      data: orderData
     })
-    const kebiaoList= await db.collection('kebiao').aggregate().lookup({
+    await db.collection('kebiao').doc(kebiao_id)
+      .update({
+        data: {
+          yuyue_count
+        }
+      })
+
+    const kebiaoList = await db.collection('kebiao').aggregate().lookup({
       from: 'teacher',
       localField: 'teacher_id',
       foreignField: '_id',
@@ -47,87 +54,70 @@ exports.main = async (event, context) => {
     }).match({
       _id: kebiao_id,
     }).end()
-    const kebiao=kebiaoList.list[0]
+    const kebiao = kebiaoList.list[0]
     console.log(kebiao)
     const result = await cloud.openapi.subscribeMessage.send({
-    touser: OPENID,
-    // page: "pages/worksheet/worksheet?_id=" + tasks[m]._id,
-    lang: 'zh_CN',
-    data: {
-      'thing5': {
-        "value": kebiao['name_title']
+      touser: OPENID,
+      // page: "pages/worksheet/worksheet?_id=" + tasks[m]._id,
+      lang: 'zh_CN',
+      data: {
+        'thing5': {
+          "value": kebiao['name_title']
+        },
+        'thing6': {
+          "value": '青青舞蹈室'
+        },
+        'thing8': {
+          "value": '预约时间' + kebiao['year'] + '年' + kebiao['month'] + '月' + kebiao['day'] + '日 ' + kebiao['startTime']
+        },
+        'name10': {
+          "value": kebiao['teacherInfo'][0]['teacher_name']
+        },
+        'character_string15': {
+          "value": new Date().getTime()
+        },
+        // {{thing5.DATA}}
+        // 商家名称
+        // {{thing6.DATA}}
+        // 温馨提示
+        // {{thing8.DATA}}
+        // 预约老师
+        // {{name10.DATA}}
+        // 预约编号
+        // {{character_string15.DATA}}
       },
-      'thing6': {
-        "value": '青青舞蹈室'
-      },
-      'thing8': {
-        "value": '预约时间'+kebiao['year']+'年'+kebiao['month']+'月'+kebiao['day']+'日 ' +kebiao['startTime']
-      },
-      'name10': {
-        "value": kebiao['teacherInfo'][0]['teacher_name']
-      },
-      'character_string15': {
-        "value": new Date().getTime()
-      },
-      // {{thing5.DATA}}
-      // 商家名称
-      // {{thing6.DATA}}
-      // 温馨提示
-      // {{thing8.DATA}}
-      // 预约老师
-      // {{name10.DATA}}
-      // 预约编号
-      // {{character_string15.DATA}}
-    },
-    miniprogram_state: 'developer',
-    templateId: 'F7ajuHC3waSw91_dN8HXcuuNLCjRcTfdESdb605okPc',
-  })
-  //管理员的提示信息
+      miniprogram_state: 'developer',
+      templateId: 'F7ajuHC3waSw91_dN8HXcuuNLCjRcTfdESdb605okPc',
+    })
+    //管理员的提示信息
 
 
-  // return result
-      return  {
-        type:'add',
-        // data: result,
-        success: true
-      };
-    //给kebiao添加对应的openID已表示记录
-    
-    // new_kebiao_data.map(item=>{
-    //   item['teacher_id']=teacher_id,
-    //   item['createTime']=createTime,
-    //   item['OPENID']=OPENID
-    // })
-    // try {
-    //   for(let i=0;i<new_kebiao_data.length;i++){
-    //     console.log(new_kebiao_data[i])
-    //       await db.collection('kebiao').add({
-    //             data: new_kebiao_data[i]
-    //           })
-    //   }
-    //   return  {
-    //     type:'add',
-    //     // data: result,
-    //     success: true
-    //   };
-    // } catch (e) {
-    //   console.log(e)
-    //   return {
-    //     type: '课表插入数据库错误',
-    //     data: null,
-    //     success: false
-    //   };
-    // }
- 
-  }else if(type == 'del'){
+    // return result
+    return {
+      type: 'add',
+      // data: result,
+      success: true
+    };
+  } else if (type == 'del') {
     try {
-      for(let i=0;i<del_kebiao_id.length;i++){
-        console.log(del_kebiao_id[i])
-        let _id=del_kebiao_id[i]
-        await db.collection('kebiao').doc(_id).remove()
-      }
-      return  {
-        type:'del',
+      // for (let i = 0; i < del_kebiao_id.length; i++) {
+        console.log(kebiao_id)
+        // let _id = del_kebiao_id[i]
+        // await db.collection('order').where({kebiao_id}).remove()
+        await db.collection('order').where({kebiao_id}).update({
+          data: {
+            state:-1
+          }
+        })
+
+        await db.collection('kebiao').doc(kebiao_id).update({
+          data: {
+            yuyue_count 
+          }
+        })
+        //发送取消信息给管理员
+      return {
+        type: 'del',
         // data: result,
         success: true
       };
@@ -139,28 +129,36 @@ exports.main = async (event, context) => {
         success: false
       };
     }
-  }else if (type == 'getlist') {
+  } else if (type == 'getlist') {
     try {
       let kebiao_ids
-      await db.collection('order').where({OPENID}).get().then(async res => {
-          console.log(res)
-         kebiao_ids=res.data.map(item=>{
-            return item.kebiao_id
-          })
-          console.log(kebiao_ids)
+      await db.collection('order').where({
+        OPENID,
+        state:0
+      }).get().then(async res => {
+        console.log(res)
+        kebiao_ids = res.data.map(item => {
+          return item.kebiao_id
+        })
+        console.log(kebiao_ids)
       })
       console.log(kebiao_ids)
-      const result= await db.collection('kebiao').aggregate().lookup({
-        from: 'teacher',
-        localField: 'teacher_id',
-        foreignField: '_id',
-        as: 'teacherInfo',
-      }).match({
-              _id: _.in(kebiao_ids)
-              // _id: _.in(["f28436a263d7a4a3011f006d790d53e4", "4f1d421c63d7a4a3011a345c39e66ecf", "0ac4213c63d7a4a3011cbc97312456bc"])
-            }).end()
-      return  {
-        type:'getlist',
+
+      const result = await db.collection('kebiao').aggregate().lookup({
+          from: 'teacher',
+          localField: 'teacher_id',
+          foreignField: '_id',
+          as: 'teacherInfo',
+        }).match({
+          _id: _.in(kebiao_ids)
+          // _id: _.in(["f28436a263d7a4a3011f006d790d53e4", "4f1d421c63d7a4a3011a345c39e66ecf", "0ac4213c63d7a4a3011cbc97312456bc"])
+        })
+        .sort({
+          timestamp:1
+        })
+        .end()
+      return {
+        type: 'getlist',
         data: result,
         success: true
       };
@@ -172,7 +170,7 @@ exports.main = async (event, context) => {
         success: false
       };
     }
- 
+
   } else {
     try {
       let {
