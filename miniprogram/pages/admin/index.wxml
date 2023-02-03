@@ -33,7 +33,7 @@
     <van-collapse-item title="其他设置" name="3">
       <view class="btn_box">
         <view class="btn_item">
-          <van-button color="#df7a41" size='normal' round type="info" block bindtap="daochu">查看约课记录</van-button>
+          <van-button color="#df7a41" size='normal' round type="info" block bindtap="showOrder">查看预约列表</van-button>
         </view>
         <view class="btn_item">
           <van-button color="#df7a41" size='normal' round type="info" block bindtap="edit_shouye">修改首页通知</van-button>
@@ -117,8 +117,68 @@
             </view>
           </view>
           </block>
-        </view>
+  </view>
  </block>
+ <block wx:if="{{ sheet_type=='order'}}">
+  <!-- <view wx:for="{{yuyue_ing}}">
+          <view class="">
+            {{item.userInfo[0]['nickname']+item.userInfo[0]['OPENID']}}
+          </view>
+          <view class="">
+          <span>
+            {{item.kebiao[0]['year']+'年'+item.kebiao[0]['month']+'月'+item.kebiao[0]['day']+'日'}}
+          </span>
+           <span>
+            {{item.kebiao[0]['startTime']}}
+            ~
+            {{item.kebiao[0]['endTime']}}
+          </span>
+          </view>
+          <view class="">
+            {{item.teacherInfo[0]['teacher_name']}}
+
+            {{item.kebiao[0]['name_title']}}
+
+          </view>
+        </view>
+    -->
+
+  <view class="_card" wx:for="{{yuyue_ing}}" data-item="{{item}}" data-index="{{item}}">
+      <!-- <view class="_p">  -->
+      
+        <view class="order_box">
+        <view class="order_p">
+              学生: {{item.userInfo[0]['nickname']}}
+        </view>
+        <view class="order_p">
+              联系方式:{{item.userInfo[0]['phone']}}
+        </view>
+        <view class="order_p">
+            <view>
+              {{item.teacherInfo[0]['teacher_name']}}老师
+              {{item.kebiao[0]['name_title']}}
+            </view>
+        </view>
+        <view class="order_p">
+            <view>
+              上课时间:
+              {{item.kebiao[0]['year']+'年'+item.kebiao[0]['month']+'月'+item.kebiao[0]['day']+'日'}}
+              {{item.kebiao[0]['startTime']}}
+            ~
+            {{item.kebiao[0]['endTime']}}
+            </view>
+          
+        </view>
+
+   
+   
+        </view>
+      <!-- </view> -->
+    </view>
+ </block>
+
+
+
 </view>
 
 </van-action-sheet>

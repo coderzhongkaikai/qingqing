@@ -220,72 +220,72 @@ Page({
       // });
     });
   },
-  createUser() {
-    const {
-      imgSrc,
-      phone,
-      nickname
-    } = this.data
-    wx.cloud.callFunction({
-      name: 'quickstartFunctions',
-      data: {
-        type: 'User',
-        data: {
-          type: 'create',
-          imgSrc,
-          phone,
-          nickname,
-          createTime: new Date()
-        }
-      }
-    }).then((res) => {
-      console.log(res)
-      if (res.result.success) {
-        // this.setData({
-        //   haveCreateCollection: true
-        // });
-        const data = res.result.data
-        const User = {
-          _id: res.result.data._id,
-          imgSrc,
-          phone,
-          nickname
-        }
-        app.globalData.User = User
-        wx.setStorageSync('User', User)
-        console.log(wx.setStorageSync('User', User))
-        let pages = getCurrentPages(); // 当前页面
-        let beforePage = pages[pages.length - 2]; // 上一页
-        //调用上一页的生命周期函数
-        beforePage.unpdateUser()
-        //   wx.navigateBack({
-        //     success:res => {
-        //       beforePage.unpdateUser();//周期函数或者函数名
-        //     }
-        // })
-        wx.showToast({
-          title: '成功',
-          duration: 1000,
-          icon: 'success',
-        })
-      }
-      // this.setData({
-      //   powerList
-      // });
-      wx.hideLoading();
-    }).catch((e) => {
-      console.log(e);
-      wx.showToast({
-        title: e.errMsg,
-        duration: 1000,
-        icon: 'none',
-      })
-      wx.hideLoading()
-      // this.setData({
-      //   showUploadTip: true
-      // });
-    });
-  }
+  // createUser() {
+  //   const {
+  //     imgSrc,
+  //     phone,
+  //     nickname
+  //   } = this.data
+  //   wx.cloud.callFunction({
+  //     name: 'quickstartFunctions',
+  //     data: {
+  //       type: 'User',
+  //       data: {
+  //         type: 'create',
+  //         imgSrc,
+  //         phone,
+  //         nickname,
+  //         createTime: new Date()
+  //       }
+  //     }
+  //   }).then((res) => {
+  //     console.log(res)
+  //     if (res.result.success) {
+  //       // this.setData({
+  //       //   haveCreateCollection: true
+  //       // });
+  //       const data = res.result.data
+  //       const User = {
+  //         _id: res.result.data._id,
+  //         imgSrc,
+  //         phone,
+  //         nickname
+  //       }
+  //       app.globalData.User = User
+  //       wx.setStorageSync('User', User)
+  //       console.log(wx.setStorageSync('User', User))
+  //       let pages = getCurrentPages(); // 当前页面
+  //       let beforePage = pages[pages.length - 2]; // 上一页
+  //       //调用上一页的生命周期函数
+  //       beforePage.unpdateUser()
+  //       //   wx.navigateBack({
+  //       //     success:res => {
+  //       //       beforePage.unpdateUser();//周期函数或者函数名
+  //       //     }
+  //       // })
+  //       wx.showToast({
+  //         title: '成功',
+  //         duration: 1000,
+  //         icon: 'success',
+  //       })
+  //     }
+  //     // this.setData({
+  //     //   powerList
+  //     // });
+  //     wx.hideLoading();
+  //   }).catch((e) => {
+  //     console.log(e);
+  //     wx.showToast({
+  //       title: e.errMsg,
+  //       duration: 1000,
+  //       icon: 'none',
+  //     })
+  //     wx.hideLoading()
+  //     // this.setData({
+  //     //   showUploadTip: true
+  //     // });
+  //   });
+  // }
 
 
 })

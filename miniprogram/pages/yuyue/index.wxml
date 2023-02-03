@@ -1,49 +1,129 @@
-<view class="_card" wx:for="{{yuyue_list}}" data-item="{{item}}" data-index="{{item}}">
-    <view class="_p">
-      <view class="_time">
-        {{item.year+'年'+item.month+'月'+item.day+'日 '+item.startTime+'~'+item.endTime}}
-      </view>
-      <view class="_tag">
-        {{item.type}}
-      </view>
-    </view>
-    <view class="_p">
-      <view class="_p_box">
-        <view class="l">
-          <van-image width="100" height="100" src="{{item.teacherInfo[0].avarList[0].url}}" />
-        </view>
-        <view class="r">
-          <view class="_title">
-          {{item.name_title}}
-          </view>
-          <view class="_p">
-            {{item.teacherInfo[0].teacher_name}}
-          </view>
-          <view class="jianjie">
-            {{item.detail}}
-          </view>
-          <view class="btn">
-            <van-button round plain hairline color='#df7a41' size='small'  data-kebiao_id="{{item._id}}" data-yuyue_index="{{index}}"   bindtap="cancelBtn">取消预约</van-button>
-          </view>
-        </view>
-      </view>
-    </view>
+
+
+<view class="_card">
+  <view class="_title">
+    温馨提示
   </view>
-
-
-  <view class="_card">
-    <view class="_title">
-      温馨提示
-    </view>
-    <view class="_p">
-      预约的课将在这里展示，请及时参加哦～
-    </view>
-    <view class="_p">
-      预约的课程会有我们的专属客服和您联系～
-    </view>
-    <!-- <view class="_p">
+  <view class="_p">
+    预约的课将在这里展示，请及时参加哦～
+  </view>
+  <view class="_p">
+    预约的课程会有我们的专属客服和您联系～
+  </view>
+  <!-- <view class="_p">
       预约的课程别让我们老师等太着急了～
     </view> -->
+</view>
+
+<van-collapse accordion value="{{ activeName }}" bind:change="onCollapseChange">
+
+  <van-collapse-item title="正在预约" name="1">
+    <view class="_card" wx:for="{{yuyue_ing}}" data-item="{{item}}" data-index="{{item}}">
+      <view class="_p">
+        <view class="_time">
+          {{item.year+'年'+item.month+'月'+item.day+'日 '+item.startTime+'~'+item.endTime}}
+        </view>
+        <view class="_tag">
+          {{item.type}}
+        </view>
+      </view>
+      <view class="_p">
+        <view class="_p_box">
+          <view class="l">
+            <van-image width="100" height="100" src="{{item.teacherInfo[0].avarList[0].url}}" />
+          </view>
+          <view class="r">
+            <view class="_title">
+              {{item.name_title}}
+            </view>
+            <view class="_p">
+              {{item.teacherInfo[0].teacher_name}}
+            </view>
+            <view class="jianjie">
+              {{item.detail}}
+            </view>
+            <view class="btn">
+              <van-button round plain hairline color='#df7a41' size='small' data-kebiao_id="{{item._id}}" data-yuyue_index="{{index}}" bindtap="cancelBtn">取消预约</van-button>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <block wx:if="{{yuyue_ing.length==0}}">
+      <van-empty description="没有预约" />
+      <view class="_card" wx:for="{{yuyue_ing}}" data-item="{{item}}" data-index="{{item}}">
+      <view class="_p">
+        <view class="_time">
+          {{item.year+'年'+item.month+'月'+item.day+'日 '+item.startTime+'~'+item.endTime}}
+        </view>
+        <view class="_tag">
+          {{item.type}}
+        </view>
+      </view>
+      <view class="_p">
+        <view class="_p_box">
+          <view class="l">
+            <van-image width="100" height="100" src="{{item.teacherInfo[0].avarList[0].url}}" />
+          </view>
+          <view class="r">
+            <view class="_title">
+              {{item.name_title}}
+            </view>
+            <view class="_p">
+              {{item.teacherInfo[0].teacher_name}}
+            </view>
+            <view class="jianjie">
+              {{item.detail}}
+            </view>
+            <view class="btn">
+              <van-button round plain hairline color='#df7a41' size='small' data-kebiao_id="{{item._id}}" data-yuyue_index="{{index}}" bindtap="cancelBtn">取消预约</van-button>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    </block>
+  </van-collapse-item>
 
 
-  </view>
+  <van-collapse-item title="已过预约" name="2">
+    <block wx:if="{{yuyue_ed.length==0}}">
+      <van-empty description="没有内容" />
+    </block>
+    <view class="_card" wx:for="{{yuyue_ed}}" data-item="{{item}}" data-index="{{item}}">
+      <view class="_p">
+        <view class="_time">
+          {{item.year+'年'+item.month+'月'+item.day+'日 '+item.startTime+'~'+item.endTime}}
+        </view>
+        <view class="_tag">
+          {{item.type}}
+        </view>
+      </view>
+      <view class="_p">
+        <view class="_p_box">
+          <view class="l">
+            <van-image width="100" height="100" src="{{item.teacherInfo[0].avarList[0].url}}" />
+          </view>
+          <view class="r">
+            <view class="_title">
+              {{item.name_title}}
+            </view>
+            <view class="_p">
+              {{item.teacherInfo[0].teacher_name}}
+            </view>
+            <view class="jianjie">
+              {{item.detail}}
+            </view>
+          
+          </view>
+        </view>
+      </view>
+    </view>
+  </van-collapse-item>
+
+</van-collapse>
+
+
+
+
+

@@ -19,9 +19,9 @@
 }
 
 .sheet_box {
-  min-height: 60vh;
-  max-height: 80vh;
-  padding: 20rpx;
+  min-height: 70vh;
+  max-height: 90vh;
+  padding:0 20rpx;
 }
 
 .tag_box {
@@ -84,4 +84,12 @@
 .r .btn {
   display: flex;
   flex-direction: row-reverse;
+}
+.order_box{
+  padding: 10rpx 20rpx ;
+  border-bottom: 1rpx solid #df7a41;
+}
+.order_p{
+  display: flex;
+  /* justify-content: space-between; */
 }

@@ -6,7 +6,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    activeName: '1',
+    yuyue_ing:[],
+    yuyue_ed:[]
   },
   cancelBtn(e){
     const OPENID=app.globalData.User.OPENID
@@ -25,7 +27,7 @@ Page({
           }=e.currentTarget.dataset
           // console.log(this.data.yuyue_list)
           // console.log(e.currentTarget.dataset)
-          const yuyue_count=this.data.yuyue_list[yuyue_index]['yuyue_count']
+          const yuyue_count=this.data.yuyue_ing[yuyue_index]['yuyue_count']
           const idx=yuyue_count.indexOf(OPENID)
           //yuyue_cont是否存在OPENID存在则踢出，不存在则添加
           if(idx>-1){
@@ -60,9 +62,9 @@ Page({
           icon: 'success',
           duration: 2000,
         });
-        this.data.yuyue_list.splice(data.yuyue_index,1)
+        this.data.yuyue_ing.splice(data.yuyue_index,1)
         this.setData({
-          yuyue_list:this.data.yuyue_list
+          yuyue_ing:this.data.yuyue_ing
         })
         // this.setData({
         //   kebiao_list:res.result.data.list
@@ -88,10 +90,19 @@ Page({
       wx.hideLoading()
     });
   },
+  onCollapseChange(event) {
+    console.log(event)
+    this.setData({
+      activeName: event.detail,
+    });
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    wx.showLoading({
+      title: '加载中...',
+    })
     wx.cloud.callFunction({
       name: 'quickstartFunctions',
       data: {
@@ -104,10 +115,28 @@ Page({
       }
     }).then((res) => {
       console.log(res)
+      const  yuyue_list=res.result.data.list
+      
+      const yuyue_ing=[]
+      const yuyue_ed=[]
+      let _now=new Date().getTime()
+      yuyue_list.forEach(item=>{
+        console.log(item)
+        if(item.timestamp>_now){
+          yuyue_ing.push(item)
+        }else{
+          yuyue_ed.push(item)
+        }
+      })
+
       if (res.result.success) {
         this.setData({
-          yuyue_list:res.result.data.list
+          yuyue_list:res.result.data.list,
+          yuyue_ing,
+          yuyue_ed
         })
+
+        wx.hideLoading()
         // const _item=res.result.data.data
         // const {_id,fileList,title,watch,content,beizhu}=_item
         // this.setData({

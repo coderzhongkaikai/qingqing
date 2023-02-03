@@ -15,6 +15,7 @@ exports.main = async (event, context) => {
   const {
     type,
     kebiao_id,
+    teacher_id,
     yuyue_count,
     createTime,
   } = event.data
@@ -31,6 +32,7 @@ exports.main = async (event, context) => {
     // yuyue_count.indexOf(OPENID)
     const orderData = {
       kebiao_id,
+      teacher_id,
       OPENID,
       // yuyueTime,
       state: 0,
@@ -55,8 +57,12 @@ exports.main = async (event, context) => {
       _id: kebiao_id,
     }).end()
     const kebiao = kebiaoList.list[0]
+    const userInfo=await db.collection('User').where({OPENID:OPENID}).get().then(res=>{
+      console.log(res)
+      return res.data[0]
+    })
     console.log(kebiao)
-    const result = await cloud.openapi.subscribeMessage.send({
+    await cloud.openapi.subscribeMessage.send({
       touser: OPENID,
       // page: "pages/worksheet/worksheet?_id=" + tasks[m]._id,
       lang: 'zh_CN',
@@ -89,8 +95,39 @@ exports.main = async (event, context) => {
       miniprogram_state: 'developer',
       templateId: 'F7ajuHC3waSw91_dN8HXcuuNLCjRcTfdESdb605okPc',
     })
-    //管理员的提示信息
-
+    //管理员的提示信息,
+    await cloud.openapi.subscribeMessage.send({
+      touser: OPENID,//admin_openid 替换成管理员
+      // page: "pages/worksheet/worksheet?_id=" + tasks[m]._id,
+      lang: 'zh_CN',
+      data: {
+        'name5': { // 预约人
+          "value": '新学员预约'
+        },
+        'thing6': {//预约事项
+          "value":  kebiao['teacherInfo'][0]['teacher_name']+'  '+kebiao['name_title']
+        },
+        'time10': {//预约时间
+          "value":  kebiao['year'] + '年' + kebiao['month'] + '月' + kebiao['day'] + '日 ' + kebiao['startTime']
+        },
+        'phone_number18': {// 联系方式
+          "value": userInfo['phone']
+        },
+        // 'character_string15': {
+        //   "value": new Date().getTime()
+        // },
+        // 预约人
+        // {{name5.DATA}}
+        // 预约事项
+        // {{thing6.DATA}}
+        // 预约时间
+        // {{time10.DATA}}
+        // 联系方式
+        // {{phone_number18.DATA}}
+      },
+      miniprogram_state: 'developer',
+      templateId: '_GSz5hSJgyB9ZuE_UuVnHGijWnbzbH2qnfnExKsPAJg',
+    })
 
     // return result
     return {
@@ -115,6 +152,50 @@ exports.main = async (event, context) => {
             yuyue_count 
           }
         })
+        const kebiaoList = await db.collection('kebiao').aggregate().lookup({
+          from: 'teacher',
+          localField: 'teacher_id',
+          foreignField: '_id',
+          as: 'teacherInfo',
+        }).match({
+          _id: kebiao_id,
+        }).end()
+        const kebiao = kebiaoList.list[0]
+        const userInfo=await db.collection('User').where({OPENID:OPENID}).get().then(res=>{
+          console.log(res)
+          return res.data[0]
+        })
+    //管理员的提示信息,
+    await cloud.openapi.subscribeMessage.send({
+      touser: OPENID,//admin_openid 替换成管理员
+      // page: "pages/worksheet/worksheet?_id=" + tasks[m]._id,
+      lang: 'zh_CN',
+      data: {
+        'name5': { // 预约人
+          "value": '*取消预约'
+          // "value": userInfo['OPENID']+'*取消预约'    太长了报错
+        },
+        'thing6': {//预约事项
+          "value":  kebiao['teacherInfo'][0]['teacher_name']+'  '+kebiao['name_title']
+        },
+        'time10': {//预约时间
+          "value":kebiao['year'] + '年' + kebiao['month'] + '月' + kebiao['day'] + '日 ' + kebiao['startTime']
+        },
+        'phone_number18': {// 联系方式
+          "value": userInfo['phone']
+        },
+        // 预约人
+        // {{name5.DATA}}
+        // 预约事项
+        // {{thing6.DATA}}
+        // 预约时间
+        // {{time10.DATA}}
+        // 联系方式
+        // {{phone_number18.DATA}}
+      },
+      miniprogram_state: 'developer',
+      templateId: '_GSz5hSJgyB9ZuE_UuVnHGijWnbzbH2qnfnExKsPAJg',
+    })
         //发送取消信息给管理员
       return {
         type: 'del',
@@ -131,11 +212,19 @@ exports.main = async (event, context) => {
     }
   } else if (type == 'getlist') {
     try {
+      let db_selectData
+      if(OPENID==admin_openid){
+        //是管理员查看全部
+        db_selectData={}
+      }else{
+        //非管理员查看自己且状态存在
+        db_selectData={
+          OPENID,
+          state:0
+        }
+      }
       let kebiao_ids
-      await db.collection('order').where({
-        OPENID,
-        state:0
-      }).get().then(async res => {
+      await db.collection('order').where(db_selectData).get().then(async res => {
         console.log(res)
         kebiao_ids = res.data.map(item => {
           return item.kebiao_id
@@ -171,7 +260,34 @@ exports.main = async (event, context) => {
       };
     }
 
-  } else {
+  } else if(type=='getlist_admin'){
+
+   const result=await db.collection('order').aggregate().lookup({
+      from: 'kebiao',
+      localField: 'kebiao_id',
+      foreignField: '_id',
+      as: 'kebiao',
+    })
+    .lookup({
+      from: 'teacher',
+      localField: 'teacher_id',
+      foreignField: '_id',
+      as: 'teacherInfo',
+    })
+    .lookup({
+      from: 'User',
+      localField: 'OPENID',
+      foreignField: 'OPENID',
+      as: 'userInfo',
+    })
+    .end()
+
+    return {
+      type: 'getlist_admin',
+      data: result,
+      success: true
+    };
+  }else {
     try {
       let {
         fileID

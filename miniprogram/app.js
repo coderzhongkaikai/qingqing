@@ -8,7 +8,7 @@ App({
     const res = wx.getSystemInfoSync()
     //初始化获取User，如果本地没有缓存，则需要访问云服务器获取用户信息
     //访问云服务器获取用户信息  还没做
-    this.globalData.User=wx.getStorageSync('User') || null
+ 
     const { screenHeight, safeArea: { bottom } } = res
     console.log('resHeight',res);
     if (screenHeight && bottom){
@@ -33,6 +33,54 @@ App({
         //   如不填则使用默认环境（第一个创建的环境）
         env: 'cloud1-3gej1ilob17d9b86',
         traceUser: true,
+      });
+    }
+
+
+    if(wx.getStorageSync('User')){
+      this.globalData.User=wx.getStorageSync('User') || null
+    }else{
+      wx.showLoading({
+        title: '用户获取中...',
+      })
+      wx.cloud.callFunction({
+        name: 'quickstartFunctions',
+        data: {
+          type: 'User',
+          data: {
+            type:'getItem'
+          }
+        }
+      }).then((res) => {
+        console.log(res)
+        if (res.result.success) {
+          // this.setData({
+          //   haveCreateCollection: true
+          // });
+          const userInfo = res.result.data.data[0]
+          this.globalData.User=userInfo
+          wx.setStorageSync('User', userInfo)
+          wx.showToast({
+            title: '成功',
+            duration: 1000,
+            icon: 'success',
+          })
+        }
+        // this.setData({
+        //   powerList
+        // });
+        wx.hideLoading();
+      }).catch((e) => {
+        console.log(e);
+        wx.showToast({
+          title: e.errMsg,
+          duration: 1000,
+          icon: 'none',
+        })
+        wx.hideLoading()
+        // this.setData({
+        //   showUploadTip: true
+        // });
       });
     }
 

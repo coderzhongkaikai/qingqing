@@ -6,7 +6,8 @@
     "van-popup": "@vant/weapp/popup/index",
     "van-tab": "@vant/weapp/tab/index",
     "van-image": "@vant/weapp/image/index",
-    "van-tabs": "@vant/weapp/tabs/index"
+    "van-tabs": "@vant/weapp/tabs/index",
+    "van-empty": "@vant/weapp/empty/index"
   },
   "navigationBarBackgroundColor":"#ffffff",
   "navigationBarTitleText": "约课"

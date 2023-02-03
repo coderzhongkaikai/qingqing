@@ -31,6 +31,9 @@ Page({
     });
   },
   showActivaty(){
+    wx.showLoading({
+      title: '加载中...',
+    })
     wx.cloud.database().collection('activityInfo').orderBy('createTime','desc')
     .get()
     .then(res => {
@@ -41,14 +44,23 @@ Page({
         sheet_type:'activaty',
         sheet_title:'活动列表'
       })
+      wx.hideLoading()
       console.log('数据库获取数据成功' , res)
     })
     .catch(err =>{
+      wx.hideLoading()
+      wx.showToast({
+        title: '获取失败',
+        icon:'none'
+      })
       console.log('数据库获取数据失败' , err)
     })
 
   },
   showTeacher(){
+    wx.showLoading({
+      title: '加载中...',
+    })
     wx.cloud.database().collection('teacher').orderBy('createTime','desc')
     .get()
     .then(res => {
@@ -60,11 +72,73 @@ Page({
         sheet_title:'老师列表'
       })
       console.log('数据库获取数据成功' , res)
+  
+      wx.hideLoading()
     })
     .catch(err =>{
+      wx.hideLoading()
+      wx.showToast({
+        title: '获取失败',
+        icon:'none'
+      })
       console.log('数据库获取数据失败' , err)
     })
 
+  },
+  showOrder(){
+    wx.showLoading({
+      title: '加载中...',
+    })
+    wx.cloud.callFunction({
+      name: 'quickstartFunctions',
+      data: {
+        type: 'order',
+        data:{
+          type:'getlist_admin',
+        }
+      }
+    }).then((res) => {
+      console.log(res)
+
+
+      if (res.result.success) {
+
+        const  yuyue_list=res.result.data.list
+      
+        const yuyue_ing=[]
+        const yuyue_ed=[]
+        let _now=new Date().getTime()
+        yuyue_list.forEach(item=>{
+          console.log(item)
+          const timestamp=item['kebiao'][0]['timestamp']
+          if(timestamp>_now){
+            yuyue_ing.push(item)
+          }else{
+            yuyue_ed.push(item)
+          }
+        })
+
+        this.setData({
+          // yuyue_list:res.result.data.list,
+          yuyue_ing,
+          yuyue_ed,
+          sheet_show:true,
+          sheet_type:'order',
+          sheet_title:'预约列表'
+        })
+
+        wx.hideLoading()
+      }
+      wx.hideLoading();
+    }).catch((e) => {
+      console.log(e);
+      wx.showToast({
+        title:e.errMsg,
+        duration: 1000,
+        icon: 'none',
+      })
+      wx.hideLoading()
+    });
   },
   go_Activaty(e){
     const {item}=e.currentTarget.dataset
@@ -117,7 +191,6 @@ Page({
         if (res.cancel) {
           
         }
-    
         if (res.confirm) {
           const {item,index}=e.currentTarget.dataset
           wx.showLoading({

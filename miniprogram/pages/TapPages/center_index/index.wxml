@@ -32,6 +32,9 @@
 <!-- <button class="authbtn"  open-type="getPhoneNumber" type="primary"
       bindgetphonenumber="onGetPhoneNumber">获取手机号码</button> -->
 <view class="container_box">
+  <block wx:if="{{kebiao_list.length==0}}">
+      <van-empty description="今天没有课～" />
+    </block>
    <view class="_card" wx:for="{{kebiao_list}}" 
    data-item="{{item}}" data-index="{{item}}">
     <view class="_p">
@@ -60,7 +63,7 @@
           </view>
           <view class="btn">
             <van-button round type="warning" size='small' 
-            data-kebiao_id="{{item._id}}" data-kebiao_index="{{index}}" bindtap="SubscribeMessage">预约</van-button>
+            data-kebiao_id="{{item._id}}" data-teacher_id="{{item.teacher_id}}" data-kebiao_index="{{index}}" bindtap="SubscribeMessage">预约</van-button>
           </view>
         </view>
       </view>
@@ -69,7 +72,7 @@
 
   </view>
 
-  <view class="_card">
+  <!-- <view class="_card">
     <view class="_p">
       <view class="_time">
         19:40~20:40
@@ -101,10 +104,10 @@
     </view>
 
 
-  </view>
+  </view> -->
   
   开设此类课程的其他老师 
-
+<!-- 
   <view class="_card">
     <view class="_title">
       温馨提示
@@ -118,7 +121,7 @@
 
 
   </view>
-
+ -->
 
 </view>
 

@@ -161,11 +161,11 @@ Page({
     const OPENID=app.globalData.User.OPENID
     wx.requestSubscribeMessage({
       // 传入订阅消息的模板id，模板 id 可在小程序管理后台申请
-      tmplIds: ['F7ajuHC3waSw91_dN8HXcuuNLCjRcTfdESdb605okPc'],
+      tmplIds: ['F7ajuHC3waSw91_dN8HXcuuNLCjRcTfdESdb605okPc','_GSz5hSJgyB9ZuE_UuVnHGijWnbzbH2qnfnExKsPAJg'],
       success:(res)=>{
         console.log(res)
         // 申请订阅成功
-        if (res['F7ajuHC3waSw91_dN8HXcuuNLCjRcTfdESdb605okPc'] === 'accept') {
+        if (res['F7ajuHC3waSw91_dN8HXcuuNLCjRcTfdESdb605okPc'] === 'accept'||res['_GSz5hSJgyB9ZuE_UuVnHGijWnbzbH2qnfnExKsPAJg'] === 'accept') {
           if(OPENID){
         // 这里将订阅的课程信息调用云函数存入云开发数据
           wx.showToast({
@@ -175,6 +175,7 @@ Page({
           });
           const {
             kebiao_id,
+            teacher_id,
             kebiao_index
           }=e.currentTarget.dataset
           console.log(this.data.kebiao_list)
@@ -191,7 +192,7 @@ Page({
             // this.yuyue({yuyue_count,kebiao_id})
           }else{
             yuyue_count.push(OPENID)
-            this.yuyue({yuyue_count,kebiao_id})
+            this.yuyue({yuyue_count,kebiao_id,teacher_id})
 
           }
         
