@@ -1,4 +1,6 @@
-// pages/teacherInfo/index.js
+const app = getApp()
+const dance_type=['韩舞' ,'街舞', '爵士舞','芭蕾舞', '钢管舞']
+const dance_type_img=['hanwu.jpeg','jiewu.jpeg','jueshi.jpeg','balei.jpeg','gangguan.jpeg']
 Page({
   options: {
     styleIsolation: 'shared'
@@ -11,10 +13,10 @@ Page({
     fileList: [],
     avarList: [], //头像
     tagList: [],
-    kebiao_data: [], //主要用来在页面显示数据
-    new_kebiao_data: [], //主要用来数据库更新数据 
+    kebiao_list: [], //主要用来在页面显示数据
+    new_kebiao_list: [], //主要用来数据库更新数据 
     active: 0,
-    columns: ['网红舞', '芭蕾舞', '拉丁舞', '民族舞', '街舞', '爵士舞'],
+    columns:dance_type,
     is_kebiao_add: false,
     teacher_name: '',
     cource_index:9999,//初定一个不可能取到的值
@@ -244,10 +246,10 @@ Page({
       success: res => {
         wx.hideLoading()
         console.log('解析并上传成功', res);
-        const new_kebiao_data = this.data.new_kebiao_data.concat(res.result.data)
+        const new_kebiao_list = this.data.new_kebiao_list.concat(res.result.data)
         this.setData({
-          new_kebiao_data: new_kebiao_data,
-          is_kebiao_add: true, //新增后需要保存数据库,其实可以通过判断new_kebiao_data是否为空数组来判断是否新增
+          new_kebiao_list: new_kebiao_list,
+          is_kebiao_add: true, //新增后需要保存数据库,其实可以通过判断new_kebiao_list是否为空数组来判断是否新增
         })
         wx.showToast({
           title: '解析成功',
@@ -264,14 +266,14 @@ Page({
     })
   },
   kebiao_add(teacher_id) {
-    const new_kebiao_data = this.data.new_kebiao_data
+    const new_kebiao_list = this.data.new_kebiao_list
     wx.cloud.callFunction({
       name: 'quickstartFunctions',
       data: {
         type: 'kebiao',
         data: {
           type: 'add',
-          new_kebiao_data,
+          new_kebiao_list,
           teacher_id,
           createTime: new Date().getTime(),
         }
@@ -280,12 +282,12 @@ Page({
       console.log(res)
       if (res.result.success) {
         // //合并已有的课表数据 重新获取reload后就不需要在这里合并，直接在reload函数里面赋值
-        // const kebiao_data=this.data.kebiao_data.concat(new_kebiao_data)
+        // const kebiao_list=this.data.kebiao_list.concat(new_kebiao_list)
         this.setData({
           type: 'publish',
-          // kebiao_data:kebiao_data,
+          // kebiao_list:kebiao_list,
           is_kebiao_add: false,
-          new_kebiao_data: [] //更新后清空
+          new_kebiao_list: [] //更新后清空
         })
         wx.showToast({
           title: '成功',
@@ -313,6 +315,9 @@ Page({
   },
   //数据库删除，后端更新数据库
   kebiao_del() {
+    wx.showLoading({
+      title: '请等待...',
+    })
     wx.cloud.callFunction({
       name: 'quickstartFunctions',
       data: {
@@ -326,10 +331,10 @@ Page({
       console.log(res)
       if (res.result.success) {
         // //合并已有的课表数据 重新获取reload后就不需要在这里合并，直接在reload函数里面赋值
-        // const kebiao_data=this.data.kebiao_data.concat(new_kebiao_data)
+        // const kebiao_list=this.data.kebiao_list.concat(new_kebiao_list)
         this.setData({
           type: 'publish',
-          // kebiao_data:kebiao_data,
+          // kebiao_list:kebiao_list,
           del_kebiao_id: [] //更新后清空
         })
         wx.showToast({
@@ -354,11 +359,11 @@ Page({
   del_kebiao(e) {
     const _id = e.currentTarget.dataset.id
     const index = e.currentTarget.dataset.index
-    this.data.kebiao_data.splice([index], 1)
+    this.data.kebiao_list.splice([index], 1)
     console.log(e)
     this.data.del_kebiao_id.push(_id)
     this.setData({
-      kebiao_data: this.data.kebiao_data
+      kebiao_list: this.data.kebiao_list
     })
   },
   edit() {
@@ -373,7 +378,7 @@ Page({
       tagList,
       teacher_name,
       jianjie,
-      kebiao_data,
+      kebiao_list,
       item
     } = this.data
     console.log(teacher_name)
@@ -381,7 +386,7 @@ Page({
     console.log(tagList)
     console.log(fileList)
     console.log(jianjie)
-    console.log(kebiao_data)
+    console.log(kebiao_list)
     wx.showLoading({
       title: '保存中...',
     })
@@ -467,7 +472,9 @@ Page({
     });
   },
   reload(_id) {
-
+    wx.showLoading({
+      title: '请等待...',
+    })
     wx.cloud.callFunction({
       name: 'quickstartFunctions',
       data: {
@@ -492,7 +499,7 @@ Page({
           jianjie
         } = teacher.data
         this.setData({
-          kebiao_data: kebiao.data,
+          kebiao_list: kebiao.data,
           avarList,
           fileList,
           tagList,
@@ -500,7 +507,7 @@ Page({
           jianjie,
           item: teacher.data
         })
-        this.parse_kebiao_data()
+        this.parse_kebiao_list()
       }
       wx.hideLoading();
     }).catch((e) => {
@@ -520,18 +527,18 @@ Page({
     })
   },
   //将课表数据解析成课程内容
-  parse_kebiao_data() {
-    console.log(this.data.kebiao_data)
-    const kebiao_data = this.data.kebiao_data
+  parse_kebiao_list() {
+    console.log(this.data.kebiao_list)
+    const kebiao_list = this.data.kebiao_list
     let map = new Map()
-    for (let i = 0; i < kebiao_data.length; i++) {
-      let type_id = kebiao_data[i].type_id
+    for (let i = 0; i < kebiao_list.length; i++) {
+      let type_id = kebiao_list[i].type_id
       if (map.has(type_id)) {
         let item_value = map.get(type_id)
-        item_value.push(kebiao_data[i])
+        item_value.push(kebiao_list[i])
         map.set(type_id, item_value)
       } else {
-        map.set(type_id, [kebiao_data[i]])
+        map.set(type_id, [kebiao_list[i]])
       }
     }
     let cource = []
@@ -542,8 +549,9 @@ Page({
         name_title,
         detail
       } = value[0]
+     const type_idx= dance_type.indexOf(type)
       const cource_item = {
-        cource_item_img : '',//课程类型的宣传图片
+        cource_item_img : dance_type_img[type_idx],//课程类型的宣传图片
         type,
         name_title,
         detail,
@@ -555,6 +563,101 @@ Page({
       cource
     })
     console.log(cource)
+
+  },
+  yuyue(data){
+    wx.showLoading({
+      title: '加载中...',
+    })
+    wx.cloud.callFunction({
+      name: 'quickstartFunctions',
+      data: {
+        type: 'order',
+        data:{
+          type:'add',
+          ...data
+          // _id:_id
+        }
+      }
+    }).then((res) => {
+      console.log(res)
+      if (res.result.success) {
+        wx.showToast({
+          title: '您已成功预约',
+          icon: 'success',
+          duration: 2000,
+        });
+      }
+      wx.hideLoading();
+    }).catch((e) => {
+      console.log(e);
+      wx.showToast({
+        title:e.errMsg,
+        duration: 1000,
+        icon: 'none',
+      })
+      wx.hideLoading()
+    });
+  },
+  SubscribeMessage: function (e) {
+    console.log(e)
+    const {OPENID}=app.globalData.User
+    wx.requestSubscribeMessage({
+      // 传入订阅消息的模板id，模板 id 可在小程序管理后台申请
+      tmplIds: ['F7ajuHC3waSw91_dN8HXcuuNLCjRcTfdESdb605okPc','_GSz5hSJgyB9ZuE_UuVnHGijWnbzbH2qnfnExKsPAJg'],
+      success:(res)=>{
+        console.log(res)
+        // 申请订阅成功
+        if (res['F7ajuHC3waSw91_dN8HXcuuNLCjRcTfdESdb605okPc'] === 'accept'||res['_GSz5hSJgyB9ZuE_UuVnHGijWnbzbH2qnfnExKsPAJg'] === 'accept') {
+          if(OPENID){
+        // 这里将订阅的课程信息调用云函数存入云开发数据
+          wx.showToast({
+            title: '订阅成功',
+            icon: 'success',
+            duration: 2000,
+          });
+          const {
+            kebiao_id,
+            teacher_id,
+            kebiao_index
+          }=e.currentTarget.dataset
+          console.log(this.data.kebiao_list)
+          const yuyue_count=this.data.kebiao_list[kebiao_index]['yuyue_count']
+          const idx=yuyue_count.indexOf(OPENID)
+          //yuyue_cont是否存在OPENID存在则踢出，不存在则添加
+          if(idx>-1){
+            wx.showToast({
+              title: '请不要重复预约',
+              icon: 'success',
+              duration: 2000,
+            });
+          }else{
+            yuyue_count.push(OPENID)
+            this.yuyue({yuyue_count,kebiao_id,teacher_id})
+          }
+          }else{
+            // wx.showToast({
+            //   title: '请先注册信息',
+            //   icon: 'none',
+            //   duration: 2000,
+            // });
+            wx.showModal({
+              title: '未注册信息',
+              content: '请先跳转至注册信息',
+              complete: (res) => {
+                if (res.cancel) {
+                }
+                if (res.confirm) {
+                  wx.navigateTo({
+                    url: '/pages/userInfo/index'
+                  });
+                }
+              }
+            })
+          }
+        }
+      }
+    })
 
   },
   /**
@@ -579,7 +682,7 @@ Page({
         jianjie
       } = teacher.data
       this.setData({
-        kebiao_data: kebiao.data,
+        kebiao_list: kebiao.data,
         avarList,
         fileList,
         tagList,
@@ -587,7 +690,7 @@ Page({
         jianjie,
         item: teacher.data
       })
-      this.parse_kebiao_data()
+      this.parse_kebiao_list()
     } else {
       this.setData({
         type: 'edit'

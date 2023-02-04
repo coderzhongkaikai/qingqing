@@ -70,12 +70,16 @@ Page({
   // },
   top_go_activity(e){
     const _id=e.currentTarget.dataset.activity_id
+    wx.showLoading({
+      title: '加载中...'
+    })
     wx.cloud.database().collection('activityInfo').doc(_id).get().then(res=>{
       console.log(res)
       const jumpData=res.data
       wx.navigateTo({
         url: `/pages/activityInfo/index?jumpData=${JSON.stringify(jumpData)}`,
       });
+      wx.hideLoading()
     }).catch(e=>{
       console.log('activity_id查不到，说明活动已经被删除')
       console.log(e)
@@ -85,7 +89,7 @@ Page({
     console.log(e)
     const {item}=e.currentTarget.dataset
     wx.showLoading({
-      title: '请稍等...',
+      title: '加载中...'
     })
     wx.cloud.callFunction({
       name: 'quickstartFunctions',
@@ -131,7 +135,7 @@ Page({
     console.log(e)
     const _id=e.currentTarget.dataset.item._id
     wx.showLoading({
-      title: '请稍等...',
+      title: '加载中...'
     })
     wx.cloud.callFunction({
         name: 'quickstartFunctions',

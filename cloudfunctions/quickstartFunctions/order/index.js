@@ -333,75 +333,7 @@ exports.main = async (event, context) => {
   //     } else {
   //        timeform = date.getDay() * 100 + 11
   //     }
-
-  //   console.log(timeform)
-  //   // 先取出集合记录总数
-  //   const countResult = await db.collection('work_sheet').count()
-  //   console.log(countResult)
-  //   const total = countResult.total
-  //   // 计算需分几次取
-  //   const batchTimes = Math.ceil(total / 100)
-  //   // 承载所有读操作的 promise 的数组
-  //   let tasks = []
-  //   for (let i = 0; i < batchTimes; i++) {
-  //     await db.collection('work_sheet').field({
-  //       title: true,
-  //       work_time: true,
-  //     }).skip(i * MAX_LIMIT).limit(MAX_LIMIT).get().then(res => {
-  //       console.log(res)
-  //       tasks.push(...res.data)
-  //     })
-  //   }
-  //   console.log(tasks)
-  //  for(let m=0;m<tasks.length;m++){
-  //   const content= tasks[m].work_time[timeform]
-  //   if (content) {
-  //     console.log(content.length)
-  //     for (let i = 0; i < content.length; i++) {
-  //       console.log(content[i].num)
-  //       await db.collection('userinfo').where({
-  //         studentnumber: content[i].num
-  //       }).get().then(async res => {
-  //         // console.log("++++++++++")
-  //         console.log(res)
-  //         const {
-  //           _openid,
-  //           _id
-  //         } = res.data[0]
-  //      if(_openid){
-  //       //  console.log(_openid)
-  //       //  console.log(_id)
-  //       // console.log(tasks[m].title)
-  //        try {
-  //         const result = await cloud.openapi.subscribeMessage.send({
-  //           touser: _openid,
-  //           page: "pages/worksheet/worksheet?_id=" + tasks[m]._id,
-  //           lang: 'zh_CN',
-  //           data: {
-  //             thing9:{
-  //               "value": tasks[m].title
-  //           },
-  //             phrase1: {
-  //               "value": '值班提醒'
-  //           }, 
-  //           },
-  //           // miniprogram_state: 'developer',
-  //           templateId: 'egvXpiy3NzFFfbQFCbWQ-D28zBLUtQVbkG6lkmIBubk',
-  //         })
-  //         return result
-  //        } catch (e) {
-  //          console.log(e)
-  //        }
-
-  //      }
-  //       }).catch(e=>{
-  //         console.log(e)
-  //       })
-  //     }
-  //   }
-  //  }
-
-  // 等待所有
+ 
 
 
 }

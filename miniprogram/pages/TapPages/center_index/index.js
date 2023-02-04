@@ -6,9 +6,14 @@ Page({
   click_dance_type(e){
     console.log(e)
     const index=e.currentTarget.dataset.index
+    const timestamp=this.data.selectDayTimestamp
+    let year=new Date(timestamp).getFullYear()
+    let month=new Date(timestamp).getMonth()  +1
+    let day=new Date(timestamp).getDate()
     const selectData={
       dance_type:this.data.dance_type[index],
-      timestamp:this.data.selectDayTimestamp
+      timestamp:this.data.selectDayTimestamp,
+      year,month,day
   }
   this.get_kebiao_list(selectData)
     this.setData({
@@ -41,6 +46,10 @@ Page({
     });
   },
   get_kebiao_list(selectData){
+    console.log(selectData)
+    wx.showLoading({
+      title: '加载中...',
+    })
     wx.cloud.callFunction({
       name: 'quickstartFunctions',
       data: {
@@ -79,6 +88,9 @@ Page({
     });
   },
   yuyue(data){
+    wx.showLoading({
+      title: '加载中...',
+    })
     wx.cloud.callFunction({
       name: 'quickstartFunctions',
       data: {
@@ -158,7 +170,7 @@ Page({
   },
   SubscribeMessage: function (e) {
     console.log(e)
-    const OPENID=app.globalData.User.OPENID
+    const {OPENID}=app.globalData.User
     wx.requestSubscribeMessage({
       // 传入订阅消息的模板id，模板 id 可在小程序管理后台申请
       tmplIds: ['F7ajuHC3waSw91_dN8HXcuuNLCjRcTfdESdb605okPc','_GSz5hSJgyB9ZuE_UuVnHGijWnbzbH2qnfnExKsPAJg'],
@@ -193,18 +205,27 @@ Page({
           }else{
             yuyue_count.push(OPENID)
             this.yuyue({yuyue_count,kebiao_id,teacher_id})
-
           }
-        
           }else{
-            wx.showToast({
-              title: '请先注册信息',
-              icon: 'none',
-              duration: 2000,
-            });
-
+            // wx.showToast({
+            //   title: '请先注册信息',
+            //   icon: 'none',
+            //   duration: 2000,
+            // });
+            wx.showModal({
+              title: '未注册信息',
+              content: '请先跳转至注册信息',
+              complete: (res) => {
+                if (res.cancel) {
+                }
+                if (res.confirm) {
+                  wx.navigateTo({
+                    url: '/pages/userInfo/index'
+                  });
+                }
+              }
+            })
           }
-      
         }
       }
     })
@@ -269,9 +290,14 @@ Page({
     // })
     // new Date().getTime()-1675279800000 
     this.data.selectDayTimestamp=new Date().getTime()
+    let year=new Date().getFullYear()
+    let month=new Date().getMonth()  +1
+    let day=new Date().getDate()
     const selectData={
       dance_type:this.data.dance_type[this.data.click_dance_index],
-      timestamp:this.data.selectDayTimestamp
+      timestamp:this.data.selectDayTimestamp,
+      year,month,day
+      
     }
     this.get_kebiao_list(selectData)
 
@@ -317,7 +343,8 @@ Page({
     this.data.selectDayTimestamp=new Date(dayStr).getTime()
     const selectData={
       dance_type:this.data.dance_type[this.data.click_dance_index],
-      timestamp:this.data.selectDayTimestamp
+      timestamp:this.data.selectDayTimestamp,
+      year,month,day
     }
     this.get_kebiao_list(selectData)
     console.log(detail, 'selectDay detail');

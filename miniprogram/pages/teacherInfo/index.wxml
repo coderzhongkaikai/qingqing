@@ -90,7 +90,7 @@
   <van-tabs style='background: none;' color="#d37e4d" active="{{ active }}" bind:change="onChange">
     <van-tab title="课表">
       <view class="tab_content">
-        <view class="kebiao_data" wx:for="{{kebiao_data}}" data-item="{{item}}">
+        <view class="kebiao_list" wx:for="{{kebiao_list}}" data-item="{{item}}">
           <view class="kebiao_title">
             <view>
               {{item.type}} | {{item.name_title}}
@@ -105,7 +105,7 @@
               <view>
                 {{item.detail}}这是课表详细介绍
               </view>
-              <van-button round type="warning" size='small'>预约</van-button>
+              <van-button    data-kebiao_id="{{item._id}}" data-teacher_id="{{item.teacher_id}}" data-kebiao_index="{{index}}"  round type="warning" size='small' bindtap="SubscribeMessage" >预约</van-button>
 
             </view>
           </view>
@@ -115,7 +115,7 @@
           <view class="p_title">
             添加课表内容
           </view>
-          <view class="kebiao_data" wx:for="{{new_kebiao_data}}" data-item="{{item}}">
+          <view class="kebiao_list" wx:for="{{new_kebiao_list}}" data-item="{{item}}">
             <view class="kebiao_title">
               <view>
                 {{item.type}} | {{item.name_title}}
@@ -160,7 +160,7 @@
           <view class="_p">
             <view class="_p_box">
               <view class="l" data-teacher_id="{{item.teacher_id}}" bindtap="go_teacherInfo">
-                <van-image width="100" height="100" src="{{item.teacherInfo[0].avarList[0].url}}" />
+                <van-image width="100" height="100" src="/images/{{item.cource_item_img}}" />
               </view>
               <view class="r">
                 <view class="_title">
@@ -184,7 +184,7 @@
             </view>
           </view>
           <block wx:if="{{index==cource_index}}">
-            <view class="kebiao_data" wx:for="{{item.kebiao}}" data-item="{{item}}">
+            <view class="kebiao_list" wx:for="{{item.kebiao}}" data-item="{{item}}">
             <view class="kebiao_title">
               <view>
                 {{item.type}} | {{item.name_title}}
@@ -200,7 +200,8 @@
                 <view>
                   <!-- {{item.detail}} -->
                 </view>
-                <van-button round type="warning" size='small'>预约</van-button>
+                <van-button    data-kebiao_id="{{item._id}}" data-teacher_id="{{item.teacher_id}}" data-kebiao_index="{{index}}" 
+                 round type="warning" size='small' bindtap="SubscribeMessage">预约</van-button>
               </view>
             </view>
           </view>

@@ -1,9 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "van-cell": "@vant/weapp/cell/index",
-    "van-popup": "@vant/weapp/popup/index",
-    "van-calendar": "@vant/weapp/calendar/index"
-    
-  }
-}

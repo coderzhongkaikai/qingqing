@@ -1,6 +1,6 @@
 {
   "usingComponents": {
-    "calendar":"/components/_calendar/calendar",
+    "calendar":"/components/calendar/calendar",
     "van-button": "@vant/weapp/button/index",
     "van-cell": "@vant/weapp/cell/index",
     "van-popup": "@vant/weapp/popup/index",

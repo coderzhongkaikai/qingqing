@@ -45,6 +45,9 @@ Page({
   },
   del_yuyue(data){
     console.log(data)
+    wx.showLoading({
+      title: '请等待...',
+    })
     wx.cloud.callFunction({
       name: 'quickstartFunctions',
       data: {
@@ -95,6 +98,40 @@ Page({
     this.setData({
       activeName: event.detail,
     });
+  },
+  go_teacherInfo(e){
+    console.log(e)
+    const _id=e.currentTarget.dataset.teacher_id
+    wx.showLoading({
+      title: '请稍等...',
+    })
+      wx.cloud.callFunction({
+        name: 'quickstartFunctions',
+        data: {
+          type: 'teacher',
+          data:{
+            type:'getItem',
+            _id:_id
+          }
+        }
+      }).then((res) => {
+        console.log(res)
+        if (res.result.success) {
+          const jumpData=res.result.data
+          wx.navigateTo({
+            url: `/pages/teacherInfo/index?jumpData=${JSON.stringify(jumpData)}`,
+          });
+        }
+        wx.hideLoading();
+      }).catch((e) => {
+        console.log(e);
+        wx.showToast({
+          title:e.errMsg,
+          duration: 1000,
+          icon: 'none',
+        })
+        wx.hideLoading()
+      });
   },
   /**
    * 生命周期函数--监听页面加载

@@ -73,15 +73,16 @@ exports.main = async (event, context) => {
     }
   }else if (type == 'getlist') {
     console.log(selectData)
-    const {dance_type, timestamp}=selectData
+    const {dance_type, timestamp,year,month,day}=selectData
     console.log(dance_type)
     console.log(timestamp)
     // new Date(1675510200000).getDate()
     //new Date(1675510200000).getMonth()  +1
     //new Date().getFullYear()
-    let year=new Date(timestamp).getFullYear()
-    let month=new Date(timestamp).getMonth()  +1
-    let day=new Date(timestamp).getDate()
+    //因为根据timestamp，服务器和客户端的时区不一样，导致可能有错，所以年月日也通过客户端传送
+    // let year=new Date(timestamp).getFullYear()
+    // let month=new Date(timestamp).getMonth()  +1
+    // let day=new Date(timestamp).getDate()
 
     console.log(year)
     console.log(month)
@@ -174,30 +175,5 @@ exports.main = async (event, context) => {
     }
     return data_result
   }
-  //  addfile(1)
-//  function  addfile(i) {
-  //  await db.collection("books").add({
-  //     data: {
-  //       title: files[0].data[i][0],
-  //       jiesi: files[0].data[i][1],
-  //       laiyuan: files[0].data[i][2],
-  //       yujing: files[0].data[i][3],
-  //       zaoju: files[0].data[i][4],
-  //     }
-  //   }).then(res => {
-  //     i++
-  //     if (i == files[0].data.length) {
-  //       //循环结束删除上传的文件不占用云存储
-  //       cloud.deleteFile({
-  //         fileList: [fileID],
-  //         success(res) {
-  //           return console.log(res, '删除文件')
-  //         },
-  //       })
-  //     } else {
-  //       addfile(i)
-  //     }
-  //   })
-  // }
 
 }
