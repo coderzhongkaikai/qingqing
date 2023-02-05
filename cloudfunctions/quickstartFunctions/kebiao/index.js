@@ -15,7 +15,7 @@ exports.main = async (event, context) => {
   console.log(context)
   const {
     type,
-    new_kebiao_data,
+    new_kebiao_list,
     teacher_id,
     createTime,
     selectData,
@@ -25,16 +25,17 @@ exports.main = async (event, context) => {
     OPENID
   } = cloud.getWXContext()
   if (type == 'add') {
-    new_kebiao_data.map(item=>{
+    console.log(new_kebiao_list)
+    new_kebiao_list.map(item=>{
       item['teacher_id']=teacher_id,
       item['createTime']=createTime,
       item['OPENID']=OPENID
     })
     try {
-      for(let i=0;i<new_kebiao_data.length;i++){
-        console.log(new_kebiao_data[i])
+      for(let i=0;i<new_kebiao_list.length;i++){
+        console.log(new_kebiao_list[i])
           await db.collection('kebiao').add({
-                data: new_kebiao_data[i]
+                data: new_kebiao_list[i]
               })
       }
       return  {

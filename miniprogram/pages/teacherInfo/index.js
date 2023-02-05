@@ -22,7 +22,6 @@ Page({
     cource_index:9999,//初定一个不可能取到的值
     del_kebiao_id: []
   },
-
   //上传修改头像
   uploader_avar(e) {
     console.log(e)
@@ -267,6 +266,7 @@ Page({
   },
   kebiao_add(teacher_id) {
     const new_kebiao_list = this.data.new_kebiao_list
+    console.log(new_kebiao_list)
     wx.cloud.callFunction({
       name: 'quickstartFunctions',
       data: {
@@ -281,20 +281,27 @@ Page({
     }).then((res) => {
       console.log(res)
       if (res.result.success) {
-        // //合并已有的课表数据 重新获取reload后就不需要在这里合并，直接在reload函数里面赋值
-        // const kebiao_list=this.data.kebiao_list.concat(new_kebiao_list)
-        this.setData({
-          type: 'publish',
-          // kebiao_list:kebiao_list,
-          is_kebiao_add: false,
-          new_kebiao_list: [] //更新后清空
-        })
         wx.showToast({
           title: '成功',
           duration: 1000,
           icon: 'success',
+          success:  ()=> {
+            setTimeout(function () {
+                //要延时执行的代码
+                // //合并已有的课表数据 重新获取reload后就不需要在这里合并，直接在reload函数里面赋值
+                // const kebiao_list=this.data.kebiao_list.concat(new_kebiao_list)
+                this.setData({
+                  type: 'publish',
+                  // kebiao_list:kebiao_list,
+                  is_kebiao_add: false,
+                  new_kebiao_list: [] //更新后清空
+                })
+                this.reload(teacher_id)
+            }, 1000)}
         })
-        this.reload(teacher_id)
+     
+       
+        // this.reload(teacher_id)
       }
       wx.hideLoading();
     }).catch((e) => {
