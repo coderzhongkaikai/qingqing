@@ -205,6 +205,7 @@ Page({
       console.log(res)
       this.kebiao_jiexi(res) //将文件id传到解析方法
     }).catch(e => {
+      wx.hideLoading()
       wx.showToast({
         title: '上传失败...',
         icon: 'none'
@@ -256,6 +257,7 @@ Page({
         })
       },
       fail: err => {
+        wx.hideLoading()
         wx.showToast({
           title: '解析失败',
           icon: 'none',
@@ -281,29 +283,24 @@ Page({
     }).then((res) => {
       console.log(res)
       if (res.result.success) {
+        wx.hideLoading()
         wx.showToast({
           title: '成功',
           duration: 1000,
           icon: 'success',
           success:  ()=> {
-            setTimeout(function () {
+            setTimeout( ()=> {
                 //要延时执行的代码
                 // //合并已有的课表数据 重新获取reload后就不需要在这里合并，直接在reload函数里面赋值
                 // const kebiao_list=this.data.kebiao_list.concat(new_kebiao_list)
-                this.setData({
-                  type: 'publish',
-                  // kebiao_list:kebiao_list,
-                  is_kebiao_add: false,
-                  new_kebiao_list: [] //更新后清空
-                })
                 this.reload(teacher_id)
-            }, 1000)}
+                wx.hideLoading();
+            }, 0)}
         })
      
        
         // this.reload(teacher_id)
       }
-      wx.hideLoading();
     }).catch((e) => {
       console.log(e);
       wx.showToast({
@@ -512,7 +509,12 @@ Page({
           tagList,
           teacher_name,
           jianjie,
-          item: teacher.data
+          item: teacher.data,
+
+          type: 'publish',
+          // kebiao_list:kebiao_list,
+          is_kebiao_add: false,
+          new_kebiao_list: [] //更新后清空
         })
         this.parse_kebiao_list()
       }

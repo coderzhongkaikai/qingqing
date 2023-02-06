@@ -119,12 +119,12 @@ Page({
       wx.hideLoading();
     }).catch((e) => {
       console.log(e);
+      wx.hideLoading()
       wx.showToast({
         title:e.errMsg,
         duration: 1000,
         icon: 'none',
-      })
-      wx.hideLoading()
+      }) 
     });
     // wx.navigateTo({
     //   url: `/pages/activityInfo/index?_id=${e.currentTarget.dataset.activityid}`,
@@ -157,12 +157,12 @@ Page({
         wx.hideLoading();
       }).catch((e) => {
         console.log(e);
+        wx.hideLoading()
         wx.showToast({
           title:e.errMsg,
           duration: 1000,
           icon: 'none',
-        })
-        wx.hideLoading()
+        }) 
       });
   },
   /**
