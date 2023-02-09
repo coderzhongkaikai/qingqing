@@ -6,6 +6,7 @@
   border-radius: 20rpx;
   border: 1rpx solid rgba(0, 0, 0, 0.1);
   margin: 20rpx auto;
+  font-size: 26rpx;
 }
 ._card ._up{
   display: flex;
@@ -21,8 +22,9 @@
   padding: 10rpx 20rpx;
 }
 ._card_title, .dance_info_card_title {
-  color: #000000;
-  text-align: center
+  /* color: #000000; */
+  text-align: center;
+  /* font-size:26rpx */
 }
 .scroll-view-x {
   padding-right: 30rpx;
@@ -38,7 +40,7 @@
 }
 .scroll_item .teacher_name {
   width: 120rpx;
-  font-size: 26rpx;
+  font-size: 20rpx;
   text-align: center;
   word-break: break-all;
   white-space: normal;

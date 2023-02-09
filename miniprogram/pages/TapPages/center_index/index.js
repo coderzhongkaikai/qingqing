@@ -7,17 +7,26 @@ Page({
     console.log(e)
     const index=e.currentTarget.dataset.index
     const timestamp=this.data.selectDayTimestamp
+    const dance_type=this.data.dance_type[index]
     let year=new Date(timestamp).getFullYear()
     let month=new Date(timestamp).getMonth()  +1
     let day=new Date(timestamp).getDate()
     const selectData={
-      dance_type:this.data.dance_type[index],
+      dance_type:dance_type,
       timestamp:this.data.selectDayTimestamp,
       year,month,day
   }
+  this.show_teacher_recommend(dance_type)
   this.get_kebiao_list(selectData)
     this.setData({
       click_dance_index:index
+    })
+  },
+  show_teacher_recommend(type){
+    // console.log(type)
+    // console.log(this.data.teacher_type_list)
+    this.setData({
+      show_reacommend:this.data.teacher_type_list[type]
     })
   },
   showPopup() {
@@ -168,6 +177,7 @@ Page({
         wx.hideLoading()
       });
   },
+  
   SubscribeMessage: function (e) {
     console.log(e)
     const {OPENID}=app.globalData.User
@@ -293,14 +303,48 @@ Page({
     let year=new Date().getFullYear()
     let month=new Date().getMonth()  +1
     let day=new Date().getDate()
+    let dance_type=this.data.dance_type[this.data.click_dance_index]
     const selectData={
-      dance_type:this.data.dance_type[this.data.click_dance_index],
+      dance_type:dance_type,
       timestamp:this.data.selectDayTimestamp,
       year,month,day
-      
     }
-    this.get_kebiao_list(selectData)
 
+    wx.cloud.database().collection('teacher').orderBy('createTime', 'desc')
+    .get()
+    .then(res => {
+      // console.log(Ttime.formatTime(res.data[0].createTime,'Y/M/D h:m:s'))
+      const teacher_list = res.data
+      const teacher_type_map = new Map()
+      teacher_list.forEach(item => {
+        for (let i = 0; i < item['tagList'].length; i++) {
+          const teacher_type=item['tagList'][i]
+          if (teacher_type_map.has(teacher_type)) {
+            const temp_datas=teacher_type_map.get(teacher_type)
+            temp_datas.push(item)
+            teacher_type_map.set(teacher_type, temp_datas)
+          }else{
+            teacher_type_map.set(teacher_type, [item])
+          }
+        }
+      })
+      let teacher_type_list=Object.fromEntries(teacher_type_map);
+      console.log(teacher_type_list)
+      this.data.teacher_type_list=teacher_type_list
+      // this.setData({
+      //   teacher_list: res.data,
+      //   teacher_type_list
+      // })
+     this.show_teacher_recommend(dance_type)
+
+      console.log('数据库获取数据成功', res)
+    })
+    .catch(err => {
+      console.log('数据库获取数据失败', err)
+    })
+
+
+    this.get_kebiao_list(selectData)
   },
     /**
    * 生命周期函数--监听页面显示

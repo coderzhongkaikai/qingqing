@@ -71,7 +71,24 @@
 
 
   </view>
-
+  <view class="_card">
+    <view class="_card_title">
+      推荐老师
+    </view>
+    <view class="page-on-sectispacing">
+      <scroll-view class="scroll" scroll-x="true" style="width: 100%">
+        <view class="scroll_box">
+          <view class="scroll_item"  wx:for="{{show_reacommend}}" data-teacher_id="{{item._id}}"     bindtap="go_teacherInfo">
+            <van-image round width="120rpx" height="120rpx" src="{{item.avarList[0].url}}" />
+            <view class="teacher_name">
+            {{item.teacher_name}}
+            </view>
+          </view>
+          
+        </view>
+      </scroll-view>
+    </view>
+  </view>
   <!-- <view class="_card">
     <view class="_p">
       <view class="_time">
@@ -105,8 +122,7 @@
 
 
   </view> -->
-  
-  开设此类课程的其他老师 
+   
 <!-- 
   <view class="_card">
     <view class="_title">

@@ -125,6 +125,19 @@
   border: 1rpx solid rgba(0, 0, 0, 0.1);
   margin: 20rpx auto;
 }
+.scroll_box {
+  display: flex;
+  white-space: nowrap;
+}
+._card_title,.dance_info_card_title{
+  color: #000000;
+}
+.scroll_item{
+  margin-left: 20rpx;
+}
+.teacher_name{
+  font-size: 22rpx;
+}
 ._p{
   display: flex;
   font-size: 26rpx;
