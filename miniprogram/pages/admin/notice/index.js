@@ -81,7 +81,7 @@ Page({
    */
   onLoad(options) {
     wx.showLoading({
-      title: '',
+      title: '请等待...',
     })
     wx.cloud.database().collection('activityInfo').orderBy('createTime','desc')
     .get()

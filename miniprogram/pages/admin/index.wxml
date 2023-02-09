@@ -120,32 +120,7 @@
   </view>
  </block>
  <block wx:if="{{ sheet_type=='order'}}">
-  <!-- <view wx:for="{{yuyue_ing}}">
-          <view class="">
-            {{item.userInfo[0]['nickname']+item.userInfo[0]['OPENID']}}
-          </view>
-          <view class="">
-          <span>
-            {{item.kebiao[0]['year']+'年'+item.kebiao[0]['month']+'月'+item.kebiao[0]['day']+'日'}}
-          </span>
-           <span>
-            {{item.kebiao[0]['startTime']}}
-            ~
-            {{item.kebiao[0]['endTime']}}
-          </span>
-          </view>
-          <view class="">
-            {{item.teacherInfo[0]['teacher_name']}}
-
-            {{item.kebiao[0]['name_title']}}
-
-          </view>
-        </view>
-    -->
-
-  <view class="_card" wx:for="{{yuyue_ing}}" data-item="{{item}}" data-index="{{item}}">
-      <!-- <view class="_p">  -->
-      
+    <view class="_card" wx:for="{{yuyue_ing}}" data-item="{{item}}" data-index="{{item}}">
         <view class="order_box">
         <view class="order_p">
               学生: {{item.userInfo[0]['nickname']}}
@@ -175,6 +150,9 @@
         </view>
       <!-- </view> -->
     </view>
+    <block wx:if="{{yuyue_ing.length==0}}">
+      <van-empty description="没有内容" />
+    </block>
  </block>
 
 

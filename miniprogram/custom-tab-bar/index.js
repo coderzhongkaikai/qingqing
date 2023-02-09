@@ -1,4 +1,5 @@
 // pages/custom-tab-bar/index.js
+//这是底部banner的组件。TapPages主页面内嵌入
 Component({
   /**
    * 组件的属性列表
@@ -29,6 +30,7 @@ Component({
    * 组件的方法列表
    */
   methods: {
+    //页面改变
 		onChange(event) {
       console.log(event.detail)
 			this.setData({ active: event.detail });
@@ -36,7 +38,7 @@ Component({
 				url: this.data.list[event.detail].url
 			});
 		},
-
+    //初始化
 		init() {
       console.log('init')
       const page = getCurrentPages().pop();

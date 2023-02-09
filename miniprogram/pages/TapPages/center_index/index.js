@@ -288,17 +288,6 @@ Page({
   },
   onLoad() {
     //获取当前位置
-    // wx.getLocation({
-    //   type: 'gcj02',
-    //   success: (res) => {
-    //     console.log(res)
-    //     this.setData({
-    //       latitude: res.latitude,
-    //       longitude: res.longitude
-    //     })
-    //   }
-    // })
-    // new Date().getTime()-1675279800000 
     this.data.selectDayTimestamp=new Date().getTime()
     let year=new Date().getFullYear()
     let month=new Date().getMonth()  +1
@@ -313,7 +302,7 @@ Page({
     wx.cloud.database().collection('teacher').orderBy('createTime', 'desc')
     .get()
     .then(res => {
-      // console.log(Ttime.formatTime(res.data[0].createTime,'Y/M/D h:m:s'))
+
       const teacher_list = res.data
       const teacher_type_map = new Map()
       teacher_list.forEach(item => {
@@ -331,10 +320,8 @@ Page({
       let teacher_type_list=Object.fromEntries(teacher_type_map);
       console.log(teacher_type_list)
       this.data.teacher_type_list=teacher_type_list
-      // this.setData({
-      //   teacher_list: res.data,
-      //   teacher_type_list
-      // })
+  
+      
      this.show_teacher_recommend(dance_type)
 
       console.log('数据库获取数据成功', res)
@@ -398,52 +385,52 @@ Page({
   //     changeTime: '2022/1/1',
   //   });
   // },
-  onGetPhoneNumber(e) {
-    var that = this;
-    wx.login({
-      success(res) {
-        if (res.code) {
-          console.log('步骤2获检查用户登录状态，获取用户电话号码！', res)
-          wx.request({
-            url: '这里写自己的获取授权的服务器地址',
-            data: {
-              code: res.code
-            },
-            header: {
-              'content-type': 'application/json'
-            },
-            success: function (res) {
-              console.log("步骤三获取授权码，获取授权openid，session_key", res);
-              var userphone = res.data.data;
-              wx.setStorageSync('userphoneKey', userphone);
-              //解密手机号
-              var msg = e.detail.errMsg;
-              var sessionID = wx.getStorageSync("userphoneKey").session_key;
-              var encryptedData = e.detail.encryptedData;
-              var iv = e.detail.iv;
-              if (msg == 'getPhoneNumber:ok') { //这里表示获取授权成功
-                wx.checkSession({
-                  success: function () {
-                    //这里进行请求服务端解密手机号
-                    that.deciyption(sessionID, encryptedData, iv);
-                  },
-                  fail: function () {
-                    // that.userlogin()
-                  }
-                })
-              }
+  // onGetPhoneNumber(e) {
+  //   var that = this;
+  //   wx.login({
+  //     success(res) {
+  //       if (res.code) {
+  //         console.log('步骤2获检查用户登录状态，获取用户电话号码！', res)
+  //         wx.request({
+  //           url: '这里写自己的获取授权的服务器地址',
+  //           data: {
+  //             code: res.code
+  //           },
+  //           header: {
+  //             'content-type': 'application/json'
+  //           },
+  //           success: function (res) {
+  //             console.log("步骤三获取授权码，获取授权openid，session_key", res);
+  //             var userphone = res.data.data;
+  //             wx.setStorageSync('userphoneKey', userphone);
+  //             //解密手机号
+  //             var msg = e.detail.errMsg;
+  //             var sessionID = wx.getStorageSync("userphoneKey").session_key;
+  //             var encryptedData = e.detail.encryptedData;
+  //             var iv = e.detail.iv;
+  //             if (msg == 'getPhoneNumber:ok') { //这里表示获取授权成功
+  //               wx.checkSession({
+  //                 success: function () {
+  //                   //这里进行请求服务端解密手机号
+  //                   that.deciyption(sessionID, encryptedData, iv);
+  //                 },
+  //                 fail: function () {
+  //                   // that.userlogin()
+  //                 }
+  //               })
+  //             }
 
-            },
-            fail: function (res) {
-              console.log("fail", res);
-            }
-          })
-        } else {
-          console.log('登录失败！' + res.errMsg)
-        }
-      }
-    })
-  },
+  //           },
+  //           fail: function (res) {
+  //             console.log("fail", res);
+  //           }
+  //         })
+  //       } else {
+  //         console.log('登录失败！' + res.errMsg)
+  //       }
+  //     }
+  //   })
+  // },
   // onClickPowerInfo(e) {
   //   const index = e.currentTarget.dataset.index;
   //   const powerList = this.data.powerList;
@@ -484,11 +471,11 @@ Page({
   //   });
   // },
 
-  jumpPage(e) {
-    wx.navigateTo({
-      url: `/pages/${e.currentTarget.dataset.page}/index?envId=${this.data.selectedEnv.envId}`,
-    });
-  },
+  // jumpPage(e) {
+  //   wx.navigateTo({
+  //     url: `/pages/${e.currentTarget.dataset.page}/index?envId=${this.data.selectedEnv.envId}`,
+  //   });
+  // },
 
   // onClickDatabase(powerList) {
   //   wx.showLoading({

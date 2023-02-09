@@ -7,11 +7,12 @@ Page({
    */
   data: {
     popHeight: app.globalData.popHeight,
-    list: ["list0", "list1", "list2", "list3", "list4", "list5", "list11", "list12", "list13", "list14", "list15", "list25", "list26", "list27", "list28", "list29", "list30"],
+    // list: ["list0", "list1", "list2", "list3", "list4", "list5", "list11", "list12", "list13", "list14", "list15", "list25", "list26", "list27", "list28", "list29", "list30"],
     toView: '',
     jump_index:0
   },
-  unpdateUser:function(){
+  //更新用户信息，能保证在修改用户信息后能够及时更新
+  updateUser:function(){
     console.log(app.globalData.User)
     const {User}=app.globalData
     console.log(wx.getStorageSync('User'))
@@ -100,7 +101,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    this.unpdateUser()
+    this.updateUser()
   },
 
   /**

@@ -37,6 +37,7 @@ Page({
       active: event.detail
     });
   },
+  //申请获取地理位置
   navigate() {
     ////使用微信内置地图查看标记点位置，并进行导航
     console.log('导航')

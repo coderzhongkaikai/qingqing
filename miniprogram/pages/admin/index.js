@@ -7,7 +7,6 @@ Page({
   data: {
     activeName: '1',
     sheet_show:false,
-    
     show: {
       primary: true,
       success: true,
@@ -24,8 +23,9 @@ Page({
       activeName: event.detail,
     });
   },
+  //页面跳转
   jumpActivatyPage() {
-    console.log('sfadfsaf')
+    // console.log('sfadfsaf')
     wx.navigateTo({
       url: `/pages/activityInfo/index?type=${"edit"}`,
     });
@@ -99,23 +99,23 @@ Page({
       }
     }).then((res) => {
       console.log(res)
-
-
       if (res.result.success) {
-
         const  yuyue_list=res.result.data.list
-      
         const yuyue_ing=[]
         const yuyue_ed=[]
         let _now=new Date().getTime()
         yuyue_list.forEach(item=>{
           console.log(item)
-          const timestamp=item['kebiao'][0]['timestamp']
-          if(timestamp>_now){
-            yuyue_ing.push(item)
-          }else{
-            yuyue_ed.push(item)
+          //是否这个老师有课
+          if(item.kebiao.length>0){
+            const timestamp=item['kebiao'][0]['timestamp']
+            if(timestamp>_now){
+              yuyue_ing.push(item)
+            }else{
+              yuyue_ed.push(item)
+            }
           }
+         
         })
 
         this.setData({
@@ -324,7 +324,6 @@ Page({
       sheet_show:false
     })
   },
-
   edit_shouye(){
     // otherSet
     wx.navigateTo({

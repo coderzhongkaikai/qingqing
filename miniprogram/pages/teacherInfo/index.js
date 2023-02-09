@@ -230,10 +230,12 @@ Page({
 
     })
   },
+  //根据上传云服务器的文件id，获取文件后解析文件数据
   kebiao_jiexi(fileID) {
     wx.showLoading({
       title: '文件解析中...',
     })
+    //云函数进行解析课表数据
     wx.cloud.callFunction({
       name: 'quickstartFunctions',
       data: {
@@ -266,6 +268,7 @@ Page({
       }
     })
   },
+  //课表添加，根据传入的老师id
   kebiao_add(teacher_id) {
     const new_kebiao_list = this.data.new_kebiao_list
     console.log(new_kebiao_list)
@@ -385,12 +388,6 @@ Page({
       kebiao_list,
       item
     } = this.data
-    console.log(teacher_name)
-    console.log(avarList)
-    console.log(tagList)
-    console.log(fileList)
-    console.log(jianjie)
-    console.log(kebiao_list)
     wx.showLoading({
       title: '保存中...',
     })
@@ -502,8 +499,16 @@ Page({
           teacher_name,
           jianjie
         } = teacher.data
+        const kebiao_list=[]
+        // kebiao_list
+        let _now=new Date().getTime()
+        kebiao.data.forEach(item=>{
+          if(item.timestamp>_now){
+            kebiao_list.push(item)
+          }
+        })
         this.setData({
-          kebiao_list: kebiao.data,
+          kebiao_list: kebiao_list,
           avarList,
           fileList,
           tagList,
@@ -608,6 +613,7 @@ Page({
       wx.hideLoading()
     });
   },
+  //微信订阅接口
   SubscribeMessage: function (e) {
     console.log(e)
     const {OPENID}=app.globalData.User
@@ -645,11 +651,6 @@ Page({
             this.yuyue({yuyue_count,kebiao_id,teacher_id})
           }
           }else{
-            // wx.showToast({
-            //   title: '请先注册信息',
-            //   icon: 'none',
-            //   duration: 2000,
-            // });
             wx.showModal({
               title: '未注册信息',
               content: '请先跳转至注册信息',
@@ -690,8 +691,17 @@ Page({
         teacher_name,
         jianjie
       } = teacher.data
+      //过滤已经过期的课表数据
+      const kebiao_list=[]
+      // kebiao_list
+      let _now=new Date().getTime()
+      kebiao.data.forEach(item=>{
+        if(item.timestamp>_now){
+          kebiao_list.push(item)
+        }
+      })
       this.setData({
-        kebiao_list: kebiao.data,
+        kebiao_list: kebiao_list,//保证过滤之后的数据
         avarList,
         fileList,
         tagList,

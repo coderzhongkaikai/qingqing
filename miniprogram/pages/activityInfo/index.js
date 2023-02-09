@@ -223,24 +223,7 @@ Page({
         type: 'edit'
       })
     }
-    // console.log(options)
-    // const {type,_id}=options
-    // if(_id){
-    //   // console.log(JSON.parse(item))
-    //   // const _item=JSON.parse(item)
-    //   wx.showLoading({
-    //     title: '加载中...',
-    //   })
-    //   this.reload(_id)
     
-
-    // }
-    // if(type){
-    //   console.log(type)
-    //   this.setData({
-    //     type:type
-    //   })
-    // }
   
   },
 
