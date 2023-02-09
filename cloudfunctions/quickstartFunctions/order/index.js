@@ -212,17 +212,16 @@ exports.main = async (event, context) => {
     }
   } else if (type == 'getlist') {
     try {
-      let db_selectData
-      if(OPENID==admin_openid){
-        //是管理员查看全部
-        db_selectData={}
-      }else{
-        //非管理员查看自己且状态存在
-        db_selectData={
-          OPENID,
-          state:0
-        }
-      }
+      let db_selectData={
+            OPENID,
+            state:0
+          }
+      // if(OPENID==admin_openid){
+      //   //是管理员查看全部
+      //   db_selectData={}
+      // }else{
+   
+      // }
       let kebiao_ids
       await db.collection('order').where(db_selectData).get().then(async res => {
         console.log(res)

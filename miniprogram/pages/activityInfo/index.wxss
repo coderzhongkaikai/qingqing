@@ -9,8 +9,8 @@
 }
 .icon_p{
   margin: 10rpx auto;
-  display: flex;
-  justify-content: center;
+  /* display: flex; */
+  justify-content: left;
   flex-wrap: nowrap;
   /* justify-content: space-around; */
 }

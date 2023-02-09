@@ -12,17 +12,17 @@
     </view>
   </view>
   <view class="icon_p" wx:if="{{!(type=='edit')}}">
+
+  <view class="icon_p_item">
+    <van-icon color="#df7a41" name="browsing-history-o" />
+    浏览量:{{item.watch+1}}
+  <!-- 浏览量:22 次 -->
+  </view>
   <view class="icon_p_item">
     <van-icon color="#df7a41" name="underway-o" />
   <!-- 发布时间：2022-11-21 -->
-  {{dateTool.formatTime(item.createTime)}}
+  发布时间: {{dateTool.formatTime(item.createTime)}}
   </view>
-  <view>
-    <van-icon color="#df7a41" name="browsing-history-o" />
-  {{item.watch+1}}
-  <!-- 浏览量:22 次 -->
-  </view>
- 
 
 </view>
 <view class="content">
